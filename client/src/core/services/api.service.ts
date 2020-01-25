@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export class ApiService {
-    private readonly API_URL: string = 'http://localhost:3000';
+    private readonly API_URL: string = '/api';
     
     public get(endpoint: string): Promise<any> {
         return axios.get(`${this.API_URL}/${endpoint}`);
