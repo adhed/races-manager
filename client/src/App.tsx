@@ -4,7 +4,7 @@ import {
   Switch,
   Route,
   Link,
-} from "react-router-dom";
+} from 'react-router-dom';
 import './App.css';
 
 function App() {
@@ -28,13 +28,13 @@ function App() {
 
         <Switch>
           <Route path="/account">
-            <About />
+            <Account />
           </Route>
           <Route path="/map">
             <Map />
           </Route>
           <Route path="/">
-            <Home />
+            <Calendar />
           </Route>
         </Switch>
       </Router>
@@ -42,8 +42,8 @@ function App() {
   );
 }
 
-function Home() {
-  return <h2>Home</h2>;
+function Calendar() {
+  return <h2>Calendar</h2>;
 }
 
 function Account() {
