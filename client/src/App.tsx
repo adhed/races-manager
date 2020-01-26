@@ -26,7 +26,7 @@ function App() {
           </ul>
         </nav>
 
-        <div className="contant-wrapper">
+        <div className="content-wrapper">
           <Switch>
             <Route path="/account">
               <Account />
