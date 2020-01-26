@@ -13,45 +13,56 @@ function App() {
       <Router>
         <nav className="nav-header">
           <h2>Races manager</h2>
-          <ul>
-            <li>
+          <ul className="nav-header__links">
+            <li className="nav-header__link">
               <Link to="/">Calendar</Link>
             </li>
-            <li>
+            <li className="nav-header__link">
               <Link to="/map">Map</Link>
             </li>
-            <li>
+            <li className="nav-header__link nav-header__link--side">
               <Link to="/account">My account</Link>
             </li>
           </ul>
         </nav>
 
-        <Switch>
-          <Route path="/account">
-            <Account />
-          </Route>
-          <Route path="/map">
-            <Map />
-          </Route>
-          <Route path="/">
-            <Calendar />
-          </Route>
-        </Switch>
-      </Router>
+        <div className="contant-wrapper">
+          <Switch>
+            <Route path="/account">
+              <Account />
+            </Route>
+            <Route path="/map">
+              <Map />
+            </Route>
+            <Route path="/">
+              <Calendar />
+            </Route>
+          </Switch>
+        </div>
+        </Router>
     </div>
   );
 }
 
 function Calendar() {
-  return <h2>Calendar</h2>;
+  return <div>
+      <h2>Calendar</h2>
+      <p>View with calendar view with sport events</p>
+    </div>;
 }
 
 function Account() {
-  return <h2>account</h2>;
+  return <div>
+      <h2>My account</h2>
+      <p>You need to log in first! TODO: implement OAuth</p>
+    </div>;
 }
 
 function Map() {
-  return <h2>Map</h2>;
+  return <div>
+  <h2>Map</h2>
+  <p>View with Leaflet map</p>
+</div>;
 }
 
 export default App;
