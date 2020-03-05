@@ -8,7 +8,7 @@ import {
 import './App.css';
 import { MyAccount } from './account/components';
 import { Calendar } from './calendar/components';
-import { Map } from './map/components';
+import MapWrapper from './map/components/map/MapWrapper';
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
               <Calendar />
             </Route>
             <Route path="/">
-              <Map />
+              <MapWrapper />
             </Route>
           </Switch>
         </div>
