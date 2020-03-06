@@ -1,0 +1,45 @@
+.nav-header__wrapper {
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.nav-header {
+    display: flex;
+    background: #a0c3a1;
+}
+  
+.nav-header__links {
+    display: flex;
+    list-style-type: none;
+    margin: 0 0 0 1.5rem;
+    align-items: center;
+    flex: 1;
+}
+
+.nav-header__link {
+    margin: 0 1.5rem;
+
+    &--side {
+        margin-left: auto;
+        margin-right: 0;
+
+        &:last-of-type {
+            margin-left: 1.5rem;
+        }
+    }
+
+    a {
+        color:#585858;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.link__icon {
+    color: #585858;
+    margin-right: 0.5rem;
+}
