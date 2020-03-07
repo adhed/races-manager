@@ -1,1 +1,5 @@
 @import-normalize;
+
+body {
+    font: 14px Arial Helvetica sans-serif;
+}

@@ -1,5 +1,5 @@
 .add-event-form {
-    width: 40%;
+    width: 35%;
 }
 
 .add-event-form__form  {
@@ -11,6 +11,20 @@
 .form {
     width: 100%;
 
+    &__box {
+        display: flex;
+        width: 100%;
+        margin: 0.5rem 0;
+
+        .form__element {
+            margin: 0;
+
+            &:first-of-type {
+                margin-right: 1rem;
+            }
+        }
+    }
+
     &__element {
         margin: 0.5rem 0;
         display: flex;
@@ -19,6 +33,10 @@
 
         &:first-of-type {
             margin-top: 0;
+        }
+
+        input {
+            height: 20px;
         }
     }
 
