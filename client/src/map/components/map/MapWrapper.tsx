@@ -3,6 +3,8 @@ import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import './MapWrapper.scss';
 import 'leaflet/dist/leaflet.css';
 import AddEventForm from '../add-event-form/AddEventForm';
+import { eventApis } from '../../../core/services';
+import { SportEvent } from '../../../shared/models/sport-event';
 
 const L = require("leaflet");
 
@@ -18,12 +20,40 @@ type MapWrapperProps = {
     addEvent?: boolean,
 }
 
-export default class MapWrapper extends React.Component<MapWrapperProps> {
-    state = {
-        lat: 50.881066,
-        lng: 15.713790,
-        zoom: 11,
-      }
+type MapWrapperState = {
+    lat: number,
+    lng: number,
+    zoom: number,
+    events: any[],
+    isLoading: boolean;
+}
+
+export default class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
+    constructor(props: MapWrapperProps) {
+        super(props);
+        this.state = {
+            lat: 0,
+            lng: 0,
+            zoom: 0,
+            isLoading: false,
+            events: [],
+        };
+    }
+    componentDidMount() {
+        this.setState({
+            lat: 50.881066,
+            lng: 15.713790,
+            zoom: 11,
+        });
+
+        eventApis.getAllEvents()
+            .then((events) => {
+                this.setState({
+                    isLoading: false,
+                    events: events.data.data
+                })
+            })
+    }
 
     render() {
         const position = { lat: this.state.lat, lng: this.state.lng };
@@ -33,14 +63,20 @@ export default class MapWrapper extends React.Component<MapWrapperProps> {
             <h2>{ title }</h2>
             <div className="wrapper__row">
                 <Map center={position} zoom={this.state.zoom} className={this.props.addEvent ? 'map map--half' : 'map'}>
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                    <Marker position={position} draggable={this.props.addEvent}>
-                        <Popup>
-                            Tu mieszka Julek.
-                        </Popup>
-                    </Marker>
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+                    {this.state.events
+                        .filter((event: SportEvent) => event.coordinates.lat && event.coordinates.lng)
+                        .map((event) => {
+                            const eventPosition = { lat: event.coordinates.lat, lng: event.coordinates.lng };
+                            return <Marker key={eventPosition.lat+""+eventPosition.lng} position={eventPosition} draggable={false}>
+                                <Popup>
+                                    <h3>{ event.name }</h3>
+                                    <span>{ event.date }</span>
+                                    <p>{ event.description }</p>
+                                </Popup>
+                            </Marker>
+                        })}
                 </Map>
                 { this.props.addEvent ? <AddEventForm /> : null}
             </div>
