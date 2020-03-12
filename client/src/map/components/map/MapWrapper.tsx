@@ -1,10 +1,10 @@
 import React from 'react';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Map, TileLayer, Marker } from 'react-leaflet';
 import './MapWrapper.scss';
 import 'leaflet/dist/leaflet.css';
 import AddEventForm from '../add-event-form/AddEventForm';
-import { eventApis } from '../../../core/services';
-import { SportEvent } from '../../../shared/models/sport-event';
+import { MarkerCoordinates } from '../../../shared/models/map';
+import MarkerList from '../marker-list/MarkerList';
 
 const L = require("leaflet");
 
@@ -24,8 +24,6 @@ type MapWrapperState = {
     lat: number,
     lng: number,
     zoom: number,
-    events: any[],
-    isLoading: boolean;
 }
 
 export default class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
@@ -35,24 +33,24 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
             lat: 0,
             lng: 0,
             zoom: 0,
-            isLoading: false,
-            events: [],
         };
+
+        this.handleSuggestionChange = this.handleSuggestionChange.bind(this);
     }
+
     componentDidMount() {
         this.setState({
             lat: 50.881066,
             lng: 15.713790,
             zoom: 11,
         });
+    }
 
-        eventApis.getAllEvents()
-            .then((events) => {
-                this.setState({
-                    isLoading: false,
-                    events: events.data.data
-                })
-            })
+    handleSuggestionChange(coords: MarkerCoordinates): void {
+        this.setState({
+            lat: coords.lat,
+            lng: coords.lng
+        });
     }
 
     render() {
@@ -64,21 +62,9 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
             <div className="wrapper__row">
                 <Map center={position} zoom={this.state.zoom} className={this.props.addEvent ? 'map map--half' : 'map'}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-                    {this.state.events
-                        .filter((event: SportEvent) => event.coordinates.lat && event.coordinates.lng)
-                        .map((event) => {
-                            const eventPosition = { lat: event.coordinates.lat, lng: event.coordinates.lng };
-                            return <Marker key={eventPosition.lat+""+eventPosition.lng} position={eventPosition} draggable={false}>
-                                <Popup>
-                                    <h3>{ event.name }</h3>
-                                    <span>{ event.date }</span>
-                                    <p>{ event.description }</p>
-                                </Popup>
-                            </Marker>
-                        })}
+                    { this.props.addEvent ? <Marker position={position} draggable={true} /> : <MarkerList />}
                 </Map>
-                { this.props.addEvent ? <AddEventForm /> : null}
+                { this.props.addEvent ? <AddEventForm onSuggetionChange={this.handleSuggestionChange} /> : null}
             </div>
         </div>;
     }

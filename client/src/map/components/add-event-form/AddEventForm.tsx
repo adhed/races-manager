@@ -1,12 +1,20 @@
 import React, { FormEvent } from 'react';
+import Geosuggest, { Suggest } from 'react-geosuggest';
+
 import './AddEventForm.scss';
 import { SportEvent } from '../../../shared/models/sport-event';
 import { eventApis } from '../../../core/services';
+import { MarkerCoordinates } from '../../../shared/models/map';
 
-export default class AddEventForm extends React.Component {
-    constructor(props: any, state: any) {
+type AddEventFormProps = {
+    onSuggetionChange: (coords: MarkerCoordinates) => void,
+}
+
+export default class AddEventForm extends React.Component<AddEventFormProps> {
+    constructor(props: AddEventFormProps, state: any) {
         super(props, state);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSuggestionSelect = this.handleSuggestionSelect.bind(this);
       }
 
     handleSubmit(event: FormEvent): void {
@@ -26,8 +34,13 @@ export default class AddEventForm extends React.Component {
         };
 
         eventApis.insertEvent(sportEvent);
+    }
 
-        console.log('sportEvent', sportEvent);
+    handleSuggestionSelect(suggestion: Suggest): void {
+        this.props.onSuggetionChange({
+            lat: suggestion.location.lat,
+            lng: suggestion.location.lng
+        })
     }
 
     render() {
@@ -60,7 +73,7 @@ export default class AddEventForm extends React.Component {
                 </div>
                 <div className="form__element">
                     <label className="form__label" htmlFor="place">Miejsce startu</label>
-                    <input name="place" id="place" type="text" placeholder="Wałbrzych"></input>
+                    <Geosuggest onSuggestSelect={this.handleSuggestionSelect} />
                 </div>
                 <div className="form__element">
                     <label className="form__label" htmlFor="link">Link do szczegółów</label>
