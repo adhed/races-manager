@@ -3,44 +3,67 @@ import Geosuggest, { Suggest } from 'react-geosuggest';
 
 import './AddEventForm.scss';
 import { SportEvent } from '../../../shared/models/sport-event';
-import { eventApis } from '../../../core/services';
 import { MarkerCoordinates } from '../../../shared/models/map';
 
 type AddEventFormProps = {
     onSuggetionChange: (coords: MarkerCoordinates) => void,
+    onFormSubmit: (sportEvent: SportEvent) => void,
 }
 
-export default class AddEventForm extends React.Component<AddEventFormProps> {
-    constructor(props: AddEventFormProps, state: any) {
+type AddEventFormState = {
+    name: string;
+}
+
+export default class AddEventForm extends React.Component<AddEventFormProps, AddEventFormState> {
+    constructor(props: AddEventFormProps, state: AddEventFormState) {
         super(props, state);
+
+        this.setState({
+            name: ''
+        });
+
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSuggestionSelect = this.handleSuggestionSelect.bind(this);
+        this.handleOnNameChange = this.handleOnNameChange.bind(this);
       }
 
     handleSubmit(event: FormEvent): void {
         event.preventDefault();
-        const coordinates = { lat: 15.000, lng: 33.122 };
+
         const formData = new FormData(event.target as any);
-        const sportEvent: SportEvent = {
-            name: String(formData.get('name')),
+        
+        this.props.onFormSubmit({
+            name: this.state.name,
             serie: String(formData.get('serie')),
             date: new Date(String(formData.get('date'))),
             discipline: String(formData.get('discipline')),
             place: String(formData.get('place')),
             link: String(formData.get('link')),
             type: String(formData.get('type')),
-            coordinates,
             description: String(formData.get('description')),
-        };
-
-        eventApis.insertEvent(sportEvent);
+            coordinates: { lat: 0, lng: 0 }
+        });
     }
 
     handleSuggestionSelect(suggestion: Suggest): void {
+        if (!suggestion || !suggestion.location) {
+            return;
+        }
+    
         this.props.onSuggetionChange({
             lat: suggestion.location.lat,
             lng: suggestion.location.lng
         })
+    }
+
+    handleOnNameChange(name: string): void {
+        if (!name) {
+            return;
+        }
+    
+        this.setState({
+            name
+        });
     }
 
     render() {
@@ -57,7 +80,7 @@ export default class AddEventForm extends React.Component<AddEventFormProps> {
                     </div>
                     <div className="form__element">
                         <label className="form__label" htmlFor="date">Data</label>
-                        <input name="date" type="date" id="date" placeholder="01.05.2020"></input>
+                        <input name="date" type="date" id="date" placeholder="01.05.2020" required></input>
                     </div>
                 </div>
                 
@@ -73,7 +96,7 @@ export default class AddEventForm extends React.Component<AddEventFormProps> {
                 </div>
                 <div className="form__element">
                     <label className="form__label" htmlFor="place">Miejsce startu</label>
-                    <Geosuggest onSuggestSelect={this.handleSuggestionSelect} />
+                    <Geosuggest onChange={this.handleOnNameChange} onSuggestSelect={this.handleSuggestionSelect} />
                 </div>
                 <div className="form__element">
                     <label className="form__label" htmlFor="link">Link do szczegółów</label>
