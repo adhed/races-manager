@@ -33,12 +33,12 @@ export default class MarkerList extends React.Component<MarkerListProps, MarkerL
     }
 
     render() {
-        return <div>
+        return <React.Fragment>
             {this.state.events
                 .filter((event: SportEvent) => event.coordinates.lat && event.coordinates.lng)
                 .map((event) => {
                     const eventPosition = { lat: event.coordinates.lat, lng: event.coordinates.lng };
-                    return <Marker key={eventPosition.lat+""+eventPosition.lng} position={eventPosition} draggable={false}>
+                    return <Marker key={event._id} position={eventPosition} draggable={false}>
                         <Popup>
                             <h3>{ event.name }</h3>
                             <span>{ event.date }</span>
@@ -46,6 +46,6 @@ export default class MarkerList extends React.Component<MarkerListProps, MarkerL
                         </Popup>
                     </Marker>
                 })}
-        </div>
+        </React.Fragment>
     }
 }

@@ -1,13 +1,14 @@
 import React from 'react';
-import { Map, TileLayer, Marker } from 'react-leaflet';
+import { Map, TileLayer } from 'react-leaflet';
 import './MapWrapper.scss';
 import 'leaflet/dist/leaflet.css';
 import AddEventForm from '../add-event-form/AddEventForm';
 import { MarkerCoordinates } from '../../../shared/models/map';
 import MarkerList from '../marker-list/MarkerList';
-import { LeafletEvent } from 'leaflet';
 import { eventApis } from '../../../core/services';
 import { SportEvent } from '../../../shared/models/sport-event';
+import { NewEventMarker } from '../new-event-marker';
+import { Redirect } from 'react-router-dom';
 
 const L = require("leaflet");
 
@@ -41,8 +42,8 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
         };
 
         this.handleSuggestionChange = this.handleSuggestionChange.bind(this);
-        this.handleMarkerDragEnd = this.handleMarkerDragEnd.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleNewSportEventDragEnd = this.handleNewSportEventDragEnd.bind(this);
     }
 
     componentDidMount() {
@@ -60,8 +61,6 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
     }
 
     handleSuggestionChange(coords: MarkerCoordinates): void {
-        console.log('suugestion', coords);
-
         this.setState({
             lat: coords.lat,
             lng: coords.lng,
@@ -72,25 +71,20 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
         });
     }
 
-    handleMarkerDragEnd(event: LeafletEvent): void {
-        console.log('dragend', event);
-
-        this.setState({
-            markerPosition: {
-                lat: event.target.lat,
-                lng: event.target.lng,
-            }
-        });
-    }
-
     handleFormSubmit(sportEvent: SportEvent): void {
         eventApis.insertEvent({
             ...sportEvent,
             coordinates: this.state.markerPosition
         })
         .then(() => {
-            window.location.pathname = '/';
+            return <Redirect to='/' />;
         })
+    }
+
+    handleNewSportEventDragEnd(markerPosition: MarkerCoordinates): void {
+        this.setState({
+            markerPosition
+        });
     }
 
     render() {
@@ -102,7 +96,7 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
             <div className="wrapper__row">
                 <Map center={position} zoom={this.state.zoom} className={this.props.addEvent ? 'map map--half' : 'map'}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    { this.props.addEvent ? <Marker position={this.state.markerPosition} draggable={true} /> : <MarkerList />}
+                    { this.props.addEvent ? <NewEventMarker onDragEnd={this.handleNewSportEventDragEnd} position={this.state.markerPosition} /> : <MarkerList />}
                 </Map>
                 { this.props.addEvent ? <AddEventForm onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> : null}
             </div>

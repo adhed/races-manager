@@ -18,9 +18,9 @@ export default class AddEventForm extends React.Component<AddEventFormProps, Add
     constructor(props: AddEventFormProps, state: AddEventFormState) {
         super(props, state);
 
-        this.setState({
-            name: ''
-        });
+        this.state = {
+            name: '',
+        };
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSuggestionSelect = this.handleSuggestionSelect.bind(this);
