@@ -38,6 +38,10 @@
         input {
             height: 20px;
         }
+
+        select {
+            height: 25px;
+        }
     }
 
     &__label {
@@ -54,5 +58,40 @@
         font-weight: bold;
         padding: 1rem;
         cursor: pointer;
+    }
+}
+
+.geosuggest {
+    z-index: 2;
+    
+    &__suggests-wrapper {
+        background: white;
+        z-index: 10;
+        text-align: left;
+    }
+
+    &__suggests {
+        border: 1px solid gray;
+        padding: 5px 25px;
+        list-style-type: square;
+        margin: 0;
+
+        &--hidden {
+            display: none;
+        }
+    }
+
+    &__item {
+        margin: 5px 0;
+
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__input {
+        width: 100%;
     }
 }
