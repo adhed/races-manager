@@ -42,6 +42,14 @@
         select {
             height: 25px;
         }
+
+        &--error {
+            color: red;
+
+            input {
+                border: 1px solid red;
+            }
+        }
     }
 
     &__label {
