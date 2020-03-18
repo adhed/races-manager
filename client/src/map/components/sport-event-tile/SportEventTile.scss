@@ -1,4 +1,48 @@
 .event-tile {
     display: flex;
     flex-direction: column;
+    position: relative;
+    border: 1px solid #e8e8e8;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
+    width: 30%;
+    padding: 0.5rem;
+
+    &__title {
+        text-align: center;
+        align-self: center;
+        align-content: center;
+        font-weight: bold;
+        font-size: 1.25rem;
+        border-bottom: 1px solid #e8e8e8;
+    }
+
+    &__close-icon {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.75rem;
+        cursor: pointer;
+        opacity: 0.75;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        margin-top: 1rem;
+    }
+
+    .wrapper {
+        display: flex;
+        margin: 0.5rem 0;
+        font-size: 14px;
+    
+        &__label {
+            font-weight: bold;
+            margin-right: 0.25rem;
+        }
+    }
 }

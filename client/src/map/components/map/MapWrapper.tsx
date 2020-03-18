@@ -59,7 +59,8 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
     handleEventCloseClick(): void {
         this.setState({
             selectedEvent: null,
-        })
+            zoom: DEFAULT_ZOOM
+        });
     }
 
     render() {

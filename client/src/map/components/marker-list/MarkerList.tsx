@@ -3,6 +3,7 @@ import './MarkerList.scss';
 import { eventApis } from '../../../core/services';
 import { SportEvent } from '../../../shared/models/sport-event';
 import { Marker, Popup } from 'react-leaflet';
+import { getParsedDate } from '../../../shared/utils';
 
 type MarkerListProps = {
     onEventSelected: (event: SportEvent) => void;
@@ -45,10 +46,9 @@ export default class MarkerList extends React.Component<MarkerListProps, MarkerL
                 .map((event) => {
                     const eventPosition = { lat: event.coordinates.lat, lng: event.coordinates.lng };
                     return <Marker onClick={this.handleMarkerClick.bind(this, event)} key={event._id} position={eventPosition} draggable={false}>
-                        <Popup>
-                            <h3>{ event.name }</h3>
-                            <span>{ event.date }</span>
-                            <p>{ event.description }</p>
+                        <Popup className="popup">
+                            <span className="popup__name">{ event.name }</span>
+                            <span className="popup__date">{ getParsedDate(event.date) }</span>
                         </Popup>
                     </Marker>
                 })}

@@ -16,9 +16,10 @@
 .map {
     width: 100%;
     transition: width 0.5s;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
 
     &--mini {
-        width: 65%;
-        margin-right: 1rem;
+        width: 70%;
+        margin-right: 2rem;
     }
 }
