@@ -9,6 +9,7 @@ import { MyAccount } from './account/components';
 import { Calendar } from './calendar/components';
 import MapWrapper from './map/components/map/MapWrapper';
 import Nav from './core/components/nav/Nav';
+import AddEventWrapper from './map/components/add-event-wrapper/AddEventWrapper';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
               <Calendar />
             </Route>
             <Route path="/add-event">
-              <MapWrapper addEvent={true} />
+              <AddEventWrapper />
             </Route>
             <Route path="/">
               <MapWrapper />

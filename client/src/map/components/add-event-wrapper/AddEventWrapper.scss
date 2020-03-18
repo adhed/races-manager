@@ -1,0 +1,19 @@
+.leaflet-container {
+    height: 75vh;
+    border: 2px solid gray;
+    overflow: hidden;
+}
+
+.map-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper__row {
+    display: flex;
+}
+
+.mini-map {
+    width: 65%;
+    margin-right: 1rem;
+}

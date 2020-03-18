@@ -1,3 +1,5 @@
+$warning-color: #c11111;
+
 .add-event-form {
     width: 35%;
 }
@@ -44,10 +46,10 @@
         }
 
         &--error {
-            color: red;
+            color: $warning-color;
 
             input, textarea {
-                border: 1px solid red;
+                border: 1px solid $warning-color;
             }
         }
     }
