@@ -2,8 +2,10 @@ import React from 'react';
 import { Map, TileLayer } from 'react-leaflet';
 import './MapWrapper.scss';
 import 'leaflet/dist/leaflet.css';
-import { MarkerCoordinates, JELENIA_COORDINATES, DEFAULT_ZOOM } from '../../../shared/models/map';
+import { MarkerCoordinates, JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_PREVIEW_ZOOM } from '../../../shared/models/map';
 import MarkerList from '../marker-list/MarkerList';
+import { SportEvent } from '../../../shared/models/sport-event';
+import SportEventTile from '../sport-event-tile/SportEventTile';
 
 const L = require("leaflet");
 
@@ -21,7 +23,7 @@ type MapWrapperState = {
     mapPosition: MarkerCoordinates,
     markerPosition: MarkerCoordinates,
     zoom: number,
-    isAddedEvent: boolean,
+    selectedEvent: SportEvent | null,
 }
 
 export default class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
@@ -31,8 +33,11 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
             mapPosition: { lat: 0, lng: 0 },
             zoom: 0,
             markerPosition: { lat: 0, lng: 0 },
-            isAddedEvent: false
+            selectedEvent: null
         };
+
+        this.handleEventSelected = this.handleEventSelected.bind(this);
+        this.handleEventCloseClick = this.handleEventCloseClick.bind(this);
     }
 
     componentDidMount() {
@@ -40,11 +45,22 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
             mapPosition: JELENIA_COORDINATES,
             zoom: DEFAULT_ZOOM,
             markerPosition: JELENIA_COORDINATES,
-            isAddedEvent: false
         });
     }
 
-    
+    handleEventSelected(sportEvent: SportEvent): void {
+        this.setState({ 
+            selectedEvent: sportEvent,
+            mapPosition: sportEvent.coordinates,
+            zoom: SINGLE_MARKER_PREVIEW_ZOOM
+        });
+    }
+
+    handleEventCloseClick(): void {
+        this.setState({
+            selectedEvent: null,
+        })
+    }
 
     render() {
         const title = 'Wybierz zawody na mapie i sprawdź szczegóły';
@@ -52,10 +68,11 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
         return <div className="map-wrapper wrapper">
             <h2>{ title }</h2>
             <div className="wrapper__row">
-                <Map center={this.state.mapPosition} zoom={this.state.zoom} className="map">
+                <Map center={this.state.mapPosition} zoom={this.state.zoom} className={this.state.selectedEvent ? 'map map--mini' : 'map'}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    <MarkerList />
+                    <MarkerList onEventSelected={this.handleEventSelected} />
                 </Map>
+                { this.state.selectedEvent ? <SportEventTile closeClick={this.handleEventCloseClick} sportEvent={this.state.selectedEvent} /> : null }
             </div>
         </div>;
     }
