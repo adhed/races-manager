@@ -16,7 +16,7 @@ type AddEventFormProps = {
 const disciplines: Discipline[] = [Discipline.MountainBiking, Discipline.RoadCycling, Discipline.Running, Discipline.XcSkiing];
 
 export default function AddEventForm(props: AddEventFormProps) {
-    const { control, setValue, register, handleSubmit, errors } = useForm();
+    const { control, setValue, register, handleSubmit, errors, reset } = useForm();
     const [selectedDiscipline, setSelectedDiscipline] = useState(Discipline.MountainBiking);
     const defaultDate = getCurrentDate();
 
@@ -34,6 +34,8 @@ export default function AddEventForm(props: AddEventFormProps) {
             description: data.discription,
             coordinates: { lat: 0, lng: 0 }
         });
+
+        reset();
     }
 
     const handleDisciplineChange = (event: any): void => {
@@ -61,6 +63,19 @@ export default function AddEventForm(props: AddEventFormProps) {
             <div className={errors.name ? 'form__element form__element--error' : "form__element"}>
                 <label className="form__label" htmlFor="name">Nazwa*</label>
                 <input name="name" type="text" id="name" placeholder="Muflon MTB" ref={register({ required: true })} />
+            </div>
+            <div className={errors.place ? 'form__element form__element--error' : "form__element"}>
+                <label className="form__label" htmlFor="place">Miejsce startu*</label>
+                <Controller
+                    as={Geosuggest}
+                    name="place"
+                    control={control}
+                    rules={{ required: true }}
+                    placeholder='Wpisz i wyszukaj miejsce startu'
+                    onChange={([place]) => place}
+                    onSuggestSelect={handleSuggestionSelect}
+                    defaultValue={''}
+                />
             </div>
             <div className="form__box">
                 <div className="form__element">
@@ -92,26 +107,13 @@ export default function AddEventForm(props: AddEventFormProps) {
                     </select>
                 </div>
             </div>
-            <div className={errors.place ? 'form__element form__element--error' : "form__element"}>
-                <label className="form__label" htmlFor="place">Miejsce startu*</label>
-                <Controller
-                    as={Geosuggest}
-                    name="place"
-                    control={control}
-                    rules={{ required: true }}
-                    onChange={([place]) => place}
-                    onSuggestSelect={handleSuggestionSelect}
-                    defaultValue={''}
-                />
-                {/* <Geosuggest placeholder="Wpisz i wyszukaj miejsce startu" onChange={handleOnNameChange} onSuggestSelect={handleSuggestionSelect} /> */}
-            </div>
             <div className="form__element">
                 <label className="form__label" htmlFor="link">Link do szczegółów</label>
                 <input name="link" id="link" type="text" placeholder="http://" ref={register()} />
             </div>
-            <div className="form__element">
-                <label className="form__label" htmlFor="description">Opis</label>
-                <textarea name="description" id="description" rows={6} placeholder="Zachęć innych do startu - moze opisz krótko trasę i co czyni ją ciekawą." ref={register()}></textarea>
+            <div className={errors.place ? 'form__element form__element--error' : "form__element"}>
+                <label className="form__label" htmlFor="description">Opis imprezy / trasy*</label>
+                <textarea name="description" id="description" rows={6} ref={register({ required: true })} placeholder="Zachęć innych do startu - moze opisz krótko trasę i co czyni ją ciekawą."></textarea>
             </div>
             <button className="form__button button" type="submit">
                 <span className="button__label">Dodaj zawody</span>

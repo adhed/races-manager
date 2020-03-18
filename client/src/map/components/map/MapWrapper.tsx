@@ -8,7 +8,7 @@ import MarkerList from '../marker-list/MarkerList';
 import { eventApis } from '../../../core/services';
 import { SportEvent } from '../../../shared/models/sport-event';
 import { NewEventMarker } from '../new-event-marker';
-import { Redirect } from 'react-router-dom';
+import EventAddedInfo from '../event-added-info/EventAddedInfo';
 
 const L = require("leaflet");
 
@@ -28,7 +28,8 @@ type MapWrapperState = {
     lat: number,
     lng: number,
     zoom: number,
-    markerPosition: MarkerCoordinates
+    markerPosition: MarkerCoordinates,
+    isAddedEvent: boolean,
 }
 
 export default class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
@@ -38,12 +39,15 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
             lat: 0,
             lng: 0,
             zoom: 0,
-            markerPosition: { lat: 0, lng: 0 }
+            markerPosition: { lat: 0, lng: 0 },
+            isAddedEvent: false
         };
 
         this.handleSuggestionChange = this.handleSuggestionChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleNewSportEventDragEnd = this.handleNewSportEventDragEnd.bind(this);
+        this.handleAddAnotherSportEventClick = this.handleAddAnotherSportEventClick.bind(this);
+        this.handleBackToMapClick = this.handleBackToMapClick.bind(this);
     }
 
     componentDidMount() {
@@ -77,7 +81,7 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
             coordinates: this.state.markerPosition
         })
         .then(() => {
-            return <Redirect to='/' />;
+            this.setState({ isAddedEvent: true });
         })
     }
 
@@ -85,6 +89,14 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
         this.setState({
             markerPosition
         });
+    }
+
+    handleBackToMapClick(): void {
+        
+    }
+
+    handleAddAnotherSportEventClick(): void {
+        this.setState({ isAddedEvent: false });
     }
 
     render() {
@@ -98,7 +110,7 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     { this.props.addEvent ? <NewEventMarker onDragEnd={this.handleNewSportEventDragEnd} position={this.state.markerPosition} /> : <MarkerList />}
                 </Map>
-                { this.props.addEvent ? <AddEventForm onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> : null}
+                { this.state.isAddedEvent ? <EventAddedInfo onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : (this.props.addEvent ? <AddEventForm onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> : null) }
             </div>
         </div>;
     }

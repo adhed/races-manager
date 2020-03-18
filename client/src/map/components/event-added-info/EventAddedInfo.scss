@@ -1,0 +1,21 @@
+.wrapper__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 35%;
+}
+
+.info {
+    &__label {
+        margin: 10px 0;
+    }
+
+    &__link {
+        margin: 10px 0;
+    
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+}

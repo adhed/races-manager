@@ -46,7 +46,7 @@
         &--error {
             color: red;
 
-            input {
+            input, textarea {
                 border: 1px solid red;
             }
         }
@@ -76,6 +76,7 @@
         background: white;
         z-index: 10;
         text-align: left;
+        position: relative;
     }
 
     &__suggests {
@@ -83,6 +84,11 @@
         padding: 5px 25px;
         list-style-type: square;
         margin: 0;
+        position: absolute;
+        background: white;
+        top: 0;
+        left: 0;
+        right: 0;
 
         &--hidden {
             display: none;
@@ -101,5 +107,9 @@
 
     &__input {
         width: 100%;
+    }
+
+    &__input-wrapper {
+        display: flex;
     }
 }
