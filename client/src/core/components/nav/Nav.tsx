@@ -8,7 +8,7 @@ export default class Nav extends React.Component {
     render() {
         return <nav className="nav-header">
             <div className="nav-header__wrapper">
-                <h2>Races manager</h2>
+                <h2>RACES</h2>
                 <ul className="nav-header__links">
                     <li className="nav-header__link link">
                         <FontAwesomeIcon icon={faMapSigns} className="link__icon" />

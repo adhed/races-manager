@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import Geosuggest, { Suggest } from 'react-geosuggest';
 import { useForm, Controller } from 'react-hook-form'
-
-import './AddEventForm.scss';
 import { SportEvent } from '../../../shared/models/sport-event';
 import { MarkerCoordinates } from '../../../shared/models/map';
 import { getCurrentDate } from '../../../shared/utils';
 import { Discipline, DISCPLINES_NAMES, DISCIPLINES_TYPES, DISCIPLINES_TYPES_NAMES } from '../../../shared/models/disciplines';
+import './AddEventForm.scss';
+
 
 type AddEventFormProps = {
     onSuggetionChange: (coords: MarkerCoordinates) => void,
@@ -21,8 +21,6 @@ export default function AddEventForm(props: AddEventFormProps) {
     const defaultDate = getCurrentDate();
 
     const onSubmit = (data: any): void => {
-        console.log('Submitted data:', data);
-        
         props.onFormSubmit({
             name: data.name,
             serie: data.serie,
@@ -31,14 +29,14 @@ export default function AddEventForm(props: AddEventFormProps) {
             place: data.place,
             link: data.link,
             type: data.type,
-            description: data.discription,
+            description: data.description,
             coordinates: { lat: 0, lng: 0 }
         });
 
         reset();
     }
 
-    const handleDisciplineChange = (event: any): void => {
+    const handleDisciplineChange = (event: ChangeEvent<HTMLSelectElement>): void => {
         if (!event.target.value) {
             return;
         }
@@ -71,7 +69,7 @@ export default function AddEventForm(props: AddEventFormProps) {
                     name="place"
                     control={control}
                     rules={{ required: true }}
-                    placeholder='Wpisz i wyszukaj miejsce startu'
+                    placeholder='Szklarska Poręba'
                     onChange={([place]) => place}
                     onSuggestSelect={handleSuggestionSelect}
                     defaultValue={''}
@@ -109,9 +107,9 @@ export default function AddEventForm(props: AddEventFormProps) {
             </div>
             <div className="form__element">
                 <label className="form__label" htmlFor="link">Link do szczegółów</label>
-                <input name="link" id="link" type="text" placeholder="http://" ref={register()} />
+                <input name="link" id="link" type="url" placeholder="http://" ref={register()} />
             </div>
-            <div className={errors.place ? 'form__element form__element--error' : "form__element"}>
+            <div className={errors.description ? 'form__element form__element--error' : "form__element"}>
                 <label className="form__label" htmlFor="description">Opis imprezy / trasy*</label>
                 <textarea name="description" id="description" rows={6} ref={register({ required: true })} placeholder="Zachęć innych do startu - moze opisz krótko trasę i co czyni ją ciekawą."></textarea>
             </div>

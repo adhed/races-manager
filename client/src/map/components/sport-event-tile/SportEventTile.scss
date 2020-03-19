@@ -5,7 +5,7 @@
     border: 1px solid #e8e8e8;
     box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
     width: 30%;
-    padding: 0.5rem;
+    padding: 0.75rem;
 
     &__title {
         text-align: center;
@@ -21,7 +21,7 @@
         top: 0.5rem;
         right: 0.75rem;
         cursor: pointer;
-        opacity: 0.75;
+        opacity: 0.25;
 
         &:hover {
             opacity: 1;
@@ -36,6 +36,7 @@
     }
 
     .wrapper {
+        align-items: center;
         display: flex;
         margin: 0.5rem 0;
         font-size: 14px;
@@ -43,6 +44,12 @@
         &__label {
             font-weight: bold;
             margin-right: 0.25rem;
+        }
+
+        &__icon {
+            opacity: 0.75;
+            margin-right: 0.5rem;
+            width: 18px;
         }
     }
 }
