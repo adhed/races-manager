@@ -3,7 +3,7 @@ import { SportEvent } from "../../../shared/models/sport-event"
 
 import './SportEventTile.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faClock, faMapMarker, faRunning, faSkiingNordic, faBiking, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faClock, faMapMarker, faRunning, faSkiingNordic, faBiking, faInfoCircle, faLink } from '@fortawesome/free-solid-svg-icons';
 import { getParsedDate } from '../../../shared/utils';
 import { DISCPLINES_NAMES, DISCIPLINES_TYPES_NAMES, Discipline } from '../../../shared/models/disciplines';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
@@ -56,10 +56,17 @@ export default function SportEventTile(props: SportEventTileProps) {
                 <span className="wrapper__label">Dyscyplina:</span>
                 <span className="wrapper__value">{ DISCPLINES_NAMES[props.sportEvent.discipline] } ({ DISCIPLINES_TYPES_NAMES[props.sportEvent.type] })</span>
             </span>
+            { props.sportEvent.link ? <span className="info__wrapper wrapper">
+                <FontAwesomeIcon icon={faLink} className="wrapper__icon" />
+                <span className="wrapper__label">Link:</span>
+                <span className="wrapper__value value">
+                    <a className="value__link" href={props.sportEvent.link} target="_blank" rel="nofollow">{ props.sportEvent.link }</a>
+                </span>
+            </span> : null }
             <span className="info__wrapper wrapper">
                 <FontAwesomeIcon icon={faInfoCircle} className="wrapper__icon" />
                 <span className="wrapper__label">Szczegóły:</span>
-                <span className="wrapper__value">{ props.sportEvent.description }</span>
+                <span className="wrapper__value wrapper__value--block">{ props.sportEvent.description }</span>
             </span>
         </div>
     </div>

@@ -38,18 +38,35 @@
     .wrapper {
         align-items: center;
         display: flex;
-        margin: 0.5rem 0;
+        margin: 0;
         font-size: 14px;
+        flex-wrap: wrap;
     
         &__label {
             font-weight: bold;
             margin-right: 0.25rem;
         }
-
+    
         &__icon {
+            margin: 0.5rem 0;
             opacity: 0.75;
             margin-right: 0.5rem;
             width: 18px;
+        }
+
+        &__value {
+            &--block {
+                display: block;
+            }
+        }
+    }
+
+    .value__link {
+        color: gray;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
         }
     }
 }
