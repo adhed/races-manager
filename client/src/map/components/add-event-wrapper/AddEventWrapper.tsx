@@ -10,9 +10,7 @@ import AddEventForm from '../add-event-form/AddEventForm';
 import './AddEventWrapper.scss';
 import { JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_ZOOM } from '../../map-config';
 
-type AddEventWrapperProps = {
-
-}
+type AddEventWrapperProps = {}
 
 type AddEventWrapperState = {
     mapCoordinates: MarkerCoordinates;
@@ -38,6 +36,7 @@ export default class AddEventWrapper extends React.Component<AddEventWrapperProp
         this.handleNewSportEventDragEnd = this.handleNewSportEventDragEnd.bind(this);
         this.handleAddAnotherSportEventClick = this.handleAddAnotherSportEventClick.bind(this);
         this.handleBackToMapClick = this.handleBackToMapClick.bind(this);
+        this.handleAddEventCloseClick = this.handleAddEventCloseClick.bind(this);
     }
 
     handleSuggestionChange(coords: MarkerCoordinates): void {
@@ -75,6 +74,10 @@ export default class AddEventWrapper extends React.Component<AddEventWrapperProp
         this.setState({ isAddedEvent: false });
     }
 
+    handleAddEventCloseClick(): void {
+        this.setState({ addEvent: false });
+    }
+
     render() {
         return <div className="map-wrapper wrapper">
             <h2>Wybierz miejsce na mapie i zgłoś zawody</h2>
@@ -83,7 +86,7 @@ export default class AddEventWrapper extends React.Component<AddEventWrapperProp
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <NewEventMarker draggable={!this.state.isAddedEvent} onDragEnd={this.handleNewSportEventDragEnd} position={this.state.markerPosition} />
                 </Map>
-                { this.state.isAddedEvent ? <EventAddedInfo onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : (this.state.addEvent ? <AddEventForm onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> : <Redirect to='/' />) }
+                { this.state.isAddedEvent ? <EventAddedInfo onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : (this.state.addEvent ? <AddEventForm onCloseClick={this.handleAddEventCloseClick} onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> : <Redirect to='/' />) }
             </div>
         </div>;
     }

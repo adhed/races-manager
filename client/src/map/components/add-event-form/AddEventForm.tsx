@@ -6,11 +6,13 @@ import { MarkerCoordinates } from '../../../shared/models/map';
 import { getCurrentDate } from '../../../shared/utils';
 import { Discipline, DISCPLINES_NAMES, DISCIPLINES_TYPES, DISCIPLINES_TYPES_NAMES } from '../../../shared/models/disciplines';
 import './AddEventForm.scss';
+import CloseIcon from '../../../shared/components/close-icon/CloseIcon';
 
 
 type AddEventFormProps = {
     onSuggetionChange: (coords: MarkerCoordinates) => void,
     onFormSubmit: (sportEvent: SportEvent) => void,
+    onCloseClick: () => void,
 }
 
 const disciplines: Discipline[] = [Discipline.MountainBiking, Discipline.RoadCycling, Discipline.Running, Discipline.XcSkiing];
@@ -56,7 +58,12 @@ export default function AddEventForm(props: AddEventFormProps) {
         })
     }
 
+    const handleCloseClick = (): void => {
+        props.onCloseClick();
+    }
+
     return <div className="add-event-form">
+        <CloseIcon onCloseClick={handleCloseClick} title="Zamknij formularz" />
         <form className="add-event-form__form form" id="addEventForm" name="addEventForm" onSubmit={handleSubmit(onSubmit)}>
             <div className={errors.name ? 'form__element form__element--error' : "form__element"}>
                 <label className="form__label" htmlFor="name">Nazwa*</label>
