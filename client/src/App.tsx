@@ -11,6 +11,8 @@ import MapWrapper from './map/components/map/MapWrapper';
 import Nav from './core/components/nav/Nav';
 import AddEventWrapper from './map/components/add-event-wrapper/AddEventWrapper';
 
+require('react-leaflet-markercluster/dist/styles.min.css');
+
 function App() {
   return (
     <div className="App">

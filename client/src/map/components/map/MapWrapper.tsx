@@ -6,7 +6,7 @@ import { MarkerCoordinates } from '../../../shared/models/map';
 import MarkerList from '../marker-list/MarkerList';
 import { SportEvent } from '../../../shared/models/sport-event';
 import SportEventTile from '../sport-event-tile/SportEventTile';
-import { JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_PREVIEW_ZOOM } from '../../map-config';
+import { JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_PREVIEW_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../../map-config';
 
 const L = require("leaflet");
 
@@ -74,7 +74,7 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
         return <div className="map-wrapper wrapper">
             <h2>{ title }</h2>
             <div className="wrapper__row">
-                <Map ref={(ref: Map) => this.mapRef = ref } center={this.state.mapPosition} zoom={this.state.zoom} className={this.state.selectedEvent ? 'map map--mini' : 'map'}>
+                <Map maxZoom={MAX_ZOOM} minZoom={MIN_ZOOM} ref={(ref: Map) => this.mapRef = ref } center={this.state.mapPosition} zoom={this.state.zoom} className={this.state.selectedEvent ? 'map map--mini' : 'map'}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <MarkerList onEventSelected={this.handleEventSelected} />
                 </Map>

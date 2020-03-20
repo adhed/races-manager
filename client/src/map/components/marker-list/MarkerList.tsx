@@ -6,6 +6,7 @@ import { Marker, Popup } from 'react-leaflet';
 import { getParsedDate } from '../../../shared/utils';
 import { getDisciplineIcon } from '../../../shared/utils/sport-event.utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 type MarkerListProps = {
     onEventSelected: (event: SportEvent) => void;
@@ -42,21 +43,21 @@ export default class MarkerList extends React.Component<MarkerListProps, MarkerL
     }
 
     render() {
-        return <React.Fragment>
+        return <MarkerClusterGroup>
             {this.state.events
                 .filter((event: SportEvent) => event.coordinates.lat && event.coordinates.lng)
                 .map((event) => {
                     const eventPosition = { lat: event.coordinates.lat, lng: event.coordinates.lng };
                     return <Marker onClick={this.handleMarkerClick.bind(this, event)} key={event._id} position={eventPosition} draggable={false}>
-                        <Popup className="popup">
-                            <div className="popup__header header">
-                                <FontAwesomeIcon icon={getDisciplineIcon(event.discipline)} className="header__icon" />
-                                <span className="header__name">{ event.name }</span>
-                            </div>
-                            <span className="popup__date">{ event.place } ({ getParsedDate(event.date) })</span>
-                        </Popup>
-                    </Marker>
+                            <Popup className="popup">
+                                <div className="popup__header header">
+                                    <FontAwesomeIcon icon={getDisciplineIcon(event.discipline)} className="header__icon" />
+                                    <span className="header__name">{ event.name }</span>
+                                </div>
+                                <span className="popup__date">{ event.place } ({ getParsedDate(event.date) })</span>
+                            </Popup>
+                        </Marker>
                 })}
-        </React.Fragment>
+        </MarkerClusterGroup>
     }
 }
