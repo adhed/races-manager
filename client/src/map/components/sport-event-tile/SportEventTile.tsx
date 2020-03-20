@@ -3,10 +3,10 @@ import { SportEvent } from "../../../shared/models/sport-event"
 
 import './SportEventTile.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faClock, faMapMarker, faRunning, faSkiingNordic, faBiking, faInfoCircle, faLink } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faClock, faMapMarker, faInfoCircle, faLink } from '@fortawesome/free-solid-svg-icons';
 import { getParsedDate } from '../../../shared/utils';
-import { DISCPLINES_NAMES, DISCIPLINES_TYPES_NAMES, Discipline } from '../../../shared/models/disciplines';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { DISCPLINES_NAMES, DISCIPLINES_TYPES_NAMES } from '../../../shared/models/disciplines';
+import { getDisciplineIcon } from '../../../shared/utils/sport-event.utils';
 
 type SportEventTileProps = {
     sportEvent: SportEvent;
@@ -14,24 +14,7 @@ type SportEventTileProps = {
 }
 
 export default function SportEventTile(props: SportEventTileProps) {
-    const getDisciplineIcon = (discipline: string): IconDefinition => {
-        if (discipline === Discipline.Running) {
-            return faRunning;
-        }
-        if (discipline === Discipline.MountainBiking) {
-            return faBiking;
-
-        }
-        if (discipline === Discipline.RoadCycling) {
-            return faBiking;
-
-        }
-        if (discipline === Discipline.XcSkiing) {
-            return faSkiingNordic;
-        }
-
-        return faRunning;
-    };
+    const disciplineIcon = getDisciplineIcon(props.sportEvent.discipline);
 
     const handleCloseClick = (): void => {
         props.closeClick();
@@ -52,15 +35,20 @@ export default function SportEventTile(props: SportEventTileProps) {
                 <span className="wrapper__value">{ props.sportEvent.place }</span>
             </span>
             <span className="info__wrapper wrapper">
-                <FontAwesomeIcon icon={getDisciplineIcon(props.sportEvent.discipline)} className="wrapper__icon" />
+                <FontAwesomeIcon icon={disciplineIcon} className="wrapper__icon" />
                 <span className="wrapper__label">Dyscyplina:</span>
                 <span className="wrapper__value">{ DISCPLINES_NAMES[props.sportEvent.discipline] } ({ DISCIPLINES_TYPES_NAMES[props.sportEvent.type] })</span>
             </span>
+            { props.sportEvent.serie ? <span className="info__wrapper wrapper">
+                <FontAwesomeIcon icon={disciplineIcon} className="wrapper__icon" />
+                <span className="wrapper__label">Seria:</span>
+                <span className="wrapper__value">{ props.sportEvent.serie }</span>
+            </span> : null }
             { props.sportEvent.link ? <span className="info__wrapper wrapper">
                 <FontAwesomeIcon icon={faLink} className="wrapper__icon" />
                 <span className="wrapper__label">Link:</span>
                 <span className="wrapper__value value">
-                    <a className="value__link" href={props.sportEvent.link} target="_blank" rel="nofollow">{ props.sportEvent.link }</a>
+                    <a className="value__link" href={props.sportEvent.link} target="_blank" rel="noopener noreferrer">{ props.sportEvent.link }</a>
                 </span>
             </span> : null }
             <span className="info__wrapper wrapper">

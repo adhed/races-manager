@@ -1,7 +1,20 @@
 .popup {
-    &__name {
-        display: block;
-        font-weight: bold;
-        font-size: 1.25rem;
+    &__header {
+        display: flex;
+        align-items: baseline;
+        margin-bottom: 0.25rem;
+    }
+
+    .header {
+        &__icon {
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+        
+        &__name {
+            display: block;
+            font-weight: bold;
+            font-size: 1.125rem;
+        }
     }
 }

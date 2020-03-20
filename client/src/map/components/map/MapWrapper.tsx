@@ -2,10 +2,11 @@ import React from 'react';
 import { Map, TileLayer } from 'react-leaflet';
 import './MapWrapper.scss';
 import 'leaflet/dist/leaflet.css';
-import { MarkerCoordinates, JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_PREVIEW_ZOOM } from '../../../shared/models/map';
+import { MarkerCoordinates } from '../../../shared/models/map';
 import MarkerList from '../marker-list/MarkerList';
 import { SportEvent } from '../../../shared/models/sport-event';
 import SportEventTile from '../sport-event-tile/SportEventTile';
+import { JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_PREVIEW_ZOOM } from '../../map-config';
 
 const L = require("leaflet");
 
@@ -27,8 +28,11 @@ type MapWrapperState = {
 }
 
 export default class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
+    private mapRef: Map | null;
+
     constructor(props: MapWrapperProps) {
         super(props);
+        this.mapRef = null;
         this.state = {
             mapPosition: { lat: 0, lng: 0 },
             zoom: 0,
@@ -57,6 +61,7 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
     }
 
     handleEventCloseClick(): void {
+        this.mapRef?.leafletElement.closePopup();
         this.setState({
             selectedEvent: null,
             zoom: DEFAULT_ZOOM
@@ -69,7 +74,7 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
         return <div className="map-wrapper wrapper">
             <h2>{ title }</h2>
             <div className="wrapper__row">
-                <Map center={this.state.mapPosition} zoom={this.state.zoom} className={this.state.selectedEvent ? 'map map--mini' : 'map'}>
+                <Map ref={(ref: Map) => this.mapRef = ref } center={this.state.mapPosition} zoom={this.state.zoom} className={this.state.selectedEvent ? 'map map--mini' : 'map'}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <MarkerList onEventSelected={this.handleEventSelected} />
                 </Map>
@@ -77,5 +82,4 @@ export default class MapWrapper extends React.Component<MapWrapperProps, MapWrap
             </div>
         </div>;
     }
-    
 }

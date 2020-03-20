@@ -1,5 +1,5 @@
 import React from 'react';
-import { MarkerCoordinates, JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_ZOOM } from '../../../shared/models/map';
+import { MarkerCoordinates } from '../../../shared/models/map';
 import EventAddedInfo from '../event-added-info/EventAddedInfo';
 import { NewEventMarker } from '../new-event-marker';
 import { Map, TileLayer } from 'react-leaflet';
@@ -8,6 +8,7 @@ import { eventApis } from '../../../core/services';
 import { Redirect } from 'react-router-dom';
 import AddEventForm from '../add-event-form/AddEventForm';
 import './AddEventWrapper.scss';
+import { JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_ZOOM } from '../../map-config';
 
 type AddEventWrapperProps = {
 
