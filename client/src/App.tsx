@@ -6,10 +6,10 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import { MyAccount } from './account/components';
-import { Calendar } from './calendar/components';
 import MapWrapper from './map/components/map/MapWrapper';
 import Nav from './core/components/nav/Nav';
 import AddEventWrapper from './map/components/add-event-wrapper/AddEventWrapper';
+import EventsCalendar from './calendar/components/events-calendar/EventsCalendar';
 
 require('react-leaflet-markercluster/dist/styles.min.css');
 
@@ -24,7 +24,7 @@ function App() {
               <MyAccount />
             </Route>
             <Route path="/calendar">
-              <Calendar />
+              <EventsCalendar />
             </Route>
             <Route path="/add-event">
               <AddEventWrapper />
