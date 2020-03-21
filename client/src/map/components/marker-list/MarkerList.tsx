@@ -1,6 +1,5 @@
 import React from 'react';
 import './MarkerList.scss';
-import { eventApis } from '../../../core/services';
 import { SportEvent } from '../../../shared/models/sport-event';
 import { Marker, Popup } from 'react-leaflet';
 import { getParsedDate } from '../../../shared/utils';
@@ -8,34 +7,20 @@ import { getDisciplineIcon } from '../../../shared/utils/sport-event.utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 
+require('react-leaflet-markercluster/dist/styles.min.css');
+
 type MarkerListProps = {
     onEventSelected: (event: SportEvent) => void;
+    sportEvents: SportEvent[];
 }
 
-type MarkerListState = {
-    events: SportEvent[];
-    isLoading: boolean;
-}
+type MarkerListState = {}
 
 export default class MarkerList extends React.Component<MarkerListProps, MarkerListState> {
     constructor(props: MarkerListProps) {
         super(props);
-        this.state = {
-            isLoading: false,
-            events: [],
-        };
 
         this.handleMarkerClick = this.handleMarkerClick.bind(this);
-    }
-
-    componentDidMount() {
-        eventApis.getAllEvents()
-            .then((events) => {
-                this.setState({
-                    isLoading: false,
-                    events: events.data.data
-                })
-            })
     }
 
     handleMarkerClick(sportEvent: SportEvent): void {
@@ -44,9 +29,9 @@ export default class MarkerList extends React.Component<MarkerListProps, MarkerL
 
     render() {
         return <MarkerClusterGroup>
-            {this.state.events
+            {this.props.sportEvents
                 .filter((event: SportEvent) => event.coordinates.lat && event.coordinates.lng)
-                .map((event) => {
+                .map((event: SportEvent) => {
                     const eventPosition = { lat: event.coordinates.lat, lng: event.coordinates.lng };
                     return <Marker onClick={this.handleMarkerClick.bind(this, event)} key={event._id} position={eventPosition} draggable={false}>
                             <Popup className="popup">
