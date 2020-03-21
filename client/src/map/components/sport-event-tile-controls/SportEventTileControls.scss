@@ -1,0 +1,18 @@
+.event-controls {
+    margin-top: auto;
+    display: flex;
+    color: #3f3f3f;
+    font: 14px Arial sans-serif;
+    justify-content: space-between;
+}
+
+.control {
+    &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    &__icon {
+        margin-right: 0.5rem;
+    }
+}

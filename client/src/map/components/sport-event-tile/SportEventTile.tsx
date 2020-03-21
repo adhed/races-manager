@@ -8,6 +8,7 @@ import { getParsedDate } from '../../../shared/utils';
 import { DISCPLINES_NAMES, DISCIPLINES_TYPES_NAMES } from '../../../shared/models/disciplines';
 import { getDisciplineIcon } from '../../../shared/utils/sport-event.utils';
 import CloseIcon from '../../../shared/components/close-icon/CloseIcon';
+import SportEventTileControls from '../sport-event-tile-controls/SportEventTileControls';
 
 type SportEventTileProps = {
     sportEvent: SportEvent;
@@ -58,5 +59,6 @@ export default function SportEventTile(props: SportEventTileProps) {
                 <span className="wrapper__value wrapper__value--block">{ props.sportEvent.description }</span>
             </span>
         </div>
+        <SportEventTileControls sportEvent={props.sportEvent} />
     </div>
 }
