@@ -1,5 +1,4 @@
 import { all, fork, call, put, takeEvery } from 'redux-saga/effects'
-import { push } from 'connected-react-router';
 import { fetchSportEventsSuccess, fetchSportEventsError, removeSportEventSuccess, removeSportEventError, fetchSportEvents } from './actions';
 import { SportEventActionsTypes } from './types';
 import { eventApis } from '../../../core/services';

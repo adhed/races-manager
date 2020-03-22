@@ -6,11 +6,11 @@ import { MarkerCoordinates } from '../../../shared/models/map';
 import MarkerList from '../marker-list/MarkerList';
 import { SportEvent } from '../../../shared/models/sport-event';
 import SportEventTile from '../sport-event-tile/SportEventTile';
-import { JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_PREVIEW_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../../map-config';
+import { JELENIA_COORDINATES, DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../../map-config';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../state/ducks';
 import { fetchSportEvents, removeSportEvent } from '../../../state/ducks/sport-event/actions';
-import { selectEvent } from '../../../state/ducks/map/actions';
+import { selectEvent, setZoom, setMapPosition } from '../../../state/ducks/map/actions';
 
 const L = require("leaflet");
 
@@ -26,14 +26,16 @@ type MapWrapperProps = {
     fetchSportEvents: () => void,
     removeSportEvent: (id: string) => void;
     selectEvent: (sportEvent: SportEvent | null) => void;
+    setZoom: (zoom: number) => void;
+    setMapPosition: (mapPosition: MarkerCoordinates) => void;
     sportEvents: SportEvent[],
     selectedEvent: SportEvent | null,
+    mapPosition: MarkerCoordinates,
+    zoom: number,
 }
 
 type MapWrapperState = {
-    mapPosition: MarkerCoordinates,
     markerPosition: MarkerCoordinates,
-    zoom: number,
 }
 
 class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
@@ -44,8 +46,6 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
         this.mapRef = null;
 
         this.state = {
-            mapPosition: { lat: 0, lng: 0 },
-            zoom: 0,
             markerPosition: { lat: 0, lng: 0 },
         };
 
@@ -56,8 +56,6 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
 
     componentDidMount() {
         this.setState({
-            mapPosition: JELENIA_COORDINATES,
-            zoom: DEFAULT_ZOOM,
             markerPosition: JELENIA_COORDINATES,
         });
 
@@ -66,10 +64,6 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
 
     handleEventSelected(sportEvent: SportEvent): void {
         this.props.selectEvent(sportEvent);
-        this.setState({ 
-            mapPosition: sportEvent.coordinates,
-            zoom: SINGLE_MARKER_PREVIEW_ZOOM
-        });
     }
 
     handleEventCloseClick(): void {
@@ -78,16 +72,18 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
     }
 
     handleEventRemoveClick(): void {
-        if (this.props.selectedEvent?._id) {
-            this.props.removeSportEvent(this.props.selectedEvent?._id);
-            this.restoreDefaultMap();
+        const result = window.confirm('Czy na pewno chcesz usunąć te zawody?');
+
+        if (!result || !this.props.selectedEvent?._id) {
+            return;
         }
+    
+        this.props.removeSportEvent(this.props.selectedEvent?._id);
+        this.restoreDefaultMap();
     }
 
     restoreDefaultMap(): void {
-        this.setState({
-            zoom: DEFAULT_ZOOM
-        });
+        this.props.setZoom(DEFAULT_ZOOM);
         this.mapRef?.leafletElement.closePopup();
     }
 
@@ -97,7 +93,7 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
         return <div className="map-wrapper wrapper">
             <h2>{ title }</h2>
             <div className="wrapper__row">
-                <Map maxZoom={MAX_ZOOM} minZoom={MIN_ZOOM} ref={(ref: Map) => this.mapRef = ref } center={this.state.mapPosition} zoom={this.state.zoom} className={this.props.selectedEvent ? 'map map--mini' : 'map'}>
+                <Map maxZoom={MAX_ZOOM} minZoom={MIN_ZOOM} ref={(ref: Map) => this.mapRef = ref } center={this.props.mapPosition} zoom={this.props.zoom} className={this.props.selectedEvent ? 'map map--mini' : 'map'}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <MarkerList sportEvents={this.props.sportEvents} onEventSelected={this.handleEventSelected} />
                 </Map>
@@ -109,6 +105,11 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
 
 function mapStateToProps(state: ApplicationState) {
     const { sportEvent, map } = state;
-    return { sportEvents: sportEvent.data, selectedEvent: map.selectedEvent };
+    return {
+        sportEvents: sportEvent.data,
+        selectedEvent: map.selectedEvent,
+        zoom: map.zoom,
+        mapPosition: map.mapPosition,
+    };
 }
-export default connect(mapStateToProps, { fetchSportEvents, removeSportEvent, selectEvent })(MapWrapper)
+export default connect(mapStateToProps, { fetchSportEvents, removeSportEvent, selectEvent, setMapPosition, setZoom })(MapWrapper)
