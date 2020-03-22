@@ -6,6 +6,6 @@ export const fetchSportEvents = () => action(SportEventActionsTypes.FETCH_EVENTS
 export const fetchSportEventsSuccess = (data: SportEvent[]) => action(SportEventActionsTypes.FETCH_EVENTS_SUCCESS, data);
 export const fetchSportEventsError = (message: string) => action(SportEventActionsTypes.FETCH_EVENTS_ERROR, message);
 
-export const removeSportEvent = () => action(SportEventActionsTypes.REMOVE_EVENT);
+export const removeSportEvent = (id: string) => action(SportEventActionsTypes.REMOVE_EVENT, id);
 export const removeSportEventSuccess = () => action(SportEventActionsTypes.REMOVE_EVENT_SUCCESS);
-export const removeSportEventError = () => action(SportEventActionsTypes.REMOVE_EVENT_FAILURE);
+export const removeSportEventError = (message: string) => action(SportEventActionsTypes.REMOVE_EVENT_FAILURE, message);

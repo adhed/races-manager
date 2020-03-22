@@ -13,6 +13,7 @@ import SportEventTileControls from '../sport-event-tile-controls/SportEventTileC
 type SportEventTileProps = {
     sportEvent: SportEvent;
     closeClick: () => void;
+    removeClick: () => void;
 }
 
 export default function SportEventTile(props: SportEventTileProps) {
@@ -21,6 +22,14 @@ export default function SportEventTile(props: SportEventTileProps) {
     const handleCloseClick = (): void => {
         props.closeClick();
     };
+
+    const handleRemoveClick = (): void => {
+        props.removeClick();
+    }
+
+    const handleEditClick = (): void => {
+        // TODO: implement edit.
+    }
     
     return <div className="event-tile">
         <span className="event-tile__title">{ props.sportEvent.name }</span>
@@ -59,6 +68,6 @@ export default function SportEventTile(props: SportEventTileProps) {
                 <span className="wrapper__value wrapper__value--block">{ props.sportEvent.description }</span>
             </span>
         </div>
-        <SportEventTileControls sportEvent={props.sportEvent} />
+        <SportEventTileControls editClick={handleEditClick} removeClick={handleRemoveClick} sportEvent={props.sportEvent} />
     </div>
 }

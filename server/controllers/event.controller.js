@@ -72,7 +72,7 @@ updateEvent = async (request, response) => {
 }
 
 deleteEvent = async (request, response) => {
-    await SportEvent.findOneAndDelete({ _id: request.params.id }, (err, event) => {
+    await SportEvent.findOne({ _id: request.params.id }, (err, event) => {
         if (err) {
             return response.status(ERROR_STATUS_CODE).json({ success: false, error: err })
         }
@@ -83,8 +83,14 @@ deleteEvent = async (request, response) => {
                 .json({ success: false, error: `SportEvent not found` })
         }
 
-        return response.status(200).json({ success: true, data: event })
-    }).catch(err => console.log(err))
+        return SportEvent.deleteOne({ _id: request.params.id }, (err, event) => {
+            if (err) {
+                return response.status(ERROR_STATUS_CODE).json({ success: false, error: err })
+            }
+
+            return response.status(200).json({ success: true, data: event })
+        }).catch(err => console.log(err));
+    }).catch(err => console.log(err));
 }
 
 getEventById = async (request, response) => {

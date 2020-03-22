@@ -6,15 +6,17 @@ import './SportEventTileControls.scss';
 
 type SportEventTileControlsProps = {
     sportEvent: SportEvent;
+    editClick: () => void;
+    removeClick: () => void;
 }
 
 export default function SportEventTileControls(props: SportEventTileControlsProps) {
     const handleRemoveClick = (): void => {
-        // TODO: implement remove
+        props.removeClick();
     }
 
     const handleEditClick = (): void => {
-        // TODO: implement edit
+        props.editClick();
     }
 
     return <div className="event-controls">

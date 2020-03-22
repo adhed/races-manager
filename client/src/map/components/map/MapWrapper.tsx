@@ -9,7 +9,7 @@ import SportEventTile from '../sport-event-tile/SportEventTile';
 import { JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_PREVIEW_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../../map-config';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../state/ducks';
-import { fetchSportEvents } from '../../../state/ducks/sport-event/actions';
+import { fetchSportEvents, removeSportEvent } from '../../../state/ducks/sport-event/actions';
 
 const L = require("leaflet");
 
@@ -23,6 +23,7 @@ L.Icon.Default.mergeOptions({
 
 type MapWrapperProps = {
     fetchSportEvents: () => void,
+    removeSportEvent: (id: string) => void;
     sportEvents: SportEvent[],
 }
 
@@ -49,6 +50,7 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
 
         this.handleEventSelected = this.handleEventSelected.bind(this);
         this.handleEventCloseClick = this.handleEventCloseClick.bind(this);
+        this.handleEventRemoveClick = this.handleEventRemoveClick.bind(this);
     }
 
     componentDidMount() {
@@ -77,6 +79,12 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
         });
     }
 
+    handleEventRemoveClick(): void {
+        if (this.state.selectedEvent?._id) {
+            this.props.removeSportEvent(this.state.selectedEvent?._id);
+        }
+    }
+
     render() {
         const title = 'Wybierz zawody na mapie i sprawdź szczegóły';
 
@@ -87,7 +95,7 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <MarkerList sportEvents={this.props.sportEvents} onEventSelected={this.handleEventSelected} />
                 </Map>
-                { this.state.selectedEvent ? <SportEventTile closeClick={this.handleEventCloseClick} sportEvent={this.state.selectedEvent} /> : null }
+                { this.state.selectedEvent ? <SportEventTile removeClick={this.handleEventRemoveClick} closeClick={this.handleEventCloseClick} sportEvent={this.state.selectedEvent} /> : null }
             </div>
         </div>;
     }
@@ -97,4 +105,4 @@ function mapStateToProps(state: ApplicationState) {
     const { sportEvent } = state;
     return { sportEvents: sportEvent.data }
 }
-export default connect(mapStateToProps, { fetchSportEvents })(MapWrapper)
+export default connect(mapStateToProps, { fetchSportEvents, removeSportEvent })(MapWrapper)
