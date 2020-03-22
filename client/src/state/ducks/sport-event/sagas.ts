@@ -1,5 +1,6 @@
 import { all, fork, call, put, takeEvery } from 'redux-saga/effects'
-import { fetchSportEventsSuccess, fetchSportEventsError, fetchSportEvents, removeSportEventSuccess, removeSportEventError } from './actions';
+import { push } from 'connected-react-router';
+import { fetchSportEventsSuccess, fetchSportEventsError, removeSportEventSuccess, removeSportEventError } from './actions';
 import { SportEventActionsTypes } from './types';
 import { eventApis } from '../../../core/services';
 
@@ -19,8 +20,9 @@ function* handleFetch(): Generator {
 function* handleRemove(action: any): Generator {
     try {
         yield call(() => eventApis.deleteEventById(action.payload));
-        yield put(removeSportEventSuccess())
-        yield put(fetchSportEvents());
+		yield put(removeSportEventSuccess())
+		// TODO: change redirect;
+        yield put(push('/'));
     } catch (error) {
         if (error instanceof Error) {
 			yield put(removeSportEventError(error.stack!));
