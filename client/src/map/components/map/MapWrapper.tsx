@@ -96,7 +96,7 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
             <div className="wrapper__row">
                 <Map maxZoom={MAX_ZOOM} minZoom={MIN_ZOOM} ref={(ref: Map) => this.mapRef = ref } center={this.props.mapPosition} zoom={this.props.zoom} className={this.props.selectedEvent ? 'map map--mini' : 'map'}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    <MarkerList sportEvents={this.props.sportEvents} onEventSelected={this.handleEventSelected} />
+                    <MarkerList selectedEvent={this.props.selectedEvent} sportEvents={this.props.sportEvents} onEventSelected={this.handleEventSelected} />
                 </Map>
                 { this.props.selectedEvent ? <SportEventTile removeClick={this.handleEventRemoveClick} closeClick={this.handleEventCloseClick} sportEvent={this.props.selectedEvent} /> : null }
             </div>
