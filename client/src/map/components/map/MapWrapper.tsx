@@ -10,6 +10,7 @@ import { JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_PREVIEW_ZOOM, MAX_ZOOM
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../state/ducks';
 import { fetchSportEvents, removeSportEvent } from '../../../state/ducks/sport-event/actions';
+import { selectEvent } from '../../../state/ducks/map/actions';
 
 const L = require("leaflet");
 
@@ -24,14 +25,15 @@ L.Icon.Default.mergeOptions({
 type MapWrapperProps = {
     fetchSportEvents: () => void,
     removeSportEvent: (id: string) => void;
+    selectEvent: (sportEvent: SportEvent | null) => void;
     sportEvents: SportEvent[],
+    selectedEvent: SportEvent | null,
 }
 
 type MapWrapperState = {
     mapPosition: MarkerCoordinates,
     markerPosition: MarkerCoordinates,
     zoom: number,
-    selectedEvent: SportEvent | null,
 }
 
 class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
@@ -45,7 +47,6 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
             mapPosition: { lat: 0, lng: 0 },
             zoom: 0,
             markerPosition: { lat: 0, lng: 0 },
-            selectedEvent: null
         };
 
         this.handleEventSelected = this.handleEventSelected.bind(this);
@@ -64,25 +65,30 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
     }
 
     handleEventSelected(sportEvent: SportEvent): void {
+        this.props.selectEvent(sportEvent);
         this.setState({ 
-            selectedEvent: sportEvent,
             mapPosition: sportEvent.coordinates,
             zoom: SINGLE_MARKER_PREVIEW_ZOOM
         });
     }
 
     handleEventCloseClick(): void {
-        this.mapRef?.leafletElement.closePopup();
-        this.setState({
-            selectedEvent: null,
-            zoom: DEFAULT_ZOOM
-        });
+        this.props.selectEvent(null);
+        this.restoreDefaultMap();
     }
 
     handleEventRemoveClick(): void {
-        if (this.state.selectedEvent?._id) {
-            this.props.removeSportEvent(this.state.selectedEvent?._id);
+        if (this.props.selectedEvent?._id) {
+            this.props.removeSportEvent(this.props.selectedEvent?._id);
+            this.restoreDefaultMap();
         }
+    }
+
+    restoreDefaultMap(): void {
+        this.setState({
+            zoom: DEFAULT_ZOOM
+        });
+        this.mapRef?.leafletElement.closePopup();
     }
 
     render() {
@@ -91,18 +97,18 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
         return <div className="map-wrapper wrapper">
             <h2>{ title }</h2>
             <div className="wrapper__row">
-                <Map maxZoom={MAX_ZOOM} minZoom={MIN_ZOOM} ref={(ref: Map) => this.mapRef = ref } center={this.state.mapPosition} zoom={this.state.zoom} className={this.state.selectedEvent ? 'map map--mini' : 'map'}>
+                <Map maxZoom={MAX_ZOOM} minZoom={MIN_ZOOM} ref={(ref: Map) => this.mapRef = ref } center={this.state.mapPosition} zoom={this.state.zoom} className={this.props.selectedEvent ? 'map map--mini' : 'map'}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <MarkerList sportEvents={this.props.sportEvents} onEventSelected={this.handleEventSelected} />
                 </Map>
-                { this.state.selectedEvent ? <SportEventTile removeClick={this.handleEventRemoveClick} closeClick={this.handleEventCloseClick} sportEvent={this.state.selectedEvent} /> : null }
+                { this.props.selectedEvent ? <SportEventTile removeClick={this.handleEventRemoveClick} closeClick={this.handleEventCloseClick} sportEvent={this.props.selectedEvent} /> : null }
             </div>
         </div>;
     }
 }
 
 function mapStateToProps(state: ApplicationState) {
-    const { sportEvent } = state;
-    return { sportEvents: sportEvent.data }
+    const { sportEvent, map } = state;
+    return { sportEvents: sportEvent.data, selectedEvent: map.selectedEvent };
 }
-export default connect(mapStateToProps, { fetchSportEvents, removeSportEvent })(MapWrapper)
+export default connect(mapStateToProps, { fetchSportEvents, removeSportEvent, selectEvent })(MapWrapper)

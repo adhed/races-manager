@@ -6,14 +6,18 @@ import { connectRouter, RouterState } from 'connected-react-router'
 import { sportEventReducer } from "./sport-event/reducer";
 import { SportEventState } from "./sport-event/types";
 import sportEventSaga from "./sport-event/sagas";
+import { mapReducer } from "./map/reducer";
+import { MapState } from "./map/types";
 
 export interface ApplicationState {
     sportEvent: SportEventState;
+    map: MapState;
     router: RouterState;
 };
 
 export const createRootReducer = (history: any): Reducer<ApplicationState> => combineReducers<ApplicationState>({
     sportEvent: sportEventReducer,
+    map: mapReducer,
     router: connectRouter(history),
 });
 
