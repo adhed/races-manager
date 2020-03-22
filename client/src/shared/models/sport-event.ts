@@ -14,3 +14,6 @@ export interface SportEvent {
     isActive?: boolean;
 }
 
+export interface CalendarSportEvent {
+    
+}

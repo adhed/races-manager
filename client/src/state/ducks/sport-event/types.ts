@@ -13,4 +13,7 @@ export const SportEventActionsTypes = {
     REMOVE_EVENT: "@@sport-event/REMOVE_EVENT",
     REMOVE_EVENT_SUCCESS: "@@sport-event/REMOVE_EVENT_SUCCESS",
     REMOVE_EVENT_FAILURE: "@@sport-event/REMOVE_EVENT_FAILURE",
+    SELECT_EVENT_BY_ID: "@@sport-event/SELECT_EVENT_BY_ID",
+    SELECT_EVENT_BY_ID_SUCCESS: "@@sport-event/SELECT_EVENT_BY_ID_SUCCESS",
+    SELECT_EVENT_BY_ID_ERROR: "@@sport-event/SELECT_EVENT_BY_ID_ERROR"
 };

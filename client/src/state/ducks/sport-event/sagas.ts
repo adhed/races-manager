@@ -1,5 +1,6 @@
-import { all, fork, call, put, takeEvery } from 'redux-saga/effects'
-import { fetchSportEventsSuccess, fetchSportEventsError, removeSportEventSuccess, removeSportEventError, fetchSportEvents } from './actions';
+import { all, fork, call, put, takeEvery } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
+import { fetchSportEventsSuccess, fetchSportEventsError, removeSportEventSuccess, removeSportEventError, fetchSportEvents, selectEventByIdError, selectEventByIdSuccess } from './actions';
 import { SportEventActionsTypes } from './types';
 import { eventApis } from '../../../core/services';
 import { selectEvent } from '../map/actions';
@@ -32,6 +33,22 @@ function* handleRemove(action: any): Generator {
     }
 }
 
+function* handleSelectEventById(action: any): Generator {
+    try {
+		const response: any = yield call(() => eventApis.getEventById(action.payload));
+		const event = response.data.data;
+		yield put(selectEvent(event));
+		yield put(selectEventByIdSuccess(event));
+		yield put(push('/'));
+    } catch (error) {
+        if (error instanceof Error) {
+			yield put(selectEventByIdError(error.stack!));
+		} else {
+			yield put(selectEventByIdError("An unknown error occured."));
+		}
+    }
+}
+
 function* watchFetchRequest(): Generator {
 	yield takeEvery(SportEventActionsTypes.FETCH_EVENTS, handleFetch);
 }
@@ -40,9 +57,14 @@ function* watchRemoveRequest(): Generator {
 	yield takeEvery(SportEventActionsTypes.REMOVE_EVENT, handleRemove);
 }
 
+function* watchSelectEventById(): Generator {
+	yield takeEvery(SportEventActionsTypes.SELECT_EVENT_BY_ID, handleSelectEventById);
+}
+
 export default function* sportEventSaga() {
 	yield all([
         fork(watchFetchRequest),
-        fork(watchRemoveRequest)
+		fork(watchRemoveRequest),
+		fork(watchSelectEventById),
     ]);
 }

@@ -11,8 +11,8 @@ import { MyAccount } from './account/components';
 import MapWrapper from './map/components/map/MapWrapper';
 import Nav from './core/components/nav/Nav';
 import AddEventWrapper from './map/components/add-event-wrapper/AddEventWrapper';
-import EventsCalendar from './calendar/components/events-calendar/EventsCalendar';
 import configureStore, { history } from './state/configureStore.dev';
+import EventsCalendar from './calendar/components/events-calendar/EventsCalendar';
 
 const initialState = (window as any).initialReduxState;
 const store = configureStore(initialState);

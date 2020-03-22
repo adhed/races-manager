@@ -9,3 +9,7 @@ export const fetchSportEventsError = (message: string) => action(SportEventActio
 export const removeSportEvent = (id: string) => action(SportEventActionsTypes.REMOVE_EVENT, id);
 export const removeSportEventSuccess = () => action(SportEventActionsTypes.REMOVE_EVENT_SUCCESS);
 export const removeSportEventError = (message: string) => action(SportEventActionsTypes.REMOVE_EVENT_FAILURE, message);
+
+export const selectEventById = (id: string) => action(SportEventActionsTypes.SELECT_EVENT_BY_ID, id);
+export const selectEventByIdSuccess = (data: SportEvent) => action(SportEventActionsTypes.SELECT_EVENT_BY_ID_SUCCESS, data);
+export const selectEventByIdError = (message: string) => action(SportEventActionsTypes.SELECT_EVENT_BY_ID_ERROR, message);

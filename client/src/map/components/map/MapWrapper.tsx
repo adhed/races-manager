@@ -1,5 +1,7 @@
 import React from 'react';
 import { Map, TileLayer } from 'react-leaflet';
+import { connect } from 'react-redux';
+
 import './MapWrapper.scss';
 import 'leaflet/dist/leaflet.css';
 import { MarkerCoordinates } from '../../../shared/models/map';
@@ -7,7 +9,6 @@ import MarkerList from '../marker-list/MarkerList';
 import { SportEvent } from '../../../shared/models/sport-event';
 import SportEventTile from '../sport-event-tile/SportEventTile';
 import { JELENIA_COORDINATES, DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../../map-config';
-import { connect } from 'react-redux';
 import { ApplicationState } from '../../../state/ducks';
 import { fetchSportEvents, removeSportEvent } from '../../../state/ducks/sport-event/actions';
 import { selectEvent, setZoom, setMapPosition } from '../../../state/ducks/map/actions';
@@ -112,4 +113,5 @@ function mapStateToProps(state: ApplicationState) {
         mapPosition: map.mapPosition,
     };
 }
-export default connect(mapStateToProps, { fetchSportEvents, removeSportEvent, selectEvent, setMapPosition, setZoom })(MapWrapper)
+export default connect(mapStateToProps, { fetchSportEvents, removeSportEvent, selectEvent, setMapPosition, setZoom })(MapWrapper);
+

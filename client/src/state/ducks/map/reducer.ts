@@ -23,7 +23,7 @@ export const mapReducer = (
 				zoom: action.payload ? SINGLE_MARKER_PREVIEW_ZOOM : initialState.zoom,
 				mapPosition: action.payload ? action.payload.coordinates : state.mapPosition,
 			};
-        }
+		}
         case MapActionTypes.SET_MAP_POSITIOM: {
 			return { ...state, mapPosition: action.payload };
         }
