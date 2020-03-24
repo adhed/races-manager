@@ -11,7 +11,7 @@ import SportEventTile from '../sport-event-tile/SportEventTile';
 import { JELENIA_COORDINATES, DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../../map-config';
 import { ApplicationState } from '../../../state/ducks';
 import { fetchSportEvents, removeSportEvent } from '../../../state/ducks/sport-event/actions';
-import { selectEvent, setZoom, setMapPosition } from '../../../state/ducks/map/actions';
+import { selectEvent, setZoom, setMapPosition, editEvent } from '../../../state/ducks/map/actions';
 
 const L = require("leaflet");
 
@@ -26,6 +26,7 @@ L.Icon.Default.mergeOptions({
 type MapWrapperProps = {
     fetchSportEvents: () => void,
     removeSportEvent: (id: string) => void;
+    editEvent: () => void;
     selectEvent: (sportEvent: SportEvent | null) => void;
     setZoom: (zoom: number) => void;
     setMapPosition: (mapPosition: MarkerCoordinates) => void;
@@ -53,6 +54,7 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
         this.handleEventSelected = this.handleEventSelected.bind(this);
         this.handleEventCloseClick = this.handleEventCloseClick.bind(this);
         this.handleEventRemoveClick = this.handleEventRemoveClick.bind(this);
+        this.handleEventEditClick = this.handleEventEditClick.bind(this);
     }
 
     componentDidMount() {
@@ -70,6 +72,10 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
     handleEventCloseClick(): void {
         this.props.selectEvent(null);
         this.restoreDefaultMap();
+    }
+
+    handleEventEditClick(): void {
+        this.props.editEvent();
     }
 
     handleEventRemoveClick(): void {
@@ -98,7 +104,7 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <MarkerList selectedEvent={this.props.selectedEvent} sportEvents={this.props.sportEvents} onEventSelected={this.handleEventSelected} />
                 </Map>
-                { this.props.selectedEvent ? <SportEventTile removeClick={this.handleEventRemoveClick} closeClick={this.handleEventCloseClick} sportEvent={this.props.selectedEvent} /> : null }
+                { this.props.selectedEvent ? <SportEventTile editClick={this.handleEventEditClick} removeClick={this.handleEventRemoveClick} closeClick={this.handleEventCloseClick} sportEvent={this.props.selectedEvent} /> : null }
             </div>
         </div>;
     }
@@ -113,5 +119,5 @@ function mapStateToProps(state: ApplicationState) {
         mapPosition: map.mapPosition,
     };
 }
-export default connect(mapStateToProps, { fetchSportEvents, removeSportEvent, selectEvent, setMapPosition, setZoom })(MapWrapper);
+export default connect(mapStateToProps, { fetchSportEvents, removeSportEvent, selectEvent, setMapPosition, editEvent, setZoom })(MapWrapper);
 

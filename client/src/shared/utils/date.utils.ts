@@ -1,5 +1,9 @@
 export const getCurrentDate = (): string => {
-    const date = new Date();
+    return getDate(new Date())
+};
+
+export const getDate = (value: Date): string => {
+    const date = new Date(value);
     const day = date.getDate() + 1;
     const month = date.getMonth() + 1;
     const year = date.getFullYear();

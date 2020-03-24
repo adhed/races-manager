@@ -1,15 +1,16 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import Geosuggest, { Suggest } from 'react-geosuggest';
 import { useForm, Controller } from 'react-hook-form'
 import { SportEvent } from '../../../shared/models/sport-event';
 import { MarkerCoordinates } from '../../../shared/models/map';
-import { getCurrentDate } from '../../../shared/utils';
+import { getCurrentDate, getDate } from '../../../shared/utils';
 import { Discipline, DISCPLINES_NAMES, DISCIPLINES_TYPES, DISCIPLINES_TYPES_NAMES } from '../../../shared/models/disciplines';
 import './AddEventForm.scss';
 import CloseIcon from '../../../shared/components/close-icon/CloseIcon';
 
 
 type AddEventFormProps = {
+    initialData?: SportEvent | null;
     onSuggetionChange: (coords: MarkerCoordinates) => void,
     onFormSubmit: (sportEvent: SportEvent) => void,
     onCloseClick: () => void,
@@ -20,7 +21,31 @@ const disciplines: Discipline[] = [Discipline.MountainBiking, Discipline.RoadCyc
 export default function AddEventForm(props: AddEventFormProps) {
     const { control, setValue, register, handleSubmit, errors, reset } = useForm();
     const [selectedDiscipline, setSelectedDiscipline] = useState(Discipline.MountainBiking);
+    const [placeInitialValue, setPlaceInitialValue] = useState('');
+    const isEditMode = !!props.initialData;
     const defaultDate = getCurrentDate();
+
+    useEffect(() => {
+        if (isEditMode) {
+            handleInitialData();
+        }
+    });
+    
+    const handleInitialData = (): void => {
+        setValue('name', props.initialData?.name);
+        setValue('serie', props.initialData?.serie);
+        setValue('date', getDate(props.initialData?.date as Date));
+    
+        setValue('discipline', props.initialData?.discipline);
+        setSelectedDiscipline(props.initialData?.discipline as Discipline);
+
+        setValue('place', props.initialData?.place);
+        setPlaceInitialValue(props.initialData?.place as string);
+
+        setValue('type', props.initialData?.type);
+        setValue('description', props.initialData?.description);
+        setValue('coordinates', props.initialData?.coordinates);
+    }
 
     const onSubmit = (data: any): void => {
         props.onFormSubmit({
@@ -75,11 +100,11 @@ export default function AddEventForm(props: AddEventFormProps) {
                     as={Geosuggest}
                     name="place"
                     control={control}
+                    initialValue={placeInitialValue}
                     rules={{ required: true }}
                     placeholder='Szklarska Poręba'
                     onChange={([place]) => place}
                     onSuggestSelect={handleSuggestionSelect}
-                    defaultValue={''}
                 />
             </div>
             <div className="form__box">
@@ -121,7 +146,7 @@ export default function AddEventForm(props: AddEventFormProps) {
                 <textarea name="description" id="description" rows={6} ref={register({ required: true })} placeholder="Zachęć innych do startu - moze opisz krótko trasę i co czyni ją ciekawą."></textarea>
             </div>
             <button className="form__button button" type="submit">
-                <span className="button__label">Dodaj zawody</span>
+                <span className="button__label">{ isEditMode ? 'Zapisz' : 'Dodaj' } zawody</span>
             </button>
         </form>
     </div>

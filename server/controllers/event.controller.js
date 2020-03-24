@@ -44,15 +44,25 @@ updateEvent = async (request, response) => {
         })
     }
 
-    Event.findOne({ _id: req.params.id }, (err, event) => {
+    SportEvent.findOne({ _id: request.params.id }, (err, event) => {
         if (err) {
             return res.status(404).json({
                 err,
                 message: 'SportEvent not found!',
             })
         }
-        event.name = body.name
-        event.time = body.time
+
+        event.name = body.name;
+        event.date = body.date;
+        event.serie = body.serie;
+        event.discipline = body.discipline;
+        event.place = body.place;
+        event.link = body.link;
+        event.type = body.type;
+        event.isActive = body.isActive;
+        event.coordinates = body.coordinates;
+        event.description = body.description;
+
         event
             .save()
             .then(() => {

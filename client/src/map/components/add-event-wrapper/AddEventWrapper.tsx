@@ -7,10 +7,16 @@ import { SportEvent } from '../../../shared/models/sport-event';
 import { eventApis } from '../../../core/services';
 import { Redirect } from 'react-router-dom';
 import AddEventForm from '../add-event-form/AddEventForm';
-import './AddEventWrapper.scss';
 import { JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_ZOOM } from '../../map-config';
+import './AddEventWrapper.scss';
+import { ApplicationState } from '../../../state/ducks';
+import { saveEditedEvent } from '../../../state/ducks/map/actions';
+import { connect } from 'react-redux';
 
-type AddEventWrapperProps = {}
+type AddEventWrapperProps = {
+    selectedEvent?: SportEvent | null;
+    saveEditedEvent: (event: SportEvent) => void;
+}
 
 type AddEventWrapperState = {
     mapCoordinates: MarkerCoordinates;
@@ -19,8 +25,7 @@ type AddEventWrapperState = {
     markerPosition: MarkerCoordinates;
     zoom: number;
 }
-
-export default class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrapperState> {
+class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrapperState> {
     constructor(props: AddEventWrapperProps) {
         super(props);
         this.state = {
@@ -39,6 +44,18 @@ export default class AddEventWrapper extends React.Component<AddEventWrapperProp
         this.handleAddEventCloseClick = this.handleAddEventCloseClick.bind(this);
     }
 
+    componentDidMount(): void {
+        if (this.props.selectedEvent) {
+            this.handleInitialData();
+        }
+    }
+
+    handleInitialData(): void {
+        this.setState({
+            markerPosition: this.props.selectedEvent?.coordinates as MarkerCoordinates
+        })
+    }
+
     handleSuggestionChange(coords: MarkerCoordinates): void {
         this.setState({
             mapCoordinates: coords,
@@ -51,6 +68,11 @@ export default class AddEventWrapper extends React.Component<AddEventWrapperProp
     }
 
     handleFormSubmit(sportEvent: SportEvent): void {
+        if (this.props.selectedEvent) {
+            this.props.saveEditedEvent({...sportEvent, _id: this.props.selectedEvent._id, coordinates: this.state.markerPosition });
+            return;
+        }
+    
         eventApis.insertEvent({
             ...sportEvent,
             coordinates: this.state.markerPosition
@@ -61,9 +83,7 @@ export default class AddEventWrapper extends React.Component<AddEventWrapperProp
     }
 
     handleNewSportEventDragEnd(markerPosition: MarkerCoordinates): void {
-        this.setState({
-            markerPosition
-        });
+        this.setState({ markerPosition });
     }
 
     handleBackToMapClick(): void {
@@ -78,7 +98,7 @@ export default class AddEventWrapper extends React.Component<AddEventWrapperProp
         this.setState({ addEvent: false });
     }
 
-    render() {
+    render(): JSX.Element {
         return <div className="map-wrapper wrapper">
             <h2>Wybierz miejsce na mapie i zgłoś zawody</h2>
             <div className="wrapper__row">
@@ -86,8 +106,16 @@ export default class AddEventWrapper extends React.Component<AddEventWrapperProp
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <NewEventMarker draggable={!this.state.isAddedEvent} onDragEnd={this.handleNewSportEventDragEnd} position={this.state.markerPosition} />
                 </Map>
-                { this.state.isAddedEvent ? <EventAddedInfo onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : (this.state.addEvent ? <AddEventForm onCloseClick={this.handleAddEventCloseClick} onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> : <Redirect to='/' />) }
+                { this.state.isAddedEvent ? <EventAddedInfo onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : (this.state.addEvent ? <AddEventForm initialData={this.props.selectedEvent} onCloseClick={this.handleAddEventCloseClick} onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> : <Redirect to='/' />) }
             </div>
         </div>;
     }
 }
+
+const mapStateToProps = (state: ApplicationState) => {
+    return {
+        selectedEvent: state.map.selectedEvent,
+    }
+}
+
+export default connect(mapStateToProps, { saveEditedEvent })(AddEventWrapper);

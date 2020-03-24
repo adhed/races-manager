@@ -14,6 +14,7 @@ type SportEventTileProps = {
     sportEvent: SportEvent;
     closeClick: () => void;
     removeClick: () => void;
+    editClick: () => void;
 }
 
 export default function SportEventTile(props: SportEventTileProps) {
@@ -28,7 +29,7 @@ export default function SportEventTile(props: SportEventTileProps) {
     }
 
     const handleEditClick = (): void => {
-        // TODO: implement edit.
+        props.editClick();
     }
     
     return <div className="event-tile">

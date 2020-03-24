@@ -8,6 +8,7 @@ import { SportEventState } from "./sport-event/types";
 import sportEventSaga from "./sport-event/sagas";
 import { mapReducer } from "./map/reducer";
 import { MapState } from "./map/types";
+import mapSaga from "./map/sagas";
 
 export interface ApplicationState {
     sportEvent: SportEventState;
@@ -22,5 +23,8 @@ export const createRootReducer = (history: any): Reducer<ApplicationState> => co
 });
 
 export function* rootSaga() {
-    yield all([fork(sportEventSaga)]);
+    yield all([
+        fork(sportEventSaga),
+        fork(mapSaga),
+    ]);
 }
