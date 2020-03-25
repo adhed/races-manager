@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Event, Calendar, momentLocalizer, Messages,  } from 'react-big-calendar'
+import { Event, Calendar, momentLocalizer, Formats } from 'react-big-calendar'
 import { connect } from 'react-redux';
 import moment from 'moment'
 
@@ -9,7 +9,9 @@ import { ApplicationState } from '../../../state/ducks';
 import { mapSportEventsToCalendar } from '../../../shared/utils/sport-event.utils';
 import { selectEventById, fetchSportEvents } from '../../../state/ducks/sport-event/actions';
 import { calendarMessages } from '../constants/calendar-messages';
+import 'moment/locale/pl';
 
+moment.locale('pl');
 const localizer = momentLocalizer(moment);
 
 type EventsCalendarProps = {
@@ -19,6 +21,9 @@ type EventsCalendarProps = {
 }
 
 function EventsCalendar(props: EventsCalendarProps): JSX.Element {
+    const customFormats: Formats = {
+        weekdayFormat: 'dddd',
+    }
     useEffect(() => {
         if (!props.events.length) {
             props.fetchSportEvents();
@@ -34,9 +39,10 @@ function EventsCalendar(props: EventsCalendarProps): JSX.Element {
             localizer={localizer}
             events={props.events}
             onSelectEvent={handleSelectEvent}
-            culture="PL-pl"
+            culture="pl-PL"
             startAccessor="start"
             endAccessor="end"
+            formats={customFormats}
             messages={calendarMessages}
         />
     </div>;
