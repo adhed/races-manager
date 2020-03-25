@@ -18,6 +18,7 @@ function* handleSaveEditedEvent(action: any): Generator {
     try {
         yield call(() => eventApis.updateEventById(action.payload._id, action.payload));
         yield put(saveEditedEventSuccess());
+        yield put(selectEvent(null));
         yield put(selectEventById(action.payload._id));
 		yield put(push('/'));
     } catch (error) {

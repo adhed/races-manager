@@ -19,7 +19,7 @@ type AddEventFormProps = {
 const disciplines: Discipline[] = [Discipline.MountainBiking, Discipline.RoadCycling, Discipline.Running, Discipline.XcSkiing];
 
 export default function AddEventForm(props: AddEventFormProps) {
-    const { control, setValue, register, handleSubmit, errors, reset } = useForm();
+    const { control, setValue, register, handleSubmit, errors } = useForm();
     const [selectedDiscipline, setSelectedDiscipline] = useState(Discipline.MountainBiking);
     const [placeInitialValue, setPlaceInitialValue] = useState('');
     const isEditMode = !!props.initialData;
@@ -29,7 +29,7 @@ export default function AddEventForm(props: AddEventFormProps) {
         if (isEditMode) {
             handleInitialData();
         }
-    });
+    }, []);
     
     const handleInitialData = (): void => {
         setValue('name', props.initialData?.name);
@@ -59,8 +59,6 @@ export default function AddEventForm(props: AddEventFormProps) {
             description: data.description,
             coordinates: { lat: 0, lng: 0 }
         });
-
-        reset();
     }
 
     const handleDisciplineChange = (event: ChangeEvent<HTMLSelectElement>): void => {

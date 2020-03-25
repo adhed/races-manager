@@ -115,7 +115,7 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
 const mapStateToProps = (state: ApplicationState) => {
     return {
         selectedEvent: state.map.selectedEvent,
-    }
+    };
 }
 
 export default connect(mapStateToProps, { saveEditedEvent })(AddEventWrapper);

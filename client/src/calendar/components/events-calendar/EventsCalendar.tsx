@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Event, Calendar, momentLocalizer,  } from 'react-big-calendar'
+import { Event, Calendar, momentLocalizer, Messages,  } from 'react-big-calendar'
 import { connect } from 'react-redux';
 import moment from 'moment'
 
@@ -8,6 +8,7 @@ import './EventsCalendar.scss';
 import { ApplicationState } from '../../../state/ducks';
 import { mapSportEventsToCalendar } from '../../../shared/utils/sport-event.utils';
 import { selectEventById, fetchSportEvents } from '../../../state/ducks/sport-event/actions';
+import { calendarMessages } from '../constants/calendar-messages';
 
 const localizer = momentLocalizer(moment);
 
@@ -29,7 +30,6 @@ function EventsCalendar(props: EventsCalendarProps): JSX.Element {
     }
 
     return <div className="events-calendar">
-        <h2>Calendar</h2>
         <Calendar
             localizer={localizer}
             events={props.events}
@@ -37,6 +37,7 @@ function EventsCalendar(props: EventsCalendarProps): JSX.Element {
             culture="PL-pl"
             startAccessor="start"
             endAccessor="end"
+            messages={calendarMessages}
         />
     </div>;
 }
