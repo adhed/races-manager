@@ -33,7 +33,7 @@ export default function AddEventForm(props: AddEventFormProps) {
 
     useEffect(() => {
         if (!isEditMode) {
-            // resetForm();
+            resetForm();
         }
     }, [props.initialData]);
 

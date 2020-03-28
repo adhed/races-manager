@@ -34,8 +34,11 @@ type AddEventWrapperState = {
 }
 class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrapperState> {
     private get initialFormData(): SportEvent | null {
-        console.log('update', this.props);
-        return this.props.mode === EventFormType.Edit ? this.props.selectedEvent : null;
+        return this.isEditMode ? this.props.selectedEvent : null;
+    }
+
+    private get isEditMode(): boolean {
+        return this.props.mode === EventFormType.Edit;
     }
 
     constructor(props: AddEventWrapperProps) {
@@ -57,13 +60,18 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
     }
 
     componentDidMount(): void {
-        if (this.props.mode === EventFormType.Edit) {
+        if (this.isEditMode) {
             this.handleInitialData();
         }
     }
 
     handleInitialData(): void {
+        if (!this.props.selectedEvent) {
+            return;
+        }
+    
         this.setState({
+            mapCoordinates: this.props.selectedEvent?.coordinates as MarkerCoordinates,
             markerPosition: this.props.selectedEvent?.coordinates as MarkerCoordinates,
         });
     }
@@ -80,7 +88,7 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
     }
 
     handleFormSubmit(sportEvent: SportEvent): void {
-        if (this.props.mode === EventFormType.Edit) {
+        if (this.isEditMode) {
             this.props.saveEditedEvent({...sportEvent, _id: this.props.selectedEvent?._id, coordinates: this.state.markerPosition });
             return;
         }
@@ -111,6 +119,12 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
     }
 
     render(): JSX.Element {
+        const isEditWithoutSelectedEvent = this.isEditMode && !this.props.selectedEvent;
+
+        if (isEditWithoutSelectedEvent) {
+            return <Redirect to='/add-event' />;
+        }
+    
         return <div className="map-wrapper wrapper">
             <h2>Wybierz miejsce na mapie i zgłoś zawody</h2>
             <div className="wrapper__row">

@@ -1,7 +1,7 @@
 import { all, fork, put, takeEvery, call } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { MapActionTypes } from './types';
-import { saveEditedEventSuccess, saveEditedEventFailure, selectEvent } from './actions';
+import { saveEditedEventSuccess, saveEditedEventFailure } from './actions';
 import { eventApis } from '../../../core/services';
 import { selectEventById } from '../sport-event/actions';
 
