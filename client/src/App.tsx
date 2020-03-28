@@ -12,7 +12,7 @@ import MapWrapper from './map/components/map/MapWrapper';
 import Nav from './core/components/nav/Nav';
 import configureStore, { history } from './state/configureStore.dev';
 import EventsCalendar from './calendar/components/events-calendar/EventsCalendar';
-import AddEventWrapper from './map/components/add-event-wrapper/AddEventWrapper';
+import AddEventWrapper, { EventFormType } from './map/components/add-event-wrapper/AddEventWrapper';
 
 const initialState = (window as any).initialReduxState;
 const store = configureStore(initialState);
@@ -32,10 +32,10 @@ function App() {
                 <EventsCalendar />
               </Route>
               <Route path="/add-event">
-                <AddEventWrapper />
+                <AddEventWrapper mode={EventFormType.Add} />
               </Route>
               <Route path="/edit-event">
-                <AddEventWrapper />
+                <AddEventWrapper mode={EventFormType.Edit} />
               </Route>
               <Route path="/">
                 <MapWrapper />

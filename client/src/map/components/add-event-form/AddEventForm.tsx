@@ -19,7 +19,7 @@ type AddEventFormProps = {
 const disciplines: Discipline[] = [Discipline.MountainBiking, Discipline.RoadCycling, Discipline.Running, Discipline.XcSkiing];
 
 export default function AddEventForm(props: AddEventFormProps) {
-    const { control, setValue, register, handleSubmit, errors } = useForm();
+    const { control, setValue, register, handleSubmit, errors, reset } = useForm();
     const [selectedDiscipline, setSelectedDiscipline] = useState(Discipline.MountainBiking);
     const [placeInitialValue, setPlaceInitialValue] = useState('');
     const isEditMode = !!props.initialData;
@@ -30,6 +30,18 @@ export default function AddEventForm(props: AddEventFormProps) {
             handleInitialData();
         }
     }, []);
+
+    useEffect(() => {
+        if (!isEditMode) {
+            // resetForm();
+        }
+    }, [props.initialData]);
+
+    const resetForm = (): void => {
+        reset();
+        setSelectedDiscipline(Discipline.MountainBiking);
+        setPlaceInitialValue('');
+    }
     
     const handleInitialData = (): void => {
         setValue('name', props.initialData?.name);

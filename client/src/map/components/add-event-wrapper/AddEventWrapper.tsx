@@ -1,21 +1,28 @@
 import React from 'react';
+import { Map, TileLayer } from 'react-leaflet';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import { MarkerCoordinates } from '../../../shared/models/map';
 import EventAddedInfo from '../event-added-info/EventAddedInfo';
 import { NewEventMarker } from '../new-event-marker';
-import { Map, TileLayer } from 'react-leaflet';
 import { SportEvent } from '../../../shared/models/sport-event';
 import { eventApis } from '../../../core/services';
-import { Redirect } from 'react-router-dom';
 import AddEventForm from '../add-event-form/AddEventForm';
 import { JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_ZOOM } from '../../map-config';
 import './AddEventWrapper.scss';
 import { ApplicationState } from '../../../state/ducks';
 import { saveEditedEvent } from '../../../state/ducks/map/actions';
-import { connect } from 'react-redux';
+
+export enum EventFormType {
+    Add = 'add',
+    Edit = 'edit',
+}
 
 type AddEventWrapperProps = {
-    selectedEvent?: SportEvent | null;
+    selectedEvent: SportEvent | null;
     saveEditedEvent: (event: SportEvent) => void;
+    mode: EventFormType;
 }
 
 type AddEventWrapperState = {
@@ -26,6 +33,11 @@ type AddEventWrapperState = {
     zoom: number;
 }
 class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrapperState> {
+    private get initialFormData(): SportEvent | null {
+        console.log('update', this.props);
+        return this.props.mode === EventFormType.Edit ? this.props.selectedEvent : null;
+    }
+
     constructor(props: AddEventWrapperProps) {
         super(props);
         this.state = {
@@ -33,7 +45,7 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
             markerPosition: JELENIA_COORDINATES,
             isAddedEvent: false,
             addEvent: true,
-            zoom: DEFAULT_ZOOM
+            zoom: DEFAULT_ZOOM,
         };
 
         this.handleSuggestionChange = this.handleSuggestionChange.bind(this);
@@ -45,15 +57,15 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
     }
 
     componentDidMount(): void {
-        if (this.props.selectedEvent) {
+        if (this.props.mode === EventFormType.Edit) {
             this.handleInitialData();
         }
     }
 
     handleInitialData(): void {
         this.setState({
-            markerPosition: this.props.selectedEvent?.coordinates as MarkerCoordinates
-        })
+            markerPosition: this.props.selectedEvent?.coordinates as MarkerCoordinates,
+        });
     }
 
     handleSuggestionChange(coords: MarkerCoordinates): void {
@@ -68,8 +80,8 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
     }
 
     handleFormSubmit(sportEvent: SportEvent): void {
-        if (this.props.selectedEvent) {
-            this.props.saveEditedEvent({...sportEvent, _id: this.props.selectedEvent._id, coordinates: this.state.markerPosition });
+        if (this.props.mode === EventFormType.Edit) {
+            this.props.saveEditedEvent({...sportEvent, _id: this.props.selectedEvent?._id, coordinates: this.state.markerPosition });
             return;
         }
     
@@ -106,7 +118,7 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <NewEventMarker draggable={!this.state.isAddedEvent} onDragEnd={this.handleNewSportEventDragEnd} position={this.state.markerPosition} />
                 </Map>
-                { this.state.isAddedEvent ? <EventAddedInfo onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : (this.state.addEvent ? <AddEventForm initialData={this.props.selectedEvent} onCloseClick={this.handleAddEventCloseClick} onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> : <Redirect to='/' />) }
+                { this.state.isAddedEvent ? <EventAddedInfo onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : (this.state.addEvent ? <AddEventForm initialData={this.initialFormData} onCloseClick={this.handleAddEventCloseClick} onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> : <Redirect to='/' />) }
             </div>
         </div>;
     }
