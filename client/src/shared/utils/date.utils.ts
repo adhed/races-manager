@@ -4,7 +4,7 @@ export const getCurrentDate = (): string => {
 
 export const getDate = (value: Date): string => {
     const date = new Date(value);
-    const day = date.getDate() + 1;
+    const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
@@ -20,7 +20,7 @@ export const getNumberWithZeroDigit = (value: number): string => {
 
 export const getParsedDate = (isoDate: Date): string => {
     const date = new Date(isoDate);
-    const day = date.getDate() + 1;
+    const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
