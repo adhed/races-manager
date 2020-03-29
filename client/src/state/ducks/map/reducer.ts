@@ -30,6 +30,12 @@ export const mapReducer = (
         case MapActionTypes.SET_ZOOM: {
 			return { ...state, zoom: action.payload };
 		}
+		case MapActionTypes.SUGGESTION_CHANGE: {
+			return { ...state, mapPosition: action.payload };
+		}
+		case MapActionTypes.SELECT_EVENT: {
+			return { ...state, selectedEvent: action.payload };
+		}
 		default:
 			return state;
 	}

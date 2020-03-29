@@ -14,3 +14,8 @@ export const saveEditedEventFailure = (error: string) => action(MapActionTypes.S
 export const setZoom = (zoom: number) => action(MapActionTypes.SET_ZOOM, zoom);
 
 export const setMapPosition = (mapPosition: MarkerCoordinates) => action(MapActionTypes.SET_MAP_POSITIOM, mapPosition);
+
+export const backToMap = () => action(MapActionTypes.BACK_TO_MAP);
+export const backToAddEvent = () => action(MapActionTypes.BACK_TO_ADD_EVENT);
+
+export const suggestionChange = (coords: MarkerCoordinates) => action(MapActionTypes.SUGGESTION_CHANGE, coords);

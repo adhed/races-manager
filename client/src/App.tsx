@@ -37,6 +37,9 @@ function App() {
               <Route path="/edit-event">
                 <AddEventWrapper mode={EventFormType.Edit} />
               </Route>
+              <Route path="/event-added">
+                <AddEventWrapper mode={EventFormType.EventAdded} />
+              </Route>
               <Route path="/">
                 <MapWrapper />
               </Route>

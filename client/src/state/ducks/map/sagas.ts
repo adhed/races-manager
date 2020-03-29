@@ -29,6 +29,22 @@ function* handleSaveEditedEvent(action: any): Generator {
     }
 }
 
+function* handleBackToMap(): Generator {
+    try {
+        yield put(push('/'));
+    } catch (error) {
+        console.log('Back to map error:', error);
+    }
+}
+
+function* handleBackToAddEvent(): Generator {
+    try {
+        yield put(push('/add-event'));
+    } catch (error) {
+        console.log('Back to add event error:', error);
+    }
+}
+
 function* watchEditEvent(): Generator {
 	yield takeEvery(MapActionTypes.EDIT_EVENT, handleEditEvent);
 }
@@ -37,9 +53,19 @@ function* watchSaveEditedEvent(): Generator {
 	yield takeEvery(MapActionTypes.SAVE_EDITED_EVENT, handleSaveEditedEvent);
 }
 
+function* watchBackToMap(): Generator {
+	yield takeEvery(MapActionTypes.BACK_TO_MAP, handleBackToMap);
+}
+
+function* watchBackToAddEvent(): Generator {
+	yield takeEvery(MapActionTypes.BACK_TO_ADD_EVENT, handleBackToAddEvent);
+}
+
 export default function* mapSaga() {
 	yield all([
         fork(watchEditEvent),
         fork(watchSaveEditedEvent),
+        fork(watchBackToMap),
+        fork(watchBackToAddEvent),
     ]);
 }

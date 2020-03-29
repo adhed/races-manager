@@ -22,7 +22,7 @@ createEvent = (request, response) => {
         .then(() => {
             return response.status(201).json({
                 success: true,
-                id: event._id,
+                data: event,
                 message: 'SportEvent has been created!',
             })
         })
@@ -46,7 +46,7 @@ updateEvent = async (request, response) => {
 
     SportEvent.findOne({ _id: request.params.id }, (err, event) => {
         if (err) {
-            return res.status(404).json({
+            return response.status(404).json({
                 err,
                 message: 'SportEvent not found!',
             })
@@ -68,7 +68,7 @@ updateEvent = async (request, response) => {
             .then(() => {
                 return response.status(200).json({
                     success: true,
-                    id: event._id,
+                    data: event,
                     message: 'SportEvent updated!',
                 })
             })

@@ -7,6 +7,9 @@ export interface SportEventState {
 }
 
 export const SportEventActionsTypes = {
+    ADD_EVENT: "@@sport-event/ADD_EVENT",
+    ADD_EVENT_SUCCESS: "@@sport-event/ADD_EVENT_SUCCESS",
+    ADD_EVENT_ERROR: "@@sport-event/ADD_EVENT_ERROR",
 	FETCH_EVENTS: "@@sport-event/FETCH_EVENTS",
 	FETCH_EVENTS_SUCCESS: "@@sport-event/FETCH_EVENTS_SUCCESS",
     FETCH_EVENTS_ERROR: "@@sport-event/FETCH_EVENTS_ERROR",

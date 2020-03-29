@@ -7,31 +7,34 @@ import { MarkerCoordinates } from '../../../shared/models/map';
 import EventAddedInfo from '../event-added-info/EventAddedInfo';
 import { NewEventMarker } from '../new-event-marker';
 import { SportEvent } from '../../../shared/models/sport-event';
-import { eventApis } from '../../../core/services';
 import AddEventForm from '../add-event-form/AddEventForm';
-import { JELENIA_COORDINATES, DEFAULT_ZOOM, SINGLE_MARKER_ZOOM } from '../../map-config';
 import './AddEventWrapper.scss';
 import { ApplicationState } from '../../../state/ducks';
-import { saveEditedEvent } from '../../../state/ducks/map/actions';
+import { saveEditedEvent, backToMap, backToAddEvent, suggestionChange } from '../../../state/ducks/map/actions';
+import { addEvent } from '../../../state/ducks/sport-event/actions';
 
 export enum EventFormType {
     Add = 'add',
     Edit = 'edit',
+    EventAdded = 'event-added'
 }
 
 type AddEventWrapperProps = {
     selectedEvent: SportEvent | null;
-    saveEditedEvent: (event: SportEvent) => void;
+    zoom: number;
+    mapPosition: MarkerCoordinates;
     mode: EventFormType;
+    saveEditedEvent: (event: SportEvent) => void;
+    addEvent: (event: SportEvent) => void;
+    backToMap: () => void;
+    backToAddEvent: () => void;
+    suggestionChange: (coords: MarkerCoordinates) => void;
 }
 
 type AddEventWrapperState = {
-    mapCoordinates: MarkerCoordinates;
-    isAddedEvent: boolean;
-    addEvent: boolean;
     markerPosition: MarkerCoordinates;
-    zoom: number;
 }
+
 class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrapperState> {
     private get initialFormData(): SportEvent | null {
         return this.isEditMode ? this.props.selectedEvent : null;
@@ -41,14 +44,14 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
         return this.props.mode === EventFormType.Edit;
     }
 
+    private get isEventAddedMode(): boolean {
+        return this.props.mode === EventFormType.EventAdded;
+    }
+
     constructor(props: AddEventWrapperProps) {
         super(props);
         this.state = {
-            mapCoordinates: JELENIA_COORDINATES,
-            markerPosition: JELENIA_COORDINATES,
-            isAddedEvent: false,
-            addEvent: true,
-            zoom: DEFAULT_ZOOM,
+            markerPosition: props.mapPosition,
         };
 
         this.handleSuggestionChange = this.handleSuggestionChange.bind(this);
@@ -71,19 +74,18 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
         }
     
         this.setState({
-            mapCoordinates: this.props.selectedEvent?.coordinates as MarkerCoordinates,
             markerPosition: this.props.selectedEvent?.coordinates as MarkerCoordinates,
         });
     }
 
     handleSuggestionChange(coords: MarkerCoordinates): void {
+        this.props.suggestionChange(coords);
+
         this.setState({
-            mapCoordinates: coords,
             markerPosition: {
                 lat: coords.lat,
                 lng: coords.lng
             },
-            zoom: SINGLE_MARKER_ZOOM,
         });
     }
 
@@ -93,13 +95,10 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
             return;
         }
     
-        eventApis.insertEvent({
+        this.props.addEvent({
             ...sportEvent,
             coordinates: this.state.markerPosition
-        })
-        .then(() => {
-            this.setState({ isAddedEvent: true });
-        })
+        });
     }
 
     handleNewSportEventDragEnd(markerPosition: MarkerCoordinates): void {
@@ -107,15 +106,15 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
     }
 
     handleBackToMapClick(): void {
-        this.setState({ addEvent: false, isAddedEvent: false });
+        this.props.backToMap();
     }
 
     handleAddAnotherSportEventClick(): void {
-        this.setState({ isAddedEvent: false });
+        this.props.backToAddEvent();
     }
 
     handleAddEventCloseClick(): void {
-        this.setState({ addEvent: false });
+        this.props.backToMap();
     }
 
     render(): JSX.Element {
@@ -128,11 +127,11 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
         return <div className="map-wrapper wrapper">
             <h2>Wybierz miejsce na mapie i zgłoś zawody</h2>
             <div className="wrapper__row">
-                <Map center={this.state.mapCoordinates} zoom={this.state.zoom} className="mini-map">
+                <Map center={this.props.mapPosition} zoom={this.props.zoom} className="mini-map">
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    <NewEventMarker draggable={!this.state.isAddedEvent} onDragEnd={this.handleNewSportEventDragEnd} position={this.state.markerPosition} />
+                    <NewEventMarker draggable={!this.isEventAddedMode} onDragEnd={this.handleNewSportEventDragEnd} position={this.state.markerPosition} />
                 </Map>
-                { this.state.isAddedEvent ? <EventAddedInfo onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : (this.state.addEvent ? <AddEventForm initialData={this.initialFormData} onCloseClick={this.handleAddEventCloseClick} onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> : <Redirect to='/' />) }
+                { this.isEventAddedMode ? <EventAddedInfo onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : <AddEventForm initialData={this.initialFormData} onCloseClick={this.handleAddEventCloseClick} onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> }
             </div>
         </div>;
     }
@@ -141,7 +140,9 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
 const mapStateToProps = (state: ApplicationState) => {
     return {
         selectedEvent: state.map.selectedEvent,
+        mapPosition: state.map.mapPosition,
+        zoom: state.map.zoom,
     };
 }
 
-export default connect(mapStateToProps, { saveEditedEvent })(AddEventWrapper);
+export default connect(mapStateToProps, { saveEditedEvent, addEvent, backToMap, backToAddEvent, suggestionChange })(AddEventWrapper);
