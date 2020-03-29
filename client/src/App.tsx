@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import {
   Switch,
@@ -13,11 +13,24 @@ import Nav from './core/components/nav/Nav';
 import configureStore, { history } from './state/configureStore.dev';
 import EventsCalendar from './calendar/components/events-calendar/EventsCalendar';
 import AddEventWrapper, { EventFormType } from './map/components/add-event-wrapper/AddEventWrapper';
+import { MAP_API_KEY } from './config/api-credentials';
 
 const initialState = (window as any).initialReduxState;
 const store = configureStore(initialState);
 
 function App() {
+
+  const addGoogleMapsApiScript = () => {
+    const scriptTag = document.createElement('script');
+    scriptTag.src = `https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&libraries=places`;
+    scriptTag.async = true;
+    document.body.appendChild(scriptTag);
+  };
+
+  useEffect(() => {
+    addGoogleMapsApiScript();
+  }, []);
+
   return (
     <div className="App">
       <Provider store={store}>
