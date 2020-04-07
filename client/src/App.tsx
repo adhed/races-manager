@@ -23,7 +23,6 @@ function App() {
   const addGoogleMapsApiScript = () => {
     const scriptTag = document.createElement('script');
     scriptTag.src = `https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&libraries=places`;
-    scriptTag.async = true;
     document.body.appendChild(scriptTag);
   };
 
