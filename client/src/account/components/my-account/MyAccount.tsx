@@ -1,10 +1,27 @@
 import React from 'react';
-import './MyAccount.css';
+import { UserInfo } from 'firebase';
+import { connect } from 'react-redux';
 
-export function MyAccount() {
+import './MyAccount.css';
+import { ApplicationState } from '../../../state/ducks';
+
+type MyAccountProps = {
+    isLoggedIn: boolean;
+    user: UserInfo | null;
+}
+
+function MyAccount(props: MyAccountProps) {
     return <div>
-        <h2>My account</h2>
-        <p>You need to log in first! TODO: implement OAuth</p>
+        <h2>Witaj { props.user ? props.user.displayName || 'Unknown' : 'Unknown' }</h2>
       </div>;
   }
+
+const mapStateToProps = (state: ApplicationState) => {
+    return {
+        isLoggedIn: state.account.isLoggedIn,
+        user: state.account.user,
+    };
+}
+
   
+export default connect(mapStateToProps)(MyAccount);

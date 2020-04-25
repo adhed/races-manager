@@ -3,8 +3,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapSigns, faCalendar, faPlusCircle, faSignInAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
 import './Nav.scss';
+import { ApplicationState } from '../../../state/ducks';
+import { connect } from 'react-redux';
 
-export default class Nav extends React.Component {
+type NavProps = {
+    isLoggedIn: boolean;
+}
+
+class Nav extends React.Component<NavProps> {
+
+    get accountLabel(): string {
+        return this.props.isLoggedIn ? 'Wyloguj się' : 'Zaloguj się';
+    }
+
+    get accountLink(): string {
+        return this.props.isLoggedIn ? '/sign-out' : '/sign-in';
+    }
+
     render() {
         return <nav className="nav-header">
             <div className="nav-header__wrapper">
@@ -18,17 +33,28 @@ export default class Nav extends React.Component {
                         <FontAwesomeIcon icon={faCalendar} className="link__icon" />
                         <Link to="/calendar">Kalendarz</Link>
                     </li>
-                    <li className="nav-header__link nav-header__link--side link">
+                    <li className="nav-header__link nav-header__link--side  nav-header__link--first link">
                         <FontAwesomeIcon icon={faPlusCircle} className="link__icon" />
                         <Link to="/add-event">Dodaj zawody</Link>
                     </li>
+                    { this.props.isLoggedIn ? <li className="nav-header__link nav-header__link--side link">
+                        <FontAwesomeIcon icon={faSignInAlt} className="link__icon" />
+                        <Link to="/my-account">Moje konto</Link>
+                    </li> : null }
                     <li className="nav-header__link nav-header__link--side link">
                         <FontAwesomeIcon icon={faSignInAlt} className="link__icon" />
-                        <Link to="/account">Moje konto</Link>
+                        <Link to={this.accountLink} >{ this.accountLabel }</Link>
                     </li>
                 </ul>
             </div>
          </nav>
     }
-    
 }
+
+const mapStateToProps = (state: ApplicationState) => {
+    return {
+        isLoggedIn: state.account.isLoggedIn,
+    };
+}
+
+export default connect(mapStateToProps)(Nav);

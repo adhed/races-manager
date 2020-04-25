@@ -24,12 +24,12 @@
     font-size: 0.75rem;
 
     &--side {
-        margin-left: auto;
+        margin-left: 3rem;
         margin-right: 0;
+    }
 
-        &:last-of-type {
-            margin-left: 3rem;
-        }
+    &--first {
+        margin-left: auto;
     }
 
     a {

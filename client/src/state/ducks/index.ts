@@ -9,22 +9,28 @@ import sportEventSaga from "./sport-event/sagas";
 import { mapReducer } from "./map/reducer";
 import { MapState } from "./map/types";
 import mapSaga from "./map/sagas";
+import { accountReducer } from "./account/reducer";
+import { AccountState } from "./account/types";
+import accountSaga from "./account/sagas";
 
 export interface ApplicationState {
-    sportEvent: SportEventState;
+    account: AccountState;
     map: MapState;
+    sportEvent: SportEventState;
     router: RouterState;
 };
 
 export const createRootReducer = (history: any): Reducer<ApplicationState> => combineReducers<ApplicationState>({
-    sportEvent: sportEventReducer,
+    account: accountReducer,
     map: mapReducer,
+    sportEvent: sportEventReducer,
     router: connectRouter(history),
 });
 
 export function* rootSaga() {
     yield all([
-        fork(sportEventSaga),
+        fork(accountSaga),
         fork(mapSaga),
+        fork(sportEventSaga),
     ]);
 }
