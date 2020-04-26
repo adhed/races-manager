@@ -15,6 +15,7 @@ import AddEventWrapper, { EventFormType } from './map/components/add-event-wrapp
 import { MAP_API_KEY } from './config/api-credentials';
 import MyAccount from './account/components/my-account/MyAccount';
 import AccountManager, { AccountManagerMode } from './account/components/account-manager/AccountManager';
+import ProtectedRoute from './core/components/protected-route/ProtectedRoute';
 
 const initialState = (window as any).initialReduxState;
 const store = configureStore(initialState);
@@ -44,9 +45,7 @@ function App() {
               <Route path="/sign-out">
                 <AccountManager mode={AccountManagerMode.SignOut} />
               </Route>
-              <Route path="/my-account">
-                <MyAccount />
-              </Route>
+              <ProtectedRoute path="/my-account" component={MyAccount} />
               <Route path="/calendar">
                 <EventsCalendar />
               </Route>

@@ -13,8 +13,8 @@ type MyAccountProps = {
 function MyAccount(props: MyAccountProps) {
     return <div>
         <h2>Witaj { props.user ? props.user.displayName || 'Unknown' : 'Unknown' }</h2>
-      </div>;
-  }
+    </div>;
+}
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
@@ -22,6 +22,5 @@ const mapStateToProps = (state: ApplicationState) => {
         user: state.account.user,
     };
 }
-
   
 export default connect(mapStateToProps)(MyAccount);
