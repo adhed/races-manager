@@ -1,32 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase, { UserInfo } from 'firebase';
+import { UserInfo } from 'firebase';
 import { connect } from 'react-redux';
 
 import { ApplicationState } from '../../../state/ducks';
 import { signIn, signOut } from '../../../state/ducks/account/actions';
-import { firebaseConfig } from '../../../config/firebase-config';
 import './AccountManager.css';
+import { FirebaseProvider } from '../../services/FirebaseProvider';
 
 export enum AccountManagerMode {
     SignIn,
     SignOut,
 }
-
-firebase.initializeApp(firebaseConfig);
-  
-const uiConfig: firebaseui.auth.Config = {
-    signInFlow: 'popup',
-    signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-        firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    ],
-    callbacks: {
-        signInSuccessWithAuthResult: () => false
-    }
-};
 
 type AccountManagerProps = {
     mode: AccountManagerMode;
@@ -36,19 +21,20 @@ type AccountManagerProps = {
 }
 
 function AccountManager(props: AccountManagerProps) {
+    const firebaseProvider = new FirebaseProvider();
     const defaultLabel = 'Zaloguj się';
     const signOutLabel = 'Zostałeś wylogowany.';
     const [label, setLabel] = useState(defaultLabel);
 
     useEffect(() => {
         if (props.mode === AccountManagerMode.SignIn) {
-            firebase.auth().onAuthStateChanged((user) => {
+            firebaseProvider.auth.onAuthStateChanged((user) => {
                 if (user) {
                     props.signIn(user);
                 }
             });
         } else {
-            firebase.auth().signOut().then(() => {
+            firebaseProvider.auth.signOut().then(() => {
                 props.signOut();
                 setLabel(signOutLabel);
             });
@@ -59,14 +45,14 @@ function AccountManager(props: AccountManagerProps) {
         if (props.mode === AccountManagerMode.SignIn) {
             setLabel(defaultLabel);
         };
-    })
+    });
 
     return <div>
         <h2>{ label }</h2>
         { props.mode === AccountManagerMode.SignIn ? 
             <div className="account-box">
                 <p>Użyj jednej z poniższych opcji logowania:</p>
-                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+                <StyledFirebaseAuth uiConfig={firebaseProvider.uiConfig} firebaseAuth={firebaseProvider.auth}/>
             </div> : null }
       </div>;
   }
