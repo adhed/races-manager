@@ -7,10 +7,15 @@ import './FavouriteSportEvent.scss';
 
 type FavouriteSportEventProps = {
     sportEvent: SportEvent;
+    eventSelected: (event: SportEvent) => void;
 }
 
 export function FavouriteSportEvent(props: FavouriteSportEventProps) {
-    return <div className="favourite-event">
+    const handleClick = (): void => {
+        props.eventSelected(props.sportEvent);
+    }
+
+    return <div className="favourite-event" onClick={handleClick}>
         <FontAwesomeIcon className="favourite-event__icon" icon={getDisciplineIcon(props.sportEvent.discipline)} />
         <span className="favourite-event__date">{ getParsedDate(props.sportEvent.date) }</span>
         <span className="favourite-event__title">{ props.sportEvent.name }</span>
