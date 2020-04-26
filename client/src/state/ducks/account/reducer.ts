@@ -13,18 +13,19 @@ export const accountReducer = (
 	action: Action<TypeConstant> & PayloadAction<TypeConstant, UserInfo> & PayloadAction<TypeConstant, boolean>
 ): AccountState => {
 	switch (action.type) {
+        case AccountActionTypes.SET_USER:
         case AccountActionTypes.SIGN_IN:
             return {
                 ...state,
                 isLoggedIn: !!action.payload,
                 user: action.payload
-            }
+            };
         case AccountActionTypes.SIGN_OUT:
             return {
                 ...state,
                 isLoggedIn: false,
                 user: null,
-            }
+            };
 		default:
 			return state;
 	}

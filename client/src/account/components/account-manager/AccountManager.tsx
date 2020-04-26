@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { UserInfo } from 'firebase';
 import { connect } from 'react-redux';
-
 import { ApplicationState } from '../../../state/ducks';
 import { signIn, signOut } from '../../../state/ducks/account/actions';
-import './AccountManager.css';
 import { FirebaseProvider } from '../../services/FirebaseProvider';
+import './AccountManager.css';
 
 export enum AccountManagerMode {
     SignIn,

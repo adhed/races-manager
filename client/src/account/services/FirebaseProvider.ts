@@ -4,13 +4,12 @@ import firebase from "firebase";
 let instance: FirebaseProvider;
 
 export class FirebaseProvider {
-
     constructor() {
         if (instance) {
             return instance;
         }
 
-        firebase.initializeApp(firebaseConfig);
+        this.init();
         instance = this;
     }
 
@@ -33,5 +32,10 @@ export class FirebaseProvider {
 
     get auth(): firebase.auth.Auth {
         return firebase.auth();
+    }
+
+    private init(): void {
+        firebase.initializeApp(firebaseConfig);
+        this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     }
 }

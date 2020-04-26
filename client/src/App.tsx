@@ -16,12 +16,13 @@ import { MAP_API_KEY } from './config/api-credentials';
 import MyAccount from './account/components/my-account/MyAccount';
 import AccountManager, { AccountManagerMode } from './account/components/account-manager/AccountManager';
 import ProtectedRoute from './core/components/protected-route/ProtectedRoute';
+import { FirebaseProvider } from './account/services/FirebaseProvider';
+import AuthHandler from './core/components/auth-handler/AuthHandler';
 
 const initialState = (window as any).initialReduxState;
 const store = configureStore(initialState);
 
 function App() {
-
   const addGoogleMapsApiScript = () => {
     const scriptTag = document.createElement('script');
     scriptTag.src = `https://maps.googleapis.com/maps/api/js?key=${MAP_API_KEY}&libraries=places`;
@@ -36,6 +37,7 @@ function App() {
     <div className="App">
       <Provider store={store}>
         <ConnectedRouter history={history}>
+          <AuthHandler />
           <Nav></Nav>
           <div className="content-wrapper">
             <Switch>
