@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import './MyAccount.css';
 import { ApplicationState } from '../../../state/ducks';
+import FavouriteEvents from '../favourite-events/FavouriteEvents';
 
 type MyAccountProps = {
     isLoggedIn: boolean;
@@ -13,6 +14,7 @@ type MyAccountProps = {
 function MyAccount(props: MyAccountProps) {
     return <div>
         <h2>Witaj { props.user ? props.user.displayName || 'Unknown' : 'Unknown' }</h2>
+        <FavouriteEvents />
     </div>;
 }
 

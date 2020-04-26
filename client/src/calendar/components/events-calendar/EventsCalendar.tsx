@@ -28,7 +28,7 @@ function EventsCalendar(props: EventsCalendarProps): JSX.Element {
         if (!props.events.length) {
             props.fetchSportEvents();
         }
-    });
+    }, []);
 
     const handleSelectEvent = (event: any): void => {
         props.selectEventById(event.id);

@@ -1,0 +1,9 @@
+.favourite-events {
+    text-align: left;
+
+    &__title {
+        border-top: 1px solid rgb(230, 230, 230);
+        border-bottom: 1px solid rgb(230, 230, 230);
+        padding: 10px 0;
+    }
+}

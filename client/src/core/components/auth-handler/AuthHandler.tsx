@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../state/ducks';
 import { FirebaseProvider } from '../../../account/services/FirebaseProvider';
 import { setUser } from '../../../state/ducks/account/actions';
+import { fetchSportEvents } from '../../../state/ducks/sport-event/actions';
 import { UserInfo } from 'firebase';
 
 type AuthHandlerProps = {
     setUser: (user: UserInfo) => void;
+    fetchSportEvents: () => void; // TODO: change to fetchFavouriteEvents
 }
 
 function AuthHandler(props: AuthHandlerProps) {
@@ -18,6 +20,7 @@ function AuthHandler(props: AuthHandlerProps) {
                 props.setUser(user);
             }
         });
+        props.fetchSportEvents();
     }, []);
 
     return <React.Fragment />;
@@ -30,4 +33,4 @@ const mapStateToProps = (state: ApplicationState) => {
     };
 }
 
-export default connect(mapStateToProps, { setUser })(AuthHandler)
+export default connect(mapStateToProps, { setUser, fetchSportEvents })(AuthHandler)

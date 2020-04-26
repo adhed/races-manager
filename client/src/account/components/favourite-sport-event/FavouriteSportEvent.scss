@@ -1,0 +1,36 @@
+.favourite-event {
+    margin: 10px 0;
+    border-top: 1px solid rgb(230, 230, 230);
+    border-bottom: 1px solid rgb(230, 230, 230);
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    height: 20px;
+    font-size: 12px;
+
+    &:hover {
+        cursor: pointer;
+        background: rgb(230, 230, 230);
+    }
+
+    &__place {
+        max-width: 400px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__icon {
+        margin-right: 5px;
+    }
+
+    &__date {
+        margin-right: 10px;
+    }
+
+    &__title {
+        margin-right: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+}
