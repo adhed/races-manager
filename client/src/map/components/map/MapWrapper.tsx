@@ -34,6 +34,7 @@ type MapWrapperProps = {
     selectedEvent: SportEvent | null,
     mapPosition: MarkerCoordinates,
     zoom: number,
+    isLogggedIn: boolean;
 }
 
 type MapWrapperState = {
@@ -78,6 +79,10 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
         this.props.editEvent();
     }
 
+    handleAddToFavouritesClick(): void {
+        // TODO: implement add to favourites
+    }
+
     handleEventRemoveClick(): void {
         const result = window.confirm('Czy na pewno chcesz usunąć te zawody?');
 
@@ -104,19 +109,20 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <MarkerList selectedEvent={this.props.selectedEvent} sportEvents={this.props.sportEvents} onEventSelected={this.handleEventSelected} />
                 </Map>
-                { this.props.selectedEvent ? <SportEventTile editClick={this.handleEventEditClick} removeClick={this.handleEventRemoveClick} closeClick={this.handleEventCloseClick} sportEvent={this.props.selectedEvent} /> : null }
+                { this.props.selectedEvent ? <SportEventTile isLogggedIn={this.props.isLogggedIn} addToFavouritesClick={this.handleAddToFavouritesClick} editClick={this.handleEventEditClick} removeClick={this.handleEventRemoveClick} closeClick={this.handleEventCloseClick} sportEvent={this.props.selectedEvent} /> : null }
             </div>
         </div>;
     }
 }
 
 function mapStateToProps(state: ApplicationState) {
-    const { sportEvent, map } = state;
+    const { account, sportEvent, map } = state;
     return {
         sportEvents: sportEvent.data,
         selectedEvent: map.selectedEvent,
         zoom: map.zoom,
         mapPosition: map.mapPosition,
+        isLogggedIn: account.isLoggedIn,
     };
 }
 export default connect(mapStateToProps, { fetchSportEvents, removeSportEvent, selectEvent, setMapPosition, editEvent, setZoom })(MapWrapper);

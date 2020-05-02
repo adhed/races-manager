@@ -12,9 +12,11 @@ import SportEventTileControls from '../sport-event-tile-controls/SportEventTileC
 
 type SportEventTileProps = {
     sportEvent: SportEvent;
+    isLogggedIn: boolean;
     closeClick: () => void;
     removeClick: () => void;
     editClick: () => void;
+    addToFavouritesClick: () => void;
 }
 
 export default function SportEventTile(props: SportEventTileProps) {
@@ -30,6 +32,10 @@ export default function SportEventTile(props: SportEventTileProps) {
 
     const handleEditClick = (): void => {
         props.editClick();
+    }
+
+    const handleAddToFavouritesClick = (): void => {
+        props.addToFavouritesClick();
     }
     
     return <div className="event-tile">
@@ -69,6 +75,6 @@ export default function SportEventTile(props: SportEventTileProps) {
                 <span className="wrapper__value wrapper__value--block">{ props.sportEvent.description }</span>
             </span>
         </div>
-        <SportEventTileControls editClick={handleEditClick} removeClick={handleRemoveClick} sportEvent={props.sportEvent} />
+        { props.isLogggedIn ? <SportEventTileControls addtoFavouritesClick={handleAddToFavouritesClick} editClick={handleEditClick} removeClick={handleRemoveClick} sportEvent={props.sportEvent} /> : null }
     </div>
 }

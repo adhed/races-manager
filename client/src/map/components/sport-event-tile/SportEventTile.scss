@@ -8,6 +8,13 @@
     width: 30%;
     padding: 0.75rem;
 
+    &__fav-icon {
+        opacity: 0.5;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+    }
+
     &__title {
         text-align: center;
         align-self: center;
