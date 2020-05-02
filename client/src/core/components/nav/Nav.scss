@@ -1,3 +1,5 @@
+@import 'styles/_colors.scss';
+
 .nav-header__wrapper {
     display: flex;
     width: 90%;
@@ -6,8 +8,10 @@
 
 .nav-header {
     display: flex;
-    background: #f3f3f3;
-    border-bottom: 1px solid #dadada;
+    background: $color-background-dark;
+    color: $color-font-light;
+    border-bottom: 1px solid black;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.35);
 }
   
 .nav-header__links {
@@ -34,6 +38,7 @@
 
     a {
         color:#585858;
+        color: $color-font-light;
         text-decoration: none;
 
         &:hover {
@@ -43,6 +48,6 @@
 }
 
 .link__icon {
-    color: #585858;
+    color: $color-font-light;
     margin-right: 0.5rem;
 }

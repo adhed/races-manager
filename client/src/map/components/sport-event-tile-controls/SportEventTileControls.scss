@@ -1,3 +1,5 @@
+@import 'styles/_colors.scss';
+
 .container {
     margin-top: auto;
     display: flex;
@@ -17,7 +19,8 @@
     
     .control {
         align-items: center;
-        background: lightgray;
+        color: $color-font-light;
+        background: $color-button-primary;
         border: 1px solid gray;
         border-radius: 5px;
         margin: 10px 0 0;
