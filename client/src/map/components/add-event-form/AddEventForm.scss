@@ -1,4 +1,4 @@
-$warning-color: #c11111;
+@import 'styles/_colors.scss';
 
 .add-event-form {
     width: 30%;
@@ -52,10 +52,10 @@ $warning-color: #c11111;
         }
 
         &--error {
-            color: $warning-color;
+            color: $color-warning;
 
             input, textarea {
-                border: 1px solid $warning-color;
+                border: 1px solid $color-warning;
             }
         }
     }
@@ -75,6 +75,9 @@ $warning-color: #c11111;
         padding: 1rem;
         cursor: pointer;
         margin-top: auto;
+
+        background: $color-background-dark;
+        color: $color-font-light;
     }
 }
 

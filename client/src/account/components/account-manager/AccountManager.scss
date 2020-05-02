@@ -1,0 +1,36 @@
+@import 'styles/_colors.scss';
+
+.account-box {
+    display: flex;
+    flex-direction: column;
+
+    .info {
+        margin-bottom: 10px;
+        border: 2px solid $color-border-light;
+        border-radius: 5px;
+        padding: 30px;
+        background: $color-background-light;
+        max-width: 80%;
+        margin: 0 auto;
+
+        &__highlight {
+            font-weight: bold;
+        }
+    }
+
+    &__sign-in-wrapper {
+        border: 2px solid $color-border-light;
+        border-radius: 5px;
+        padding: 30px;
+        background: $color-background-light;
+        margin: 30px auto;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        font-weight: bold;
+
+        .sign-in-wrapper__info {
+            margin-bottom: 10px;
+        }
+    }
+}

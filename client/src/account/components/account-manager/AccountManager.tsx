@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../state/ducks';
 import { signIn, signOut } from '../../../state/ducks/account/actions';
 import { FirebaseProvider } from '../../services/FirebaseProvider';
-import './AccountManager.css';
+import './AccountManager.scss';
 
 export enum AccountManagerMode {
     SignIn,
@@ -50,8 +50,12 @@ function AccountManager(props: AccountManagerProps) {
         <h2>{ label }</h2>
         { props.mode === AccountManagerMode.SignIn ? 
             <div className="account-box">
-                <p>Użyj jednej z poniższych opcji logowania:</p>
-                <StyledFirebaseAuth uiConfig={firebaseProvider.uiConfig} firebaseAuth={firebaseProvider.auth}/>
+                <span className="account-box__info info">Dzięki logowaniu będziesz mógł <span className="info__highlight">dodawać wydarzenia</span> sportowe oraz <span className="info__highlight">tworzyć listę ulubionych</span> wydarzeń.</span>
+                
+                <div className="account-box__sign-in-wrapper sign-in-wrapper">
+                    <span className="sign-in-wrapper__info">Użyj jednej z poniższych opcji logowania:</span>
+                    <StyledFirebaseAuth uiConfig={firebaseProvider.uiConfig} firebaseAuth={firebaseProvider.auth}/>
+                </div>
             </div> : null }
       </div>;
   }

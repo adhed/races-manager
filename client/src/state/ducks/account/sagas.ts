@@ -8,8 +8,8 @@ import { addEventToFavouritesSuccess, addEventToFavouritesError, removeEventFrom
 function* handleSignIn(action: any): Generator {
     try {
         const userId = yield select(getUid);
-        yield put(getFavouriteEvents(userId as string));
         yield put(push('/my-account'));
+        yield put(getFavouriteEvents(userId as string));
     } catch (error) {
        console.log('Sign in error:', error);
     }

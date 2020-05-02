@@ -3,7 +3,7 @@ import { SportEvent } from "../../../shared/models/sport-event"
 
 import './SportEventTile.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faMapMarker, faInfoCircle, faLink, faHeart, faHeartBroken, faGrinHearts } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faMapMarker, faInfoCircle, faLink, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { getParsedDate } from '../../../shared/utils';
 import { DISCPLINES_NAMES, DISCIPLINES_TYPES_NAMES } from '../../../shared/models/disciplines';
 import { getDisciplineIcon } from '../../../shared/utils/sport-event.utils';
