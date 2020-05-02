@@ -19,7 +19,7 @@ export const removeEventFromFavourites = (eventId: number, userId: string) => {
     return api.put(`/favourite-event/${userId}`, { eventId });
 };
 
-export const getFavouriteEvents = (userId: string) => {
+export const fetchFavouriteEvents = (userId: string) => {
     return api.get(`/favourite-events/${userId}`);
 }
 
