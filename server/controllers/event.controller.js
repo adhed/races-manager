@@ -183,7 +183,7 @@ removeEventFromFavourites = async (request, response) => {
             user.uid = request.params.uid;
         }
 
-        const index = user.favouriteEvents.indexOf(request.body);
+        const index = user.favouriteEvents.indexOf(request.body.eventId);
 
         if (index > -1) {
             user.favouriteEvents.splice(index, 1);

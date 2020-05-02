@@ -31,4 +31,8 @@ export const mapSportEventsToCalendar = (sportEvents: SportEvent[]): Event[] => 
         end: event.date,
         id: event._id
     }));
-}
+};
+
+export const isEventFavourite = (sportEvent: SportEvent | null, favEvents: string[]): boolean => {
+    return (sportEvent && sportEvent._id) ? favEvents.includes(sportEvent._id) : false;
+};

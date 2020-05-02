@@ -33,4 +33,24 @@
         font-size: 14px;
         font-weight: bold;
     }
+
+    .control {
+        margin-left: auto;
+        padding: 8px;
+        border-radius: 5px;
+
+        &:hover {
+            background: #c7cfff;
+        }
+
+        &__icon {
+            margin-right: 5px;
+        }
+
+        &__label {
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
 }

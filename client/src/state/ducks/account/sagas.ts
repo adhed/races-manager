@@ -66,6 +66,7 @@ function* handleRemoveEventFromFavourites(action: any): Generator {
         const userId = yield select(getUid);
         yield call(() => removeEventFromFavourites(action.payload, userId as string));
         yield put(removeEventFromFavouritesSuccess());
+        yield put(getFavouriteEvents(userId as string));
     } catch (error) {
         if (error instanceof Error) {
 			yield put(removeEventFromFavouritesError(error.stack!));

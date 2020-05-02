@@ -12,6 +12,7 @@ export interface SportEvent {
     coordinates: MarkerCoordinates,
     description: string;
     isActive?: boolean;
+    isFavourite?: boolean;
 }
 
 export interface CalendarSportEvent {

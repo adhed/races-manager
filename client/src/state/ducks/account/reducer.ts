@@ -2,7 +2,6 @@ import { Action } from "redux";
 import { TypeConstant, PayloadAction } from 'typesafe-actions';
 import { AccountState, AccountActionTypes } from "./types";
 import { UserInfo } from "firebase";
-import { SportEvent } from "../../../shared/models/sport-event";
 
 export const initialState: AccountState = {
     isLoggedIn: false,
@@ -12,7 +11,7 @@ export const initialState: AccountState = {
 
 export const accountReducer = (
 	state: AccountState = initialState,
-	action: Action<TypeConstant> & PayloadAction<TypeConstant, UserInfo> & PayloadAction<TypeConstant, boolean> & PayloadAction<TypeConstant, SportEvent[]>
+	action: Action<TypeConstant> & PayloadAction<TypeConstant, UserInfo> & PayloadAction<TypeConstant, boolean> & PayloadAction<TypeConstant, string[]>
 ): AccountState => {
 	switch (action.type) {
         case AccountActionTypes.SET_USER:
@@ -28,6 +27,11 @@ export const accountReducer = (
                 isLoggedIn: false,
                 user: null,
             };
+        case AccountActionTypes.GET_FAVOURITE_EVENTS_FAILURE:
+            return {
+                ...state,
+                favouriteEvents: []
+            }
         case AccountActionTypes.GET_FAVOURITE_EVENTS_SUCCESS:
             return {
                 ...state,

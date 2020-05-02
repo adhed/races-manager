@@ -1,7 +1,6 @@
 import { AccountActionTypes } from "./types";
 import { action } from "typesafe-actions";
 import { UserInfo } from "firebase";
-import { SportEvent } from "../../../shared/models/sport-event";
 
 export const signIn = (user: UserInfo | null) => action(AccountActionTypes.SIGN_IN, user);
 
@@ -18,5 +17,5 @@ export const removeEventFromFavouritesSuccess = () => action(AccountActionTypes.
 export const removeEventFromFavouritesError = (message: string) => action(AccountActionTypes.REMOVE_EVENT_FROM_FAVOURITES_FAILURE, message);
 
 export const getFavouriteEvents = (userId: string) => action(AccountActionTypes.GET_FAVOURITE_EVENTS, userId );
-export const getFavouriteEventsSuccess = (data: SportEvent[]) => action(AccountActionTypes.GET_FAVOURITE_EVENTS_SUCCESS, data);
+export const getFavouriteEventsSuccess = (data: string[]) => action(AccountActionTypes.GET_FAVOURITE_EVENTS_SUCCESS, data);
 export const getFavouriteEventsError = (message: string) => action(AccountActionTypes.GET_FAVOURITE_EVENTS_FAILURE, message);

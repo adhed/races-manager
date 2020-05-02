@@ -24,11 +24,13 @@ export default function SportEventTileControls(props: SportEventTileControlsProp
         props.addtoFavouritesClick();
     }
 
+    const favLabel = props.sportEvent.isFavourite ? 'Usuń z ulubionych' : 'Dodaj do ulubionych';
+
     return <div className="container">
                 <div className="container__event-controls event-controls">
                     <span className="event-controls__control control" onClick={handleAddToFavouritesClick}>
                         <FontAwesomeIcon icon={faHeart} className="control__icon" />
-                        <span className="control__label">Dodaj do ulubionych</span>
+                        <span className="control__label">{ favLabel }</span>
                     </span>
                 </div>
                 <div className="container__event-controls event-controls event-controls--last">

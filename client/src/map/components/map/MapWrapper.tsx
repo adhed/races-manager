@@ -12,7 +12,8 @@ import { JELENIA_COORDINATES, DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../../map
 import { ApplicationState } from '../../../state/ducks';
 import { fetchSportEvents, removeSportEvent } from '../../../state/ducks/sport-event/actions';
 import { selectEvent, setZoom, setMapPosition, editEvent } from '../../../state/ducks/map/actions';
-import { addEventToFavourites } from '../../../state/ducks/account/actions';
+import { addEventToFavourites, removeEventFromFavourites } from '../../../state/ducks/account/actions';
+import { getSelectedEvent } from '../../../state/ducks/account/selectors';
 
 const L = require("leaflet");
 
@@ -25,6 +26,7 @@ L.Icon.Default.mergeOptions({
 });
 
 type MapWrapperProps = {
+    removeEventFromFavourites: (id: string) => void,
     addEventToFavourites: (id: string) => void,
     fetchSportEvents: () => void,
     removeSportEvent: (id: string) => void;
@@ -83,7 +85,13 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
     }
 
     handleAddToFavouritesClick(): void {
-        if (this.props.selectedEvent?._id) {
+        if (!this.props.selectedEvent?._id) {
+            return;
+        }
+        
+        if (this.props.selectedEvent?.isFavourite) {
+            this.props.removeEventFromFavourites(this.props.selectedEvent?._id);
+        } else {
             this.props.addEventToFavourites(this.props.selectedEvent?._id);
         }
     }
@@ -124,10 +132,10 @@ function mapStateToProps(state: ApplicationState) {
     const { account, sportEvent, map } = state;
     return {
         sportEvents: sportEvent.data,
-        selectedEvent: map.selectedEvent,
+        selectedEvent: getSelectedEvent(map.selectedEvent, account.favouriteEvents),
         zoom: map.zoom,
         mapPosition: map.mapPosition,
         isLogggedIn: account.isLoggedIn,
     };
 }
-export default connect(mapStateToProps, { addEventToFavourites, fetchSportEvents, removeSportEvent, selectEvent, setMapPosition, editEvent, setZoom })(MapWrapper);
+export default connect(mapStateToProps, { removeEventFromFavourites, addEventToFavourites, fetchSportEvents, removeSportEvent, selectEvent, setMapPosition, editEvent, setZoom })(MapWrapper);

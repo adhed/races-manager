@@ -4,7 +4,7 @@ import { SportEvent } from "../../../shared/models/sport-event";
 export interface AccountState {
     readonly isLoggedIn: boolean;
     readonly user: UserInfo | null;
-    readonly favouriteEvents: SportEvent[];
+    readonly favouriteEvents: string[];
 }
 
 export const AccountActionTypes = {

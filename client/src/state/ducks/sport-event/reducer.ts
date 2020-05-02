@@ -15,7 +15,10 @@ export const sportEventReducer = (
 ): SportEventState => {
 	switch (action.type) {
 		case SportEventActionsTypes.FETCH_EVENTS: {
-			return { ...state, isLoading: true };
+			return { 
+				...state,
+				isLoading: true
+			};
 		}
 		case SportEventActionsTypes.FETCH_EVENTS_SUCCESS: {
 			return { ...initialState, data: action.payload };

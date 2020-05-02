@@ -3,7 +3,7 @@ import { SportEvent } from "../../../shared/models/sport-event"
 
 import './SportEventTile.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faMapMarker, faInfoCircle, faLink } from '@fortawesome/free-solid-svg-icons';
+import { faClock, faMapMarker, faInfoCircle, faLink, faHeart, faHeartBroken, faGrinHearts } from '@fortawesome/free-solid-svg-icons';
 import { getParsedDate } from '../../../shared/utils';
 import { DISCPLINES_NAMES, DISCIPLINES_TYPES_NAMES } from '../../../shared/models/disciplines';
 import { getDisciplineIcon } from '../../../shared/utils/sport-event.utils';
@@ -40,6 +40,7 @@ export default function SportEventTile(props: SportEventTileProps) {
     
     return <div className="event-tile">
         <span className="event-tile__title">{ props.sportEvent.name }</span>
+        { props.sportEvent.isFavourite ? <FontAwesomeIcon icon={faHeart} title="To Twoje ulubione wydarzenie" className="event-tile__fav-icon" /> : null }
         <CloseIcon onCloseClick={handleCloseClick} title="Zamknij podgląd" />
         <div className="event-tile__info info">
             <span className="info__wrapper wrapper">
