@@ -11,6 +11,18 @@ export const updateEventById = (id: number, payload: SportEvent) => api.put(`/ev
 export const deleteEventById = (id: string) => api.delete(`/event/${id}`);
 export const getEventById = (id: number) => api.get(`/event/${id}`);
 
+export const addEventToFavourites = (eventId: number, userId: string) => {
+    return api.post(`/favourite-event/${userId}`, { eventId });
+};
+
+export const removeEventFromFavourites = (eventId: number, userId: string) => {
+    return api.put(`/favourite-event/${userId}`, { eventId });
+};
+
+export const getFavouriteEvents = (userId: string) => {
+    return api.get(`/favourite-events/${userId}`);
+}
+
 export const eventApis = {
     insertEvent,
     getAllEvents,

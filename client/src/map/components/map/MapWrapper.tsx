@@ -12,6 +12,7 @@ import { JELENIA_COORDINATES, DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../../map
 import { ApplicationState } from '../../../state/ducks';
 import { fetchSportEvents, removeSportEvent } from '../../../state/ducks/sport-event/actions';
 import { selectEvent, setZoom, setMapPosition, editEvent } from '../../../state/ducks/map/actions';
+import { addEventToFavourites } from '../../../state/ducks/account/actions';
 
 const L = require("leaflet");
 
@@ -24,6 +25,7 @@ L.Icon.Default.mergeOptions({
 });
 
 type MapWrapperProps = {
+    addEventToFavourites: (id: string) => void,
     fetchSportEvents: () => void,
     removeSportEvent: (id: string) => void;
     editEvent: () => void;
@@ -56,6 +58,7 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
         this.handleEventCloseClick = this.handleEventCloseClick.bind(this);
         this.handleEventRemoveClick = this.handleEventRemoveClick.bind(this);
         this.handleEventEditClick = this.handleEventEditClick.bind(this);
+        this.handleAddToFavouritesClick = this.handleAddToFavouritesClick.bind(this);
     }
 
     componentDidMount() {
@@ -80,7 +83,9 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
     }
 
     handleAddToFavouritesClick(): void {
-        // TODO: implement add to favourites
+        if (this.props.selectedEvent?._id) {
+            this.props.addEventToFavourites(this.props.selectedEvent?._id);
+        }
     }
 
     handleEventRemoveClick(): void {
@@ -125,5 +130,4 @@ function mapStateToProps(state: ApplicationState) {
         isLogggedIn: account.isLoggedIn,
     };
 }
-export default connect(mapStateToProps, { fetchSportEvents, removeSportEvent, selectEvent, setMapPosition, editEvent, setZoom })(MapWrapper);
-
+export default connect(mapStateToProps, { addEventToFavourites, fetchSportEvents, removeSportEvent, selectEvent, setMapPosition, editEvent, setZoom })(MapWrapper);
