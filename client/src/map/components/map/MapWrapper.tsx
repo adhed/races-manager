@@ -131,7 +131,7 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
 function mapStateToProps(state: ApplicationState) {
     const { account, sportEvent, map } = state;
     return {
-        sportEvents: sportEvent.data,
+        sportEvents: sportEvent.data.map((event) => getSelectedEvent(event, account.favouriteEvents)) as SportEvent[],
         selectedEvent: getSelectedEvent(map.selectedEvent, account.favouriteEvents),
         zoom: map.zoom,
         mapPosition: map.mapPosition,

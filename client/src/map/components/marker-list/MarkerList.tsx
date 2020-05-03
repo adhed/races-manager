@@ -6,6 +6,7 @@ import { getParsedDate } from '../../../shared/utils';
 import { getDisciplineIcon } from '../../../shared/utils/sport-event.utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 require('react-leaflet-markercluster/dist/styles.min.css');
 
@@ -38,6 +39,7 @@ export default class MarkerList extends React.Component<MarkerListProps, MarkerL
                     return <Marker ref={(ref) => (isSelected ? ref?.leafletElement.openPopup() : 0) } onClick={this.handleMarkerClick.bind(this, event)} key={event._id} position={eventPosition} draggable={false}>
                             <Popup className="popup">
                                 <div className="popup__header header">
+                                    { event.isFavourite ? <FontAwesomeIcon title="To Twoje ulubione wydarzenie" icon={faHeart} className="header__icon header__icon--fav" /> : null }
                                     <FontAwesomeIcon icon={getDisciplineIcon(event.discipline)} className="header__icon" />
                                     <span className="header__name">{ event.name }</span>
                                 </div>

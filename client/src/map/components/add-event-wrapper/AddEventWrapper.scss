@@ -12,6 +12,8 @@
 }
 
 .wrapper__row {
+    max-height: calc(75vh + 4px);
+    margin-bottom: 30px;
     display: flex;
 }
 
