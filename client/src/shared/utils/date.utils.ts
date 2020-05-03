@@ -29,3 +29,10 @@ export const getParsedDate = (isoDate: Date): string => {
 
     return `${fullDay}-${fullMonth}-${year}`;
 };
+
+
+export const sortByDate = (date1: Date, date2: Date): number => {
+    const parsedDate1 = new Date(date1);
+    const parsedDate2 = new Date(date2);
+    return parsedDate1 > parsedDate2 ? -1 : parsedDate1 < parsedDate2 ? 1 : 0;
+};
