@@ -54,7 +54,7 @@ function AccountManager(props: AccountManagerProps) {
                 
                 <div className="account-box__sign-in-wrapper sign-in-wrapper">
                     <span className="sign-in-wrapper__info">Użyj jednej z poniższych opcji logowania:</span>
-                    <StyledFirebaseAuth uiConfig={firebaseProvider.uiConfig} firebaseAuth={firebaseProvider.auth}/>
+                    <StyledFirebaseAuth className="firebase-auth-wrapper" uiConfig={firebaseProvider.uiConfig} firebaseAuth={firebaseProvider.auth}/>
                 </div>
             </div> : null }
       </div>;

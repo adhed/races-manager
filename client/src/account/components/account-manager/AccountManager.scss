@@ -34,3 +34,88 @@
         }
     }
 }
+
+.firebase-auth-wrapper {
+    $defaultFontSize: 0;
+    $customFontSize: 14px;
+
+    .firebaseui-idp-facebook {
+        .firebaseui-idp-text-long {
+            font-size: $defaultFontSize;
+
+            &:after {
+                font-size: $customFontSize;
+                content: "Zaloguj się z Facebook";
+            }
+        }
+
+        .firebaseui-idp-text-short {
+            font-size: $defaultFontSize;
+
+            &:after {
+                font-size: $customFontSize;
+                content: "Facebook";
+            }
+        }
+    }
+
+    .firebaseui-idp-google {
+        .firebaseui-idp-text-long {
+            font-size: $defaultFontSize;
+
+            &:after {
+                font-size: $customFontSize;
+                content: "Zaloguj się z Google";
+            }
+        }
+
+        .firebaseui-idp-text-short {
+            font-size: $defaultFontSize;
+
+            &:after {
+                font-size: $customFontSize;
+                content: "Google";
+            }
+        }
+    }
+
+    .firebaseui-idp-password {
+        .firebaseui-idp-text-long {
+            font-size: $defaultFontSize;
+
+            &:after {
+                font-size: $customFontSize;
+                content: "Zaloguj się przez e-mail";
+            }
+        }
+
+        .firebaseui-idp-text-short {
+            font-size: $defaultFontSize;
+
+            &:after {
+                font-size: $customFontSize;
+                content: "E-mail";
+            }
+        }
+    }
+
+    .firebaseui-idp-phone {
+        .firebaseui-idp-text-long {
+            font-size: $defaultFontSize;
+
+            &:after {
+                font-size: $customFontSize;
+                content: "Zaloguj się przez telefon";
+            }
+        }
+
+        .firebaseui-idp-text-short {
+            font-size: $defaultFontSize;
+
+            &:after {
+                font-size: $customFontSize;
+                content: "Telefon";
+            }
+        }
+    }
+}
