@@ -30,7 +30,7 @@ export function FavouriteSportEvent(props: FavouriteSportEventProps) {
         <span className="favourite-event__title">{ props.sportEvent.name }</span>
         <span className="favourite-event__place">({ props.sportEvent.place })</span>
 
-        <span className="favourite-event__control control" onClick={handleRemoveClick}>
+        <span className="favourite-event__control control" onClick={handleRemoveClick} title="Usuń z ulubionych">
             <FontAwesomeIcon icon={faTrash} className="control__icon" />
             <span className="control__label">Usuń z ulubionych</span>
         </span>

@@ -1,9 +1,14 @@
 @import 'styles/_colors.scss';
+@import 'styles/_responsive.scss';
 
 .nav-header__wrapper {
     display: flex;
     width: 90%;
     margin: 0 auto;
+
+    @include max-small {
+        width: 100%;
+    }
 }
 
 .nav-header {
@@ -22,6 +27,21 @@
     margin: 0 0 0 1.5rem;
     align-items: center;
     flex: 1;
+
+    @include max-small {
+        margin-left: 0;
+        font-size: 12px;
+        padding-inline-start: 0;
+        margin-block-start: 0;
+        margin-block-end: 0;
+        justify-content: space-around;
+    }
+}
+
+.nav-header__title {
+    @include max-small {
+        display: none;
+    }
 }
 
 .nav-header__link {
@@ -29,13 +49,29 @@
     text-transform: uppercase;
     font-size: 0.75rem;
 
+    @include max-small {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0;
+        margin: 0 0.5rem;
+    }
+
     &--side {
         margin-left: 3rem;
         margin-right: 0;
+
+        @include max-small {
+            margin: 0 0.5rem;
+        }
     }
 
     &--first {
         margin-left: auto;
+
+        @include max-small {
+            margin-left: 0;
+        }
     }
 
     a {
@@ -52,4 +88,8 @@
 .link__icon {
     color: $color-font-light;
     margin-right: 0.5rem;
+
+    @include max-small {
+        margin-bottom: 0.25rem;
+    }
 }
