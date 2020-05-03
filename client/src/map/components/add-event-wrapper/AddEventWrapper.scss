@@ -1,9 +1,10 @@
+@import 'styles/_responsive.scss';
+
 .leaflet-container {
     height: 75vh;
     margin-bottom: 30px;
     border: 2px solid gray;
     overflow: hidden;
-    
 }
 
 .map-wrapper {
@@ -15,10 +16,19 @@
     max-height: calc(75vh + 4px);
     margin-bottom: 30px;
     display: flex;
+
+    @include max-small {
+        flex-direction: column;
+        max-height: 100%;
+    }
 }
 
 .mini-map {
     width: 70%;
     margin-right: 2rem;
     box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
+
+    @include max-small {
+        width: 100%;
+    }
 }

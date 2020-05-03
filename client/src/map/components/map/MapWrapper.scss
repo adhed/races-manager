@@ -1,3 +1,6 @@
+@import 'styles/_responsive.scss';
+
+
 .leaflet-container {
     height: 75vh;
     margin-bottom: 30px;
@@ -24,5 +27,10 @@
     &--mini {
         width: 70%;
         margin-right: 2rem;
+
+        @include max-small {
+            width: 100%;
+            margin-right: 0;
+        }
     }
 }

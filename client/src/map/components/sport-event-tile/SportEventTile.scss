@@ -1,3 +1,5 @@
+@import 'styles/_responsive.scss';
+
 .event-tile {
     display: flex;
     flex-direction: column;
@@ -7,6 +9,10 @@
     box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
     width: 30%;
     padding: 0.75rem;
+
+    @include max-small {
+        width: 95%;
+    }
 
     &__fav-icon {
         opacity: 0.75;

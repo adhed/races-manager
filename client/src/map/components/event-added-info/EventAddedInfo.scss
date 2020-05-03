@@ -1,8 +1,14 @@
+@import 'styles/_responsive.scss';
+
 .wrapper__info {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 35%;
+
+    @include max-small {
+        width: 100%;
+    }
 }
 
 .info {
