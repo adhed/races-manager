@@ -8,7 +8,8 @@ import { UserInfo } from 'firebase';
 
 type AuthHandlerProps = {
     setUser: (user: UserInfo) => void;
-    fetchSportEvents: () => void; // TODO: change to fetchFavouriteEvents
+    fetchSportEvents: () => void;
+    sportEventsAvailable: boolean;
 }
 
 function AuthHandler(props: AuthHandlerProps) {
@@ -20,7 +21,10 @@ function AuthHandler(props: AuthHandlerProps) {
                 props.setUser(user);
             }
         });
-        props.fetchSportEvents();
+
+        if (!props.sportEventsAvailable) {
+            props.fetchSportEvents();
+        }
     }, []);
 
     return <React.Fragment />;
@@ -30,6 +34,7 @@ const mapStateToProps = (state: ApplicationState) => {
     return {
         isLoggedIn: state.account.isLoggedIn,
         user: state.account.user,
+        sportEventsAvailable: !!state.sportEvent.data.length
     };
 }
 

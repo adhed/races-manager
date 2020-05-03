@@ -1,5 +1,4 @@
 import { UserInfo } from "firebase";
-import { SportEvent } from "../../../shared/models/sport-event";
 
 export interface AccountState {
     readonly isLoggedIn: boolean;

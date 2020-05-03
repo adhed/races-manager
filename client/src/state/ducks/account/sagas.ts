@@ -5,30 +5,20 @@ import { addEventToFavourites, removeEventFromFavourites, fetchFavouriteEvents }
 import { getUid } from "./selectors";
 import { addEventToFavouritesSuccess, addEventToFavouritesError, removeEventFromFavouritesSuccess, removeEventFromFavouritesError, getFavouriteEvents, getFavouriteEventsSuccess, getFavouriteEventsError } from "./actions";
 
-function* handleSignIn(action: any): Generator {
+function* handleSignIn(_action: any): Generator {
     try {
-        const userId = yield select(getUid);
         yield put(push('/my-account'));
-        yield put(getFavouriteEvents(userId as string));
     } catch (error) {
        console.log('Sign in error:', error);
     }
 }
 
-function* handleSetUser(action: any): Generator {
+function* handleSetUser(_action: any): Generator {
     try {
         const userId = yield select(getUid);
         yield put(getFavouriteEvents(userId as string));
     } catch (error) {
        console.log('Sign in error:', error);
-    }
-}
-
-function* handleSignOut(_action: any): Generator {
-    try {
-        // TODO: consider special action
-    } catch (error) {
-       console.log('Sign out error:', error);
     }
 }
 
@@ -80,10 +70,6 @@ function* watchSignIn(): Generator {
 	yield takeEvery(AccountActionTypes.SIGN_IN, handleSignIn);
 }
 
-function* watchSignOut(): Generator {
-	yield takeEvery(AccountActionTypes.SIGN_OUT, handleSignOut);
-}
-
 function* watchSetUser(): Generator {
 	yield takeEvery(AccountActionTypes.SET_USER, handleSetUser);
 }
@@ -103,7 +89,6 @@ function* watchGetFavouriteEvents(): Generator {
 export default function* accountSaga() {
 	yield all([
         fork(watchSignIn),
-        fork(watchSignOut),
         fork(watchSetUser),
         fork(watchAddEventToFavourites),
         fork(watchRemoveEventFromFavourites),

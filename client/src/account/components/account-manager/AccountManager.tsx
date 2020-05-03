@@ -44,7 +44,7 @@ function AccountManager(props: AccountManagerProps) {
         if (props.mode === AccountManagerMode.SignIn) {
             setLabel(defaultLabel);
         };
-    });
+    }, [props.mode]);
 
     return <div>
         <h2>{ label }</h2>
