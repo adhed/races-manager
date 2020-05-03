@@ -8,11 +8,12 @@ import { selectEventById } from '../../../state/ducks/sport-event/actions'
 import { removeEventFromFavourites } from '../../../state/ducks/account/actions'
 import { SportEvent } from '../../../shared/models/sport-event';
 import { FavouriteSportEvent } from '../favourite-sport-event';
-import { getFavouriteEvents } from '../../../state/ducks/account/selectors';
+import { getPastSportEvents, getUpcomingSportEvents } from '../../../state/ducks/account/selectors';
 
 type FavouriteEventsProps = {
     user: UserInfo | null;
-    sportEvents: SportEvent[];
+    upcomingSportEvents: SportEvent[];
+    pastSportEvents: SportEvent[];
     isLoggedIn: boolean;
     selectEventById: (id: string) => void;
     removeEventFromFavourites: (eventId: string) => void;
@@ -38,17 +39,26 @@ function FavouriteEvents(props: FavouriteEventsProps) {
     
     return <div className="favourite-events">
         <h2 className="favourite-events__title">Twoje najbliższe ulubione zawody:</h2>
-        { props.sportEvents.map((sportEvent: SportEvent) => {
+        { props.upcomingSportEvents.map((sportEvent: SportEvent) => {
             return <FavouriteSportEvent removeFromFavourite={handleRemovrFromFavourite} eventSelected={handleEventClick} key={sportEvent._id} sportEvent={sportEvent} />
         }) }
+
+        <h2 className="favourite-events__title">Twoje minione ulubione zawody:</h2>
+            { props.pastSportEvents.map((sportEvent: SportEvent) => {
+                return <FavouriteSportEvent removeFromFavourite={handleRemovrFromFavourite} eventSelected={handleEventClick} key={sportEvent._id} sportEvent={sportEvent} />
+            }) }
     </div>;
 }
 
 const mapStateToProps = (state: ApplicationState) => {
+    const { account } = state;
+    const { favouriteEvents } = account;
+
     return {
         isLoggedIn: state.account.isLoggedIn,
         user: state.account.user,
-        sportEvents: getFavouriteEvents(state.sportEvent.data, state.account.favouriteEvents),
+        upcomingSportEvents: getUpcomingSportEvents(state.sportEvent.data, favouriteEvents),
+        pastSportEvents: getPastSportEvents(state.sportEvent.data, favouriteEvents),
     };
 }
   

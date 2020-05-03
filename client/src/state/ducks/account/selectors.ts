@@ -18,3 +18,13 @@ export const getFavouriteEvents = (events: SportEvent[] = [], favEvents: string[
         .sort((event1: SportEvent, event2: SportEvent) => sortByDate(event1.date, event2.date))
         .reverse();
 };
+
+export const getPastSportEvents = (events: SportEvent[] = [], favEvents: string[]): SportEvent[] => {
+    return getFavouriteEvents(events, favEvents)
+        .filter((event: SportEvent) => new Date(event.date) < new Date());
+};
+
+export const getUpcomingSportEvents = (events: SportEvent[] = [], favEvents: string[]): SportEvent[] => {
+    return getFavouriteEvents(events, favEvents)
+        .filter((event: SportEvent) => new Date(event.date) >= new Date());
+};
