@@ -10,3 +10,5 @@ export const MAX_ZOOM: number = 14;
 export const DEFAULT_ZOOM: number = 11;
 export const SINGLE_MARKER_ZOOM: number = 13;
 export const SINGLE_MARKER_PREVIEW_ZOOM: number = 13;
+
+export const MAP_ATTRIBUTION: string = `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors`;

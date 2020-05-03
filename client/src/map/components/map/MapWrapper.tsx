@@ -8,7 +8,7 @@ import { MarkerCoordinates } from '../../../shared/models/map';
 import MarkerList from '../marker-list/MarkerList';
 import { SportEvent } from '../../../shared/models/sport-event';
 import SportEventTile from '../sport-event-tile/SportEventTile';
-import { JELENIA_COORDINATES, DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../../map-config';
+import { JELENIA_COORDINATES, DEFAULT_ZOOM, MAX_ZOOM, MIN_ZOOM, MAP_ATTRIBUTION } from '../../map-config';
 import { ApplicationState } from '../../../state/ducks';
 import { fetchSportEvents, removeSportEvent } from '../../../state/ducks/sport-event/actions';
 import { selectEvent, setZoom, setMapPosition, editEvent } from '../../../state/ducks/map/actions';
@@ -119,7 +119,7 @@ class MapWrapper extends React.Component<MapWrapperProps, MapWrapperState> {
             <h2>{ title }</h2>
             <div className="wrapper__row">
                 <Map maxZoom={MAX_ZOOM} minZoom={MIN_ZOOM} ref={(ref: Map) => this.mapRef = ref } center={this.props.mapPosition} zoom={this.props.zoom} className={this.props.selectedEvent ? 'map map--mini' : 'map'}>
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution={MAP_ATTRIBUTION} />
                     <MarkerList selectedEvent={this.props.selectedEvent} sportEvents={this.props.sportEvents} onEventSelected={this.handleEventSelected} />
                 </Map>
                 { this.props.selectedEvent ? <SportEventTile isLogggedIn={this.props.isLogggedIn} addToFavouritesClick={this.handleAddToFavouritesClick} editClick={this.handleEventEditClick} removeClick={this.handleEventRemoveClick} closeClick={this.handleEventCloseClick} sportEvent={this.props.selectedEvent} /> : null }
