@@ -36,3 +36,8 @@ export const sortByDate = (date1: Date, date2: Date): number => {
     const parsedDate2 = new Date(date2);
     return parsedDate1 > parsedDate2 ? -1 : parsedDate1 < parsedDate2 ? 1 : 0;
 };
+
+export const getYesterday = (): Date => {
+    const date = new Date();
+    return new Date(date.setDate(date.getDate() - 1));
+}

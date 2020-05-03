@@ -1,7 +1,7 @@
 import { ApplicationState } from '../index';
 import { SportEvent } from '../../../shared/models/sport-event';
 import { isEventFavourite } from '../../../shared/utils/sport-event.utils';
-import { sortByDate } from '../../../shared/utils';
+import { sortByDate, getYesterday } from '../../../shared/utils';
 
 export const getUid = (state: ApplicationState) => state.account.user?.uid;
 
@@ -21,10 +21,10 @@ export const getFavouriteEvents = (events: SportEvent[] = [], favEvents: string[
 
 export const getPastSportEvents = (events: SportEvent[] = [], favEvents: string[]): SportEvent[] => {
     return getFavouriteEvents(events, favEvents)
-        .filter((event: SportEvent) => new Date(event.date) < new Date());
+        .filter((event: SportEvent) => new Date(event.date) < getYesterday());
 };
 
 export const getUpcomingSportEvents = (events: SportEvent[] = [], favEvents: string[]): SportEvent[] => {
     return getFavouriteEvents(events, favEvents)
-        .filter((event: SportEvent) => new Date(event.date) >= new Date());
+        .filter((event: SportEvent) => new Date(event.date) >= getYesterday());
 };
