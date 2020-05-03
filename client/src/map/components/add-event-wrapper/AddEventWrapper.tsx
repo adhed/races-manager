@@ -12,6 +12,7 @@ import './AddEventWrapper.scss';
 import { ApplicationState } from '../../../state/ducks';
 import { saveEditedEvent, backToMap, backToAddEvent, suggestionChange } from '../../../state/ducks/map/actions';
 import { addEvent } from '../../../state/ducks/sport-event/actions';
+import { MAP_ATTRIBUTION } from '../../map-config';
 
 export enum EventFormType {
     Add = 'add',
@@ -128,7 +129,7 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
             <h2>Wybierz miejsce na mapie i zgłoś zawody</h2>
             <div className="wrapper__row">
                 <Map center={this.props.mapPosition} zoom={this.props.zoom} className="mini-map">
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution={MAP_ATTRIBUTION} />
                     <NewEventMarker draggable={!this.isEventAddedMode} onDragEnd={this.handleNewSportEventDragEnd} position={this.state.markerPosition} />
                 </Map>
                 { this.isEventAddedMode ? <EventAddedInfo onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : <AddEventForm initialData={this.initialFormData} onCloseClick={this.handleAddEventCloseClick} onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> }
