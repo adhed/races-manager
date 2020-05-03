@@ -40,6 +40,7 @@
     .control {
         color: $color-font-light;
         margin-left: auto;
+        margin-right: 5px;
         padding: 8px;
         border-radius: 5px;
         display: flex;
@@ -53,12 +54,6 @@
 
         &__icon {
             margin-right: 5px;
-        }
-
-        &__label {
-            &:hover {
-                text-decoration: underline;
-            }
         }
     }
 }

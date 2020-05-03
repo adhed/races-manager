@@ -75,9 +75,19 @@
         padding: 1rem;
         cursor: pointer;
         margin-top: auto;
-
         background: $color-background-dark;
         color: $color-font-light;
+        opacity: 0.75;
+        outline: none;
+
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &:active {
+            outline: none;
+        }
     }
 }
 

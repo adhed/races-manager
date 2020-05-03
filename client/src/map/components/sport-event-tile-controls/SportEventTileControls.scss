@@ -10,7 +10,7 @@
         flex-direction: column;
         display: flex;
         color: #3f3f3f;
-        font: 14px Arial sans-serif;
+        font-size: 12px;
 
         &--last {
             margin-left: auto;
@@ -31,7 +31,6 @@
     
         &:hover {
             cursor: pointer;
-            text-decoration: underline;
             opacity: 1;
         }
     
