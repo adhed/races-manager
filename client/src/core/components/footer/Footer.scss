@@ -1,0 +1,30 @@
+@import 'styles/_colors.scss';
+
+.footer {
+    display: flex;
+    width: 100%;
+    padding: 15px 0;
+    margin-top: auto;
+    background: $color-background-dark;
+    color: $color-font-light;
+    font-size: 12px;
+
+    &__wrapper {
+        display: flex;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .wrapper__contact {
+        margin-left: auto;
+
+        a {
+            color: $color-font-light;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

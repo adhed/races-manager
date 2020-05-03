@@ -9,7 +9,6 @@ type ProtectedRouteProps = {
     path: string;
 }
 
-
 function ProtectedRoute(props: ProtectedRouteProps) {
     const Component = props.component;
     return props.isLoggedIn ? (

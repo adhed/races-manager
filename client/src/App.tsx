@@ -17,6 +17,7 @@ import MyAccount from './account/components/my-account/MyAccount';
 import AccountManager, { AccountManagerMode } from './account/components/account-manager/AccountManager';
 import ProtectedRoute from './core/components/protected-route/ProtectedRoute';
 import AuthHandler from './core/components/auth-handler/AuthHandler';
+import Footer from './core/components/footer/Footer';
 
 const initialState = (window as any).initialReduxState;
 const store = configureStore(initialState);
@@ -64,6 +65,7 @@ function App() {
               </Route>
             </Switch>
           </div>
+          <Footer />
         </ConnectedRouter>
       </Provider>
     </div>
