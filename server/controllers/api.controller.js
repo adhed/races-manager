@@ -227,6 +227,44 @@ getFavouriteEvents = async (request, response) => {
     }).catch(err => console.log(err))
 }
 
+getAccountDetails = async (request, response) => {
+    await User.findOne({ uid: request.params.uid }, (err, user) => {
+        if (err) {
+            return response.status(ERROR_STATUS_CODE).json({ success: false, error: err })
+        }
+
+        if (!user) {
+            user = new User();
+            user.uid = request.params.uid;
+        }
+
+        if (!user.details) {
+            user.details = {
+                isAdmin: false
+            };
+
+            user.save()
+                .then(() => {
+                    return response.status(200).json({
+                        success: true,
+                        data: user.details,
+                    })
+                })
+                .catch(error => {
+                    return response.status(ERROR_STATUS_CODE).json({
+                        error,
+                    })
+                });
+        }
+
+        return response.status(200).json({
+            success: true,
+            data: user.details,
+        });
+        
+    }).catch(err => console.log(err))
+}
+
 module.exports = {
     createEvent,
     updateEvent,
@@ -235,5 +273,6 @@ module.exports = {
     getEventById,
     addEventToFavourites,
     removeEventFromFavourites,
-    getFavouriteEvents
+    getFavouriteEvents,
+    getAccountDetails
 }

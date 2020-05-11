@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { SportEvent } from '../../shared/models/sport-event'
+import { API_URL } from 'core/config/api.config';
 
 const api = axios.create({
-    baseURL: 'http://localhost:3001/api',
+    baseURL: API_URL,
 })
 
 export const insertEvent = (payload: SportEvent) => api.post(`/event`, payload);

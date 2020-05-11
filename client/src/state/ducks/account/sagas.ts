@@ -3,7 +3,8 @@ import { AccountActionTypes } from "./types";
 import { push } from "connected-react-router";
 import { addEventToFavourites, removeEventFromFavourites, fetchFavouriteEvents } from "../../../core/services";
 import { getUid } from "./selectors";
-import { addEventToFavouritesSuccess, addEventToFavouritesError, removeEventFromFavouritesSuccess, removeEventFromFavouritesError, getFavouriteEvents, getFavouriteEventsSuccess, getFavouriteEventsError } from "./actions";
+import { addEventToFavouritesSuccess, addEventToFavouritesError, removeEventFromFavouritesSuccess, removeEventFromFavouritesError, getFavouriteEvents, getFavouriteEventsSuccess, getFavouriteEventsError, getAccountDetails, getAccountDetailsSuccess, getAccountDetailsError } from "./actions";
+import { fetchAccountDetails } from "core/services/account.service";
 
 function* handleSignIn(_action: any): Generator {
     try {
@@ -18,6 +19,7 @@ function* handleSetUser(_action: any): Generator {
         const userId = yield select(getUid);
         yield put(getFavouriteEvents(userId as string));
         yield put(push('/my-account'));
+        yield put(getAccountDetails(userId as string));
     } catch (error) {
        console.log('Sign in error:', error);
     }
@@ -67,6 +69,19 @@ function* handleRemoveEventFromFavourites(action: any): Generator {
     }
 }
 
+function* handleFetchAccountDetails(action: any): Generator {
+    try {
+        const response: any = yield call(() => fetchAccountDetails(action.payload));
+        yield put(getAccountDetailsSuccess(response.data.data));
+    } catch (error) {
+        if (error instanceof Error) {
+			yield put(getAccountDetailsError(error.stack!));
+		} else {
+			yield put(getAccountDetailsError("An unknown error occured."));
+		}
+    }
+}
+
 function* watchSignIn(): Generator {
 	yield takeEvery(AccountActionTypes.SIGN_IN, handleSignIn);
 }
@@ -87,6 +102,10 @@ function* watchGetFavouriteEvents(): Generator {
 	yield takeEvery(AccountActionTypes.GET_FAVOURITE_EVENTS, handleGetFavouriteEvents);
 }
 
+function* watchFetchAccountDetails(): Generator {
+	yield takeEvery(AccountActionTypes.GET_ACCOUNT_DETAILS, handleFetchAccountDetails);
+}
+
 export default function* accountSaga() {
 	yield all([
         fork(watchSignIn),
@@ -94,5 +113,6 @@ export default function* accountSaga() {
         fork(watchAddEventToFavourites),
         fork(watchRemoveEventFromFavourites),
         fork(watchGetFavouriteEvents),
+        fork(watchFetchAccountDetails),
     ]);
 }

@@ -1,4 +1,4 @@
-import { AccountActionTypes } from "./types";
+import { AccountActionTypes, AccountDetails } from "./types";
 import { action } from "typesafe-actions";
 import { UserInfo } from "firebase";
 
@@ -19,3 +19,7 @@ export const removeEventFromFavouritesError = (message: string) => action(Accoun
 export const getFavouriteEvents = (userId: string) => action(AccountActionTypes.GET_FAVOURITE_EVENTS, userId );
 export const getFavouriteEventsSuccess = (data: string[]) => action(AccountActionTypes.GET_FAVOURITE_EVENTS_SUCCESS, data);
 export const getFavouriteEventsError = (message: string) => action(AccountActionTypes.GET_FAVOURITE_EVENTS_FAILURE, message);
+
+export const getAccountDetails = (userId: string) => action(AccountActionTypes.GET_ACCOUNT_DETAILS, userId);
+export const getAccountDetailsSuccess = (details: AccountDetails) => action(AccountActionTypes.GET_ACCOUNT_DETAILS_SUCCESS, details);
+export const getAccountDetailsError = (message: string) => action(AccountActionTypes.GET_ACCOUNT_DETAILS_FAILURE, message);

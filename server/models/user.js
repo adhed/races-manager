@@ -6,7 +6,10 @@ const User = new Schema(
         uid: { type: String, required: true },
         favouriteEvents: [String],
         name: { type: String, required: false },
-        isAdmin: { type: Boolean, required: false },
+        details: {
+            isAdmin: { type: Boolean, required: false },
+            required: false
+        }
     },
     { timestamps: true },
 )
