@@ -1,6 +1,40 @@
+@import 'styles/_responsive.scss';
+
 .my-account-wrapper {
-    &__icon {
-        opacity: 0.75;
-        margin-right: 5px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    position: relative;
+
+    @include min-medium {
+        width: 70vw;
+    }
+
+    .title {
+        align-self: center;
+        display: flex;
+
+        &__icon {
+            opacity: 0.75;
+            margin-right: 5px;
+        }
+    }
+
+    &__admin-label {
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+        top: 25px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .admin-label {
+        &__icon {
+            opacity: 0.75;
+            margin-right: 5px;
+        }
     }
 }

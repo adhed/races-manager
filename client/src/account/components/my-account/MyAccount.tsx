@@ -1,7 +1,7 @@
 import React from 'react';
 import { UserInfo } from 'firebase';
 import { connect } from 'react-redux';
-import { faUser, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserShield, faTools } from '@fortawesome/free-solid-svg-icons';
 
 import { ApplicationState } from '../../../state/ducks';
 import FavouriteEvents from '../favourite-events/FavouriteEvents';
@@ -18,10 +18,14 @@ function MyAccount(props: MyAccountProps) {
     const icon = props.isAdmin ? faUserShield : faUser;
 
     return <div className="my-account-wrapper">
-        <h2>
-            <FontAwesomeIcon className="my-account-wrapper__icon" icon={icon} />
+        <h2 className="my-account-wrapper__title title">
+            <FontAwesomeIcon className="title__icon" icon={icon} />
             Witaj { props.user ? props.user.displayName || 'Unknown' : 'Unknown' }
         </h2>
+        { props.isAdmin ? <span className="my-account-wrapper__admin-label admin-label">
+            <FontAwesomeIcon className="admin-label__icon" icon={faTools} /> 
+            Panel admina
+        </span> : null }
         <FavouriteEvents />
     </div>;
 }

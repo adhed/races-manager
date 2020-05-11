@@ -2,11 +2,7 @@
 
 .favourite-events {
     text-align: left;
-    margin: 0 auto 50px;
-
-    @include min-medium {
-        width: 70vw;
-    }
+    margin-bottom: 50px;
 
     &__title {
         border-top: 1px solid rgb(230, 230, 230);
