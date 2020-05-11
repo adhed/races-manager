@@ -6,6 +6,7 @@ import './SportEventTileControls.scss';
 
 type SportEventTileControlsProps = {
     sportEvent: SportEvent;
+    isAdmin: boolean;
     editClick: () => void;
     removeClick: () => void;
     addtoFavouritesClick: () => void;
@@ -33,7 +34,7 @@ export default function SportEventTileControls(props: SportEventTileControlsProp
                         <span className="control__label">{ favLabel }</span>
                     </span>
                 </div>
-                <div className="container__event-controls event-controls event-controls--last">
+                { props.isAdmin ? <div className="container__event-controls event-controls event-controls--last">
                     <span className="event-controls__control control" onClick={handleEditClick}>
                         <FontAwesomeIcon icon={faEdit} className="control__icon" />
                         <span className="control__label">Edytuj</span>
@@ -42,6 +43,7 @@ export default function SportEventTileControls(props: SportEventTileControlsProp
                         <FontAwesomeIcon icon={faTrash} className="control__icon" />
                         <span className="control__label">Usuń</span>
                     </span>
-                </div>
+                </div> : null }
+                
         </div>
 }

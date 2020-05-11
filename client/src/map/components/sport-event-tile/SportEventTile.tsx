@@ -12,6 +12,7 @@ import SportEventTileControls from '../sport-event-tile-controls/SportEventTileC
 
 type SportEventTileProps = {
     sportEvent: SportEvent;
+    isAdmin: boolean;
     isLogggedIn: boolean;
     closeClick: () => void;
     removeClick: () => void;
@@ -76,6 +77,6 @@ export default function SportEventTile(props: SportEventTileProps) {
                 <span className="wrapper__value wrapper__value--block">{ props.sportEvent.description }</span>
             </span>
         </div>
-        { props.isLogggedIn ? <SportEventTileControls addtoFavouritesClick={handleAddToFavouritesClick} editClick={handleEditClick} removeClick={handleRemoveClick} sportEvent={props.sportEvent} /> : null }
+        { props.isLogggedIn ? <SportEventTileControls addtoFavouritesClick={handleAddToFavouritesClick} editClick={handleEditClick} removeClick={handleRemoveClick} isAdmin={props.isAdmin} sportEvent={props.sportEvent} /> : null }
     </div>
 }
