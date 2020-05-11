@@ -17,6 +17,7 @@ function* handleSetUser(_action: any): Generator {
     try {
         const userId = yield select(getUid);
         yield put(getFavouriteEvents(userId as string));
+        yield put(push('/my-account'));
     } catch (error) {
        console.log('Sign in error:', error);
     }

@@ -1,6 +1,12 @@
+@import 'styles/_responsive.scss';
+
 .favourite-events {
     text-align: left;
-    margin-bottom: 50px;
+    margin: 0 auto 50px;
+
+    @include min-medium {
+        width: 70vw;
+    }
 
     &__title {
         border-top: 1px solid rgb(230, 230, 230);
