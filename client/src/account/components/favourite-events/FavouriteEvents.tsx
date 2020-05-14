@@ -27,7 +27,7 @@ function FavouriteEvents(props: FavouriteEventsProps) {
         }
     }
 
-    const handleRemovrFromFavourite = (event: SportEvent): void => {
+    const handleRemoveFromFavourite = (event: SportEvent): void => {
         const result = window.confirm('Czy na pewno chcesz usunąć te zawody z listy ulubionych?');
 
         if (!result || !event._id) {
@@ -40,12 +40,12 @@ function FavouriteEvents(props: FavouriteEventsProps) {
     return <div className="favourite-events">
         <h2 className="favourite-events__title">Twoje najbliższe ulubione zawody:</h2>
         { props.upcomingSportEvents.length ? props.upcomingSportEvents.map((sportEvent: SportEvent) => {
-            return <FavouriteSportEvent removeFromFavourite={handleRemovrFromFavourite} eventSelected={handleEventClick} key={sportEvent._id} sportEvent={sportEvent} />
+            return <FavouriteSportEvent removeFromFavourite={handleRemoveFromFavourite} eventSelected={handleEventClick} key={sportEvent._id} sportEvent={sportEvent} />
         }) : <span className="favourite-events__label">Brak nadchodzących zawodów. Dodaj nowe wydarzenie do ulubionych i czekaj na rywalizację!</span>}
 
         <h2 className="favourite-events__title">Twoje minione ulubione zawody:</h2>
             { props.pastSportEvents.length ? props.pastSportEvents.map((sportEvent: SportEvent) => {
-                return <FavouriteSportEvent removeFromFavourite={handleRemovrFromFavourite} eventSelected={handleEventClick} key={sportEvent._id} sportEvent={sportEvent} />
+                return <FavouriteSportEvent removeFromFavourite={handleRemoveFromFavourite} eventSelected={handleEventClick} key={sportEvent._id} sportEvent={sportEvent} />
             }) : <span className="favourite-events__label">Brak minionych wydarzeń, a więc wszystko przed Tobą!</span> }
     </div>;
 }

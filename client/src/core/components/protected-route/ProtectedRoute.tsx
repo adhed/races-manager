@@ -7,18 +7,21 @@ type ProtectedRouteProps = {
     component: any;
     isLoggedIn: boolean;
     path: string;
+    onlyAdmin?: boolean;
+    isAdmin: boolean;
 }
 
 function ProtectedRoute(props: ProtectedRouteProps) {
     const Component = props.component;
     return props.isLoggedIn ? (
-        <Component />
+        props.onlyAdmin ? (props.isAdmin ? <Component /> : <Redirect to={{ pathname: '/sign-in' }}/>) : <Component />
     ) : <Redirect to={{ pathname: '/sign-in' }}/>
 }
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        isLoggedIn: state.account.isLoggedIn
+        isLoggedIn: state.account.isLoggedIn,
+        isAdmin: state.account.details.isAdmin,
     };
 }
 

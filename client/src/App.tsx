@@ -18,6 +18,7 @@ import AccountManager, { AccountManagerMode } from './account/components/account
 import ProtectedRoute from './core/components/protected-route/ProtectedRoute';
 import AuthHandler from './core/components/auth-handler/AuthHandler';
 import Footer from './core/components/footer/Footer';
+import AdminPanel from 'account/components/admin-panel/AdminPanel';
 
 const initialState = (window as any).initialReduxState;
 const store = configureStore(initialState);
@@ -60,6 +61,7 @@ function App() {
               <Route path="/event-added">
                 <AddEventWrapper mode={EventFormType.EventAdded} />
               </Route>
+              <ProtectedRoute path="/admin-panel" component={AdminPanel} onlyAdmin={true}></ProtectedRoute>
               <Route path="/">
                 <MapWrapper />
               </Route>
