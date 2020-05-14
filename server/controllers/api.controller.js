@@ -9,7 +9,7 @@ createEvent = (request, response) => {
         return response.status(ERROR_STATUS_CODE).json({
             success: false,
             error: 'You must provide an event data',
-        })
+        });
     }
 
     const event = new SportEvent(body)
@@ -42,7 +42,7 @@ updateEvent = async (request, response) => {
         return response.status(ERROR_STATUS_CODE).json({
             success: false,
             error: 'You must provide a body to update',
-        })
+        });
     }
 
     SportEvent.findOne({ _id: request.params.id }, (err, event) => {
@@ -116,20 +116,6 @@ getEventById = async (request, response) => {
                 .json({ success: false, error: `SportEvent not found` })
         }
         return response.status(200).json({ success: true, data: event })
-    }).catch(err => console.log(err))
-}
-
-getEvents = async (_request, response) => {
-    await SportEvent.find({}, (err, events) => {
-        if (err) {
-            return response.status(ERROR_STATUS_CODE).json({ success: false, error: err })
-        }
-        if (!events.length) {
-            return response
-                .status(404)
-                .json({ success: false, error: `SportEvent not found` })
-        }
-        return response.status(200).json({ success: true, data: events })
     }).catch(err => console.log(err))
 }
 
@@ -265,14 +251,95 @@ getAccountDetails = async (request, response) => {
     }).catch(err => console.log(err))
 }
 
+setEventActive = async (request, response) => {
+    await SportEvent.findOne({ _id: request.params.id }, (err, event) => {
+        if (err) {
+            return response.status(ERROR_STATUS_CODE).json({ success: false, error: err })
+        }
+
+        if (!event) {
+            return response.status(ERROR_STATUS_CODE).json({
+                err,
+                message: 'Cannot find this event!',
+            });
+        }
+
+        User.findOne({ uid: request.body.uid }, (err, user) => {
+            if (err) {
+                return response.status(ERROR_STATUS_CODE).json({ success: false, error: err })
+            }
+
+            if (!user || !user.details.isAdmin) {
+                return response.status(ERROR_STATUS_CODE).json({
+                    error,
+                    message: 'You do not have access to do it!',
+                });
+            }
+
+            event.isActive = true;
+            event.save()
+                .then(() => {
+                    return response.status(200).json({
+                        success: true,
+                        data: event,
+                        message: 'Event accepted.',
+                    })
+                })
+                .catch((error) => {
+                    return response.status(ERROR_STATUS_CODE).json({
+                        error,
+                        message: 'Event not accepted, there was an error.',
+                    });
+                });
+        });
+    }).catch(err => console.log(err))
+}
+
+getInactiveEvents = async (_request, response) => {
+    await SportEvent.find({}, (err, events) => {
+        if (err) {
+            return response.status(ERROR_STATUS_CODE).json({ success: false, error: err })
+        }
+        if (!events.length) {
+            return response
+                .status(404)
+                .json({ success: false, error: `SportEvent not found` })
+        }
+
+        const inactiveEvents = events.filter((event) => !event.isActive);
+
+        return response.status(200).json({ success: true, data: inactiveEvents })
+    }).catch(err => console.log(err))
+}
+
+getActiveEvents = async (_request, response) => {
+    await SportEvent.find({}, (err, events) => {
+        if (err) {
+            return response.status(ERROR_STATUS_CODE).json({ success: false, error: err })
+        }
+
+        if (!events.length) {
+            return response
+                .status(404)
+                .json({ success: false, error: `SportEvent not found` })
+        }
+
+        const activeEvents = events.filter((event) => event.isActive);
+
+        return response.status(200).json({ success: true, data: activeEvents })
+    }).catch(err => console.log(err))
+}
+
 module.exports = {
     createEvent,
     updateEvent,
     deleteEvent,
-    getEvents,
+    getActiveEvents,
     getEventById,
     addEventToFavourites,
     removeEventFromFavourites,
     getFavouriteEvents,
-    getAccountDetails
+    getAccountDetails,
+    setEventActive,
+    getInactiveEvents
 }

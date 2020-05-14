@@ -5,8 +5,6 @@ import { sortByDate, getYesterday } from '../../../shared/utils';
 
 export const getUid = (state: ApplicationState) => state.account.user?.uid;
 
-export const getIsAdmin = (state: ApplicationState) => state.account.details?.isAdmin;
-
 export const getSelectedEvent = (selectedEvent: SportEvent | null, favEvents: string[]): SportEvent | null => {
     return selectedEvent ? {
         ...selectedEvent,

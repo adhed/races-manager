@@ -24,6 +24,14 @@ export const fetchFavouriteEvents = (userId: string) => {
     return api.get(`/favourite-events/${userId}`);
 }
 
+export const setEventActive = (eventId: number, userId: string) => {
+    return api.put(`/active-event/${eventId}`, { uid: userId });
+}
+
+export const getInactiveEvents = () => {
+    return api.get(`/inactive-events`);
+}
+
 export const eventApis = {
     insertEvent,
     getAllEvents,

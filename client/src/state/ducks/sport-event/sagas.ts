@@ -1,9 +1,11 @@
-import { all, fork, call, put, takeEvery } from 'redux-saga/effects';
+import { all, fork, call, put, takeEvery, select } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { fetchSportEventsSuccess, fetchSportEventsError, removeSportEventSuccess, removeSportEventError, fetchSportEvents, selectEventByIdError, selectEventByIdSuccess, addEventSuccess, addEventError } from './actions';
 import { SportEventActionsTypes } from './types';
 import { eventApis } from '../../../core/services';
 import { selectEvent } from '../map/actions';
+import { getIsAdmin } from '../account/selectors';
+import { fetchInactiveEvents } from '../admin/actions';
 
 function* handleFetch(): Generator {
 	try {
@@ -20,10 +22,18 @@ function* handleFetch(): Generator {
 
 function* handleRemove(action: any): Generator {
     try {
-        yield call(() => eventApis.deleteEventById(action.payload));
-		yield put(removeSportEventSuccess())
-		yield put(fetchSportEvents())
-		yield put(selectEvent(null))
+		const isAdmin = yield select(getIsAdmin);
+
+		yield call(() => eventApis.deleteEventById(action.payload));
+		yield put(removeSportEventSuccess());
+		yield put(selectEvent(null));
+
+		if (isAdmin) {
+			yield put(fetchInactiveEvents());
+		} else {
+			yield put(fetchSportEvents());
+		}
+
     } catch (error) {
         if (error instanceof Error) {
 			yield put(removeSportEventError(error.stack!));

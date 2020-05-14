@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './AdminPanel.scss';
 import { faUserShield } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,15 +7,24 @@ import { connect } from 'react-redux';
 import { SportEvent } from 'shared/models/sport-event';
 import { EventToAccept } from '../event-to-accept/EventToAccept';
 import { removeSportEvent } from '../../../state/ducks/sport-event/actions';
+import { fetchInactiveEvents, setEventActive } from '../../../state/ducks/admin/actions';
 
 type AdminPanelProps = {
     eventsToAccept: SportEvent[];
     removeSportEvent: (id: string) => void;
+    fetchInactiveEvents: () => void;
+    setEventActive: (eventId: string) => void;
 }
 
 function AdminPanel(props: AdminPanelProps) {
-    const handleSetActive = (event: SportEvent): void => {
+    useEffect(() => {
+        props.fetchInactiveEvents();
+    }, []);
 
+    const handleSetActive = (event: SportEvent): void => {
+        if (event._id) {
+            props.setEventActive(event._id);
+        }
     }
 
     const handleRemoveClick = (event: SportEvent): void => {
@@ -41,8 +50,8 @@ function AdminPanel(props: AdminPanelProps) {
 
 const mapStateToProps = (state: ApplicationState) => {
     return {
-        eventsToAccept: state.sportEvent.data.filter((event: SportEvent) => !event.isActive) || [],
+        eventsToAccept: state.admin.inactiveEvents
     };
 }
   
-export default connect(mapStateToProps, { removeSportEvent })(AdminPanel);
+export default connect(mapStateToProps, { fetchInactiveEvents, removeSportEvent, setEventActive })(AdminPanel);

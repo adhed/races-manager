@@ -3,6 +3,10 @@ const Schema = mongoose.Schema
 
 const SportEvent = new Schema(
     {
+        author: { 
+            name: { type: String },
+            uid: { type: String }
+        },
         name: { type: String, required: true },
         serie: { type: String, required: false },
         date: { type: Date, required: true },

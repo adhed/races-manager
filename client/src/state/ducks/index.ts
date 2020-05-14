@@ -12,8 +12,12 @@ import mapSaga from "./map/sagas";
 import { accountReducer } from "./account/reducer";
 import { AccountState } from "./account/types";
 import accountSaga from "./account/sagas";
+import adminSaga from "./admin/sagas";
+import { adminReducer } from "./admin/reducer";
+import { AdminState } from "./admin/types";
 
 export interface ApplicationState {
+    admin: AdminState;
     account: AccountState;
     map: MapState;
     sportEvent: SportEventState;
@@ -21,6 +25,7 @@ export interface ApplicationState {
 };
 
 export const createRootReducer = (history: any): Reducer<ApplicationState> => combineReducers<ApplicationState>({
+    admin: adminReducer,
     account: accountReducer,
     map: mapReducer,
     sportEvent: sportEventReducer,
@@ -32,5 +37,6 @@ export function* rootSaga() {
         fork(accountSaga),
         fork(mapSaga),
         fork(sportEventSaga),
+        fork(adminSaga),
     ]);
 }

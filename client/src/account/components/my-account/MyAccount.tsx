@@ -17,7 +17,6 @@ type MyAccountProps = {
 
 function MyAccount(props: MyAccountProps) {
     const history = useHistory();
-
     const icon = props.isAdmin ? faUserShield : faUser;
 
     const handleAdminLabelClick = () => {
