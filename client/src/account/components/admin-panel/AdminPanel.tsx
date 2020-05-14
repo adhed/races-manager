@@ -29,7 +29,7 @@ function AdminPanel(props: AdminPanelProps) {
 
             setTimeout(() => {
                 props.hideAdminMessage();
-            }, 5000);
+            }, 2000);
         }
     }
 

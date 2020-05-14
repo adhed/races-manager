@@ -7,6 +7,7 @@ import { faMapSigns, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 type EventAddedInfoProps = {
     onBackToMapClick: () => void;
     onAddSportEventClick: () => void;
+    isAdmin: boolean;
 }
 
 export default function EventAddedInfo(props: EventAddedInfoProps) {
@@ -15,6 +16,7 @@ export default function EventAddedInfo(props: EventAddedInfoProps) {
 
     return <div className="wrapper__info info">
         <strong className="info__label">Zawody zostały dodane do bazy.</strong>
+        { !props.isAdmin ? <strong className="info__label">Czekają teraz na zaakceptowanie przez administratora.</strong> : null }
         <span className="info__link" onClick={onAddSportEventClick}>
             <FontAwesomeIcon icon={faPlusCircle} className="link__icon" />
             Dodaj kolejne zawody

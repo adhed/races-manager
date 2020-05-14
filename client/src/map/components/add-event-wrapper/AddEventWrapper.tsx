@@ -22,6 +22,7 @@ export enum EventFormType {
 
 type AddEventWrapperProps = {
     selectedEvent: SportEvent | null;
+    isAdmin: boolean;
     zoom: number;
     mapPosition: MarkerCoordinates;
     mode: EventFormType;
@@ -132,7 +133,7 @@ class AddEventWrapper extends React.Component<AddEventWrapperProps, AddEventWrap
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution={MAP_ATTRIBUTION} />
                     <NewEventMarker draggable={!this.isEventAddedMode} onDragEnd={this.handleNewSportEventDragEnd} position={this.state.markerPosition} />
                 </Map>
-                { this.isEventAddedMode ? <EventAddedInfo onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : <AddEventForm initialData={this.initialFormData} onCloseClick={this.handleAddEventCloseClick} onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> }
+                { this.isEventAddedMode ? <EventAddedInfo isAdmin={this.props.isAdmin} onAddSportEventClick={this.handleAddAnotherSportEventClick} onBackToMapClick={this.handleBackToMapClick} /> : <AddEventForm initialData={this.initialFormData} onCloseClick={this.handleAddEventCloseClick} onFormSubmit={this.handleFormSubmit} onSuggetionChange={this.handleSuggestionChange} /> }
             </div>
         </div>;
     }
@@ -143,6 +144,7 @@ const mapStateToProps = (state: ApplicationState) => {
         selectedEvent: state.map.selectedEvent,
         mapPosition: state.map.mapPosition,
         zoom: state.map.zoom,
+        isAdmin: state.account.details?.isAdmin,
     };
 }
 

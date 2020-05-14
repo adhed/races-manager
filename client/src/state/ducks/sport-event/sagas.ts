@@ -63,7 +63,12 @@ function *handleAddEvent(action: any): Generator {
 	try {
 		const response: any = yield call(() => eventApis.insertEvent(action.payload));
 		const event = response.data.data;
-		yield put(selectEvent(event));
+		const isAdmin = yield select(getIsAdmin);
+
+		if (isAdmin) {
+			yield put(selectEvent(event));
+		}
+
 		yield put(addEventSuccess(event));
 		yield put(push('/event-added'));
     } catch (error) {
