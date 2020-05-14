@@ -32,7 +32,10 @@ export function EventToAccept(props: EventToAcceptProps) {
         props.remove(props.sportEvent);
     }
 
-    const handleAccept = (): void => {
+    const handleAccept = (event: any): void => {
+        event.preventDefault();
+        event.stopPropagation();
+        
         props.setActive(props.sportEvent);
     }
 

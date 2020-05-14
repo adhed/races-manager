@@ -25,5 +25,25 @@
         &__label {
             font-size: 16px;
         }
+
+        &__message {
+            border-top: 1px solid rgb(230, 230, 230);
+            border-bottom: 1px solid rgb(230, 230, 230);
+            padding: 8px 5px;
+            background: #1e264e1f;
+            border: 1px solid #c1c1c1;
+            border-radius: 5px;
+            font-size: 12px;
+            margin: 0 auto 10px;
+            display: block; 
+            transition: all ease-in-out 0.5s;
+        }
+
+        .message {
+            &__icon {
+                margin-right: 5px;
+                opacity: 0.5;
+            }
+        }
     }
 }

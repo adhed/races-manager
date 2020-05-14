@@ -9,3 +9,5 @@ export const fetchInactiveEventsError = (message: string) => action(AdminActionT
 export const setEventActive = (eventId: string) => action(AdminActionTypes.SET_EVENT_ACTIVE, eventId);
 export const setEventActiveSuccess = () => action(AdminActionTypes.SET_EVENT_ACTIVE_SUCCESS);
 export const setEventActiveError = (message: string) => action(AdminActionTypes.SET_EVENT_ACTIVE_ERROR, message);
+
+export const hideAdminMessage = () => action(AdminActionTypes.HIDE_ADMIN_MESSAGE);

@@ -4,6 +4,7 @@ import { AdminActionTypes, AdminState } from "./types";
 
 export const initialState: AdminState = {
     inactiveEvents: [],
+    message: '',
 };
 
 export const adminReducer = (
@@ -15,6 +16,21 @@ export const adminReducer = (
             return {
                 ...state,
                 inactiveEvents: action.payload,
+            }
+            case AdminActionTypes.SET_EVENT_ACTIVE_SUCCESS: 
+            return {
+                ...state,
+                message: 'Wydarzenie zaakceptowane',
+            }
+        case AdminActionTypes.SET_EVENT_ACTIVE_ERROR: 
+            return {
+                ...state,
+                message: 'Wystąpił błąd',
+            }
+        case AdminActionTypes.HIDE_ADMIN_MESSAGE:
+            return {
+                ...state,
+                message: '',
             }
 		default:
 			return state;
