@@ -5,68 +5,82 @@
     margin: 10px 0;
     border: 1px solid #f1f1f1;
     box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.05);
-    padding: 15px 0;
     display: flex;
-    align-items: center;
-    height: 20px;
     font-size: 12px;
+    flex-direction: column;
 
     &:hover {
         cursor: pointer;
         background: rgb(230, 230, 230);
     }
 
-    &__place {
-        max-width: 400px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-right: 15px;
-    }
-
-    &__icon {
-        margin: 0 5px;
-    }
-
-    &__date {
-        margin-right: 10px;
-        flex-shrink: 0;
-    }
-
-    &__title {
-        margin-right: 10px;
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    .control {
-        color: $color-font-light;
-        margin-right: 5px;
-        padding: 8px;
-        border-radius: 5px;
+    .main-info {
         display: flex;
-        background: $color-button-primary;
-        border: 1px solid gray;
-        opacity: 0.25;
-
-        &--first {
-            margin-left: auto;
+        padding: 15px 0;
+        display: flex;
+        height: 20px;
+        align-items: center;
+        
+        &__place {
+            max-width: 400px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 15px;
         }
-
-        &:hover {
-            opacity: 1;
-        }
-
+    
         &__icon {
-            @include min-small() {
-                margin-right: 5px;
+            margin: 0 5px;
+        }
+    
+        &__date {
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+    
+        &__title {
+            margin-right: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    
+        .control {
+            color: $color-font-light;
+            margin-right: 5px;
+            padding: 8px;
+            border-radius: 5px;
+            display: flex;
+            background: $color-button-primary;
+            border: 1px solid gray;
+            opacity: 0.25;
+    
+            &--first {
+                margin-left: auto;
+            }
+    
+            &:hover {
+                opacity: 1;
+            }
+    
+            &__icon {
+                @include min-small() {
+                    margin-right: 5px;
+                }
+            }
+    
+            &__label {
+                @include max-small() {
+                    display: none;
+                }
             }
         }
+    }
 
-        &__label {
-            @include max-small() {
-                display: none;
-            }
-        }
+    &__description {
+        text-align: left;
+        align-self: flex-start;
+        padding: 5px 10px 10px;
+        display: flex;
+        flex-direction: column;
     }
 }
