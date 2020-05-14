@@ -6,23 +6,24 @@ import { ApplicationState } from 'state/ducks';
 import { connect } from 'react-redux';
 import { SportEvent } from 'shared/models/sport-event';
 import { EventToAccept } from '../event-to-accept/EventToAccept';
+import { removeSportEvent } from '../../../state/ducks/sport-event/actions';
 
 type AdminPanelProps = {
     eventsToAccept: SportEvent[];
+    removeSportEvent: (id: string) => void;
 }
 
-export function AdminPanel(props: AdminPanelProps) {
+function AdminPanel(props: AdminPanelProps) {
     const handleSetActive = (event: SportEvent): void => {
 
     }
 
     const handleRemoveClick = (event: SportEvent): void => {
-
+        if (event._id) {
+            props.removeSportEvent(event._id);
+        }
     }
 
-    const handleEventClick = (event: SportEvent): void => {
-
-    }
 
     return <div className="admin-panel">
             <h2 className="admin-panel__title">
@@ -32,7 +33,7 @@ export function AdminPanel(props: AdminPanelProps) {
             <div className="admin-panel__events events">
                 <h2 className="events__title">Wydarzenia do zaakceptowania:</h2>
                 { props.eventsToAccept?.length ? props.eventsToAccept.map((sportEvent: SportEvent) => {
-                    return <EventToAccept setActive={handleSetActive} remove={handleRemoveClick} eventSelected={handleEventClick} key={sportEvent._id} sportEvent={sportEvent} />
+                    return <EventToAccept setActive={handleSetActive} remove={handleRemoveClick} key={sportEvent._id} sportEvent={sportEvent} />
                 }) : <span className="events__label">Brak zawodów do zaakceptowania.</span>}
             </div>
         </div>
@@ -44,4 +45,4 @@ const mapStateToProps = (state: ApplicationState) => {
     };
 }
   
-export default connect(mapStateToProps)(AdminPanel);
+export default connect(mapStateToProps, { removeSportEvent })(AdminPanel);

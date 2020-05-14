@@ -8,7 +8,6 @@ import { faTrash, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 type EventToAcceptProps = {
     sportEvent: SportEvent;
-    eventSelected: (event: SportEvent) => void;
     remove: (event: SportEvent) => void;
     setActive: (event: SportEvent) => void;
 }
@@ -26,7 +25,7 @@ export function EventToAccept(props: EventToAcceptProps) {
 
         const result = window.confirm('Czy na pewno chcesz usunąć te zawody?');
 
-        if (!result || !event._id) {
+        if (!result || !props.sportEvent._id) {
             return;
         }
     
