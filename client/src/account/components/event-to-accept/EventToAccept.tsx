@@ -24,6 +24,12 @@ export function EventToAccept(props: EventToAcceptProps) {
         event.preventDefault();
         event.stopPropagation();
 
+        const result = window.confirm('Czy na pewno chcesz usunąć te zawody?');
+
+        if (!result || !event._id) {
+            return;
+        }
+    
         props.remove(props.sportEvent);
     }
 
