@@ -8,8 +8,8 @@ const api = axios.create({
 
 export const insertEvent = (payload: SportEvent) => api.post(`/event`, payload);
 export const getAllEvents = () => api.get(`/events`);
-export const updateEventById = (id: number, payload: SportEvent) => api.put(`/event/${id}`, payload);
-export const deleteEventById = (id: string) => api.delete(`/event/${id}`);
+export const updateEventById = (id: number, payload: SportEvent, userId: string) => api.put(`/event/${id}/${userId}`, payload);
+export const deleteEventById = (id: string, userId: string) => api.delete(`/event/${id}/${userId}`);
 export const getEventById = (id: number) => api.get(`/event/${id}`);
 
 export const addEventToFavourites = (eventId: number, userId: string) => {

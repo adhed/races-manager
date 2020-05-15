@@ -53,12 +53,23 @@ updateEvent = async (request, response) => {
         });
     }
 
+    const userId = request.params.uid;
+
+    await User.findOne({ uid: userId }, (err, user) => {
+        if (err || (user && !user.details.isAdmin)) {
+            return response.status(404).json({
+                err,
+                message: "You don't have access to update an event.",
+            })
+        }
+    });
+
     SportEvent.findOne({ _id: request.params.id }, (err, event) => {
         if (err) {
             return response.status(404).json({
                 err,
                 message: 'SportEvent not found!',
-            })
+            });
         }
 
         event.name = body.name;
@@ -91,6 +102,17 @@ updateEvent = async (request, response) => {
 }
 
 deleteEvent = async (request, response) => {
+    const userId = request.params.uid;
+
+    await User.findOne({ uid: userId }, (err, user) => {
+        if (err || (user && !user.details.isAdmin)) {
+            return response.status(404).json({
+                err,
+                message: "You don't have access to update an event.",
+            })
+        }
+    });
+    
     await SportEvent.findOne({ _id: request.params.id }, (err, event) => {
         if (err) {
             return response.status(ERROR_STATUS_CODE).json({ success: false, error: err })

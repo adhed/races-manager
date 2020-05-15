@@ -1,9 +1,10 @@
-import { all, fork, put, takeEvery, call } from 'redux-saga/effects';
+import { all, fork, put, takeEvery, call, select } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { MapActionTypes } from './types';
 import { saveEditedEventSuccess, saveEditedEventFailure } from './actions';
 import { eventApis } from '../../../core/services';
 import { selectEventById } from '../sport-event/actions';
+import { getAccount } from '../account/selectors';
 
 
 function* handleEditEvent(_action: any): Generator {
@@ -16,7 +17,9 @@ function* handleEditEvent(_action: any): Generator {
 
 function* handleSaveEditedEvent(action: any): Generator {
     try {
-        yield call(() => eventApis.updateEventById(action.payload._id, action.payload));
+        const account: any = yield select(getAccount);
+
+        yield call(() => eventApis.updateEventById(action.payload._id, action.payload, account.details.uid));
         yield put(saveEditedEventSuccess());
         yield put(selectEventById(action.payload._id));
 		yield put(push('/'));

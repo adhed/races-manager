@@ -22,7 +22,9 @@ function* handleFetch(): Generator {
 
 function* handleRemove(action: any): Generator {
     try {
-		yield call(() => eventApis.deleteEventById(action.payload));
+		const account: any = yield select(getAccount);
+
+		yield call(() => eventApis.deleteEventById(action.payload, account.details.uid));
 		yield put(removeSportEventSuccess());
 		yield put(selectEvent(null));
 		yield put(fetchInactiveEvents());

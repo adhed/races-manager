@@ -4,8 +4,8 @@ const ApiCtrl = require('../controllers/api.controller');
 const router = express.Router()
 
 router.post('/event', ApiCtrl.createEvent);
-router.put('/event/:id', ApiCtrl.updateEvent);
-router.delete('/event/:id', ApiCtrl.deleteEvent);
+router.put('/event/:id/:uid', ApiCtrl.updateEvent);
+router.delete('/event/:id/:uid', ApiCtrl.deleteEvent);
 router.get('/event/:id', ApiCtrl.getEventById);
 router.get('/events', ApiCtrl.getActiveEvents);
 router.get('/inactive-events', ApiCtrl.getInactiveEvents);
