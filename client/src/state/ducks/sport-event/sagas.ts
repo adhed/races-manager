@@ -24,7 +24,7 @@ function* handleRemove(action: any): Generator {
     try {
 		const account: any = yield select(getAccount);
 
-		yield call(() => eventApis.deleteEventById(action.payload, account.details.uid));
+		yield call(() => eventApis.deleteEventById(action.payload, account.user.uid));
 		yield put(removeSportEventSuccess());
 		yield put(selectEvent(null));
 		yield put(fetchInactiveEvents());
