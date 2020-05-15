@@ -79,7 +79,6 @@ updateEvent = async (request, response) => {
         event.place = body.place;
         event.link = body.link;
         event.type = body.type;
-        event.isActive = body.isActive;
         event.coordinates = body.coordinates;
         event.description = body.description;
 
