@@ -7,6 +7,8 @@ export const getUid = (state: ApplicationState) => state.account.user?.uid;
 
 export const getIsAdmin = (state: ApplicationState) => state.account.details?.isAdmin;
 
+export const getAccount = (state: ApplicationState) => state.account;
+
 export const getSelectedEvent = (selectedEvent: SportEvent | null, favEvents: string[]): SportEvent | null => {
     return selectedEvent ? {
         ...selectedEvent,

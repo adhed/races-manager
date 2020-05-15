@@ -45,7 +45,6 @@ export function EventToAccept(props: EventToAcceptProps) {
             <span className="main-info__date">{ getParsedDate(props.sportEvent.date) }</span>
             <span className="main-info__title">{ props.sportEvent.name }</span>
             <span className="main-info__place">({ props.sportEvent.place })</span>
-            { props.sportEvent.author  ? <span className="main-info__author"> (dodane przez { props.sportEvent.author })</span> : null }
 
             <span className="main-info__control control control--first" onClick={handleAccept} title="Usuń">
                 <FontAwesomeIcon icon={faCheck} className="control__icon" />
@@ -57,7 +56,7 @@ export function EventToAccept(props: EventToAcceptProps) {
             </span>
         </div>
         { isDescriptionVisible ? <div className="event-to-accept__description description">
-            { props.sportEvent.author ? <span className="description__author"><b>Autor:</b> { props.sportEvent.author }</span> : null }
+            { props.sportEvent.author ? <span className="description__author"><b>Autor:</b> { props.sportEvent.author?.name }</span> : null }
             <span className="description__text"><b>Opis:</b> { props.sportEvent.description }</span>
         </div> : null }
     </div>

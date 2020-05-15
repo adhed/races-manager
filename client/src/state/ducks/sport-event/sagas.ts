@@ -4,7 +4,7 @@ import { fetchSportEventsSuccess, fetchSportEventsError, removeSportEventSuccess
 import { SportEventActionsTypes } from './types';
 import { eventApis } from '../../../core/services';
 import { selectEvent } from '../map/actions';
-import { getIsAdmin } from '../account/selectors';
+import { getIsAdmin, getAccount } from '../account/selectors';
 import { fetchInactiveEvents } from '../admin/actions';
 
 function* handleFetch(): Generator {
@@ -61,9 +61,16 @@ function* handleSelectEventById(action: any): Generator {
 
 function *handleAddEvent(action: any): Generator {
 	try {
-		const response: any = yield call(() => eventApis.insertEvent(action.payload));
+		const account: any = yield select(getAccount);
+		const response: any = yield call(() => eventApis.insertEvent({
+			...action.payload,
+			author: {
+				name: account.user?.displayName,
+				uid: account.user?.uid
+			}
+		}));
 		const event = response.data.data;
-		const isAdmin = yield select(getIsAdmin);
+		const isAdmin = account?.details?.isAdmin;
 
 		if (isAdmin) {
 			yield put(selectEvent(event));

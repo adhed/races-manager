@@ -2,7 +2,10 @@ import { MarkerCoordinates } from "./map";
 
 export interface SportEvent {
     _id?: string;
-    author?: string;
+    author?: {
+        uid: string;
+        name: string;
+    };
     name: string;
     serie: string;
     date: Date;
