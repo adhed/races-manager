@@ -14,9 +14,10 @@ export default function EventAddedInfo(props: EventAddedInfoProps) {
     const onBackToMapClick = (): void => props.onBackToMapClick();
     const onAddSportEventClick = (): void => props.onAddSportEventClick();
 
+    const label = props.isAdmin ? 'Zawody zostały dodane do bazy.' : 'Dziękujemy, zawody czekają na zaakceptowanie przez administratora.'
+
     return <div className="wrapper__info info">
-        <strong className="info__label">Zawody zostały dodane do bazy.</strong>
-        { !props.isAdmin ? <strong className="info__label">Czekają teraz na zaakceptowanie przez administratora.</strong> : null }
+        <strong className="info__label">{ label }</strong>
         <span className="info__link" onClick={onAddSportEventClick}>
             <FontAwesomeIcon icon={faPlusCircle} className="link__icon" />
             Dodaj kolejne zawody

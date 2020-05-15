@@ -13,7 +13,13 @@
         width: 70vw;
     }
 
+    &__title {
+        margin-top: 2rem;
+    }
+
     .events {
+        margin-top: 30px;
+
         &__title {
             border-top: 1px solid rgb(230, 230, 230);
             border-bottom: 1px solid rgb(230, 230, 230);

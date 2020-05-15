@@ -2,7 +2,7 @@ const SportEvent = require('../models/sport-event');
 const User = require('../models/user');
 const ERROR_STATUS_CODE = 400;
 
-createEvent = (request, response) => {
+createEvent = async (request, response) => {
     const body = request.body
 
     if (!body) {
@@ -16,6 +16,14 @@ createEvent = (request, response) => {
 
     if (!event) {
         return response.status(ERROR_STATUS_CODE).json({ success: false, error: err })
+    }
+
+    if (body.author && body.author.uid) {
+        await User.findOne({ uid: body.author.uid }, (err, user) => {
+            if (user && user.details.isAdmin) {
+                event.isActive = true;
+            }
+        });
     }
 
     event
