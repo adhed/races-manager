@@ -53,6 +53,7 @@
             background: $color-button-primary;
             border: 1px solid gray;
             opacity: 0.25;
+            user-select: none;
     
             &--first {
                 margin-left: auto;
