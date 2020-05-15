@@ -4,7 +4,7 @@ import { fetchSportEventsSuccess, fetchSportEventsError, removeSportEventSuccess
 import { SportEventActionsTypes } from './types';
 import { eventApis } from '../../../core/services';
 import { selectEvent } from '../map/actions';
-import { getIsAdmin, getAccount } from '../account/selectors';
+import { getAccount } from '../account/selectors';
 import { fetchInactiveEvents } from '../admin/actions';
 
 function* handleFetch(): Generator {
@@ -22,17 +22,11 @@ function* handleFetch(): Generator {
 
 function* handleRemove(action: any): Generator {
     try {
-		const isAdmin = yield select(getIsAdmin);
-
 		yield call(() => eventApis.deleteEventById(action.payload));
 		yield put(removeSportEventSuccess());
 		yield put(selectEvent(null));
-
-		if (isAdmin) {
-			yield put(fetchInactiveEvents());
-		} else {
-			yield put(fetchSportEvents());
-		}
+		yield put(fetchInactiveEvents());
+		yield put(fetchSportEvents());
 
     } catch (error) {
         if (error instanceof Error) {

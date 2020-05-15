@@ -123,6 +123,11 @@ getEventById = async (request, response) => {
                 .status(404)
                 .json({ success: false, error: `SportEvent not found` })
         }
+        
+        if (event.author) {
+            event.author.uid = null;
+        }
+
         return response.status(200).json({ success: true, data: event })
     }).catch(err => console.log(err))
 }
@@ -332,7 +337,15 @@ getActiveEvents = async (_request, response) => {
                 .json({ success: false, error: `SportEvent not found` })
         }
 
-        const activeEvents = events.filter((event) => event.isActive);
+        const activeEvents = events
+            .filter((event) => event.isActive)
+            .map((event) => ({
+                ...event,
+                author: {
+                    name: event.author && event.author.name,
+                    uid: null
+                }
+            }));
 
         return response.status(200).json({ success: true, data: activeEvents })
     }).catch(err => console.log(err))
