@@ -51,8 +51,8 @@
     "@types/redux-mock-store": "^1.0.2"
   },
   "scripts": {
-    "start": "node --max_old_space_size=4096 react-scripts start",
-    "build": "node --max_old_space_size=4096 react-scripts build",
+    "start": "react-scripts --max_old_space_size=4096 start",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
