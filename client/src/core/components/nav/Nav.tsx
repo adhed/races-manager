@@ -37,10 +37,10 @@ class Nav extends React.Component<NavProps> {
                         <FontAwesomeIcon icon={faCalendar} className="link__icon" />
                         <Link to="/calendar">Kalendarz</Link>
                     </li>
-                    { this.props.isLoggedIn ? <li className="nav-header__link nav-header__link--side  nav-header__link--first link">
+                    <li className="nav-header__link nav-header__link--side  nav-header__link--first link">
                         <FontAwesomeIcon icon={faPlusCircle} className="link__icon" />
                         <Link to="/add-event">Dodaj zawody</Link>
-                    </li> : null }
+                    </li>
                     { this.props.isLoggedIn ? <li className="nav-header__link nav-header__link--side link">
                         <FontAwesomeIcon icon={faSignInAlt} className="link__icon" />
                         <Link to="/my-account">Moje konto</Link>
