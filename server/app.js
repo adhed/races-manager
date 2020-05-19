@@ -1,6 +1,7 @@
 const db = require('./config/database');
 const createError = require('http-errors');
 const express = require('express');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
@@ -49,6 +50,7 @@ app.get('*', (req, res) => {
 });
 
 // launch our backend into a port
-app.listen(process.env.PORT || 3001, () => console.log(`LISTENING ON PORT ${API_PORT}`));
+const API_PORT = process.env.PORT || 3001;
+app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
 
 module.exports = app;
