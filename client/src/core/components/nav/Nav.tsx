@@ -21,7 +21,7 @@ class Nav extends React.Component<NavProps> {
     }
 
     get accountClassNames(): string {
-        return this.props.isLoggedIn ? 'nav-header__link nav-header__link--side link' : 'nav-header__link nav-header__link--side nav-header__link--first link';
+        return 'nav-header__link nav-header__link--side link';
     }
 
     render() {
