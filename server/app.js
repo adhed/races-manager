@@ -20,6 +20,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// Serve React app
+app.use(express.static(path.join(__dirname, '../client/build')));
+
 app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
@@ -39,6 +42,10 @@ app.use(function(err, req, res, next) {
     message: err.message,
     error: err
   });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'../client/build/index.html'));
 });
 
 // launch our backend into a port
