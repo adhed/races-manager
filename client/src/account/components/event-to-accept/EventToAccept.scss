@@ -64,6 +64,8 @@
             }
     
             &__icon {
+                min-width: 18px;
+
                 @include min-small() {
                     margin-right: 5px;
                 }

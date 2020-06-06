@@ -23,7 +23,6 @@ app.use(cookieParser());
 
 // Serve React app
 app.use(express.static(path.join(__dirname, '../client/build')));
-
 app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
