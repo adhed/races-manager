@@ -2,6 +2,6 @@
 
 /bin
 
-#/config/database-credentials.js
+/config/database-credentials.js
 
 /node_modules

@@ -12,7 +12,7 @@
 /build
 
 # credentials
-#/src/config
+/src/config
 
 # misc
 .DS_Store
