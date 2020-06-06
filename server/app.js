@@ -1,13 +1,13 @@
 const db = require('./config/database');
 const createError = require('http-errors');
 const express = require('express');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const cors = require('cors');
 const apiRouter = require('./routes/api.router');
 
-const API_PORT = 3001;
 const app = express();
 
 app.use(cors());
@@ -21,6 +21,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// Serve React app
+app.use(express.static(path.join(__dirname, '../client/build')));
 app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
@@ -42,7 +44,12 @@ app.use(function(err, req, res, next) {
   });
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'../client/build/index.html'));
+});
+
 // launch our backend into a port
+const API_PORT = process.env.PORT || 3001;
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
 
 module.exports = app;

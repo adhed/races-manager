@@ -55,7 +55,7 @@ function* handleSelectEventById(action: any): Generator {
     }
 }
 
-function *handleAddEvent(action: any): Generator {
+function* handleAddEvent(action: any): Generator {
 	try {
 		const account: any = yield select(getAccount);
 		const response: any = yield call(() => eventApis.insertEvent({
@@ -67,12 +67,14 @@ function *handleAddEvent(action: any): Generator {
 		}));
 		const event = response.data.data;
 		const isAdmin = account?.details?.isAdmin;
+		
+		yield put(addEventSuccess(event));
+		yield put(fetchSportEvents());
 
 		if (isAdmin) {
 			yield put(selectEvent(event));
 		}
 
-		yield put(addEventSuccess(event));
 		yield put(push('/event-added'));
     } catch (error) {
         if (error instanceof Error) {

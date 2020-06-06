@@ -21,13 +21,13 @@ class Nav extends React.Component<NavProps> {
     }
 
     get accountClassNames(): string {
-        return this.props.isLoggedIn ? 'nav-header__link nav-header__link--side link' : 'nav-header__link nav-header__link--side nav-header__link--first link';
+        return 'nav-header__link nav-header__link--side link';
     }
 
     render() {
         return <nav className="nav-header">
             <div className="nav-header__wrapper">
-                <h2 className="nav-header__title">RACES</h2>
+                <h2 className="nav-header__title">ZAWODY</h2>
                 <ul className="nav-header__links">
                     <li className="nav-header__link link">
                         <FontAwesomeIcon icon={faMapSigns} className="link__icon" />
@@ -37,10 +37,10 @@ class Nav extends React.Component<NavProps> {
                         <FontAwesomeIcon icon={faCalendar} className="link__icon" />
                         <Link to="/calendar">Kalendarz</Link>
                     </li>
-                    { this.props.isLoggedIn ? <li className="nav-header__link nav-header__link--side  nav-header__link--first link">
+                    <li className="nav-header__link nav-header__link--side  nav-header__link--first link">
                         <FontAwesomeIcon icon={faPlusCircle} className="link__icon" />
                         <Link to="/add-event">Dodaj zawody</Link>
-                    </li> : null }
+                    </li>
                     { this.props.isLoggedIn ? <li className="nav-header__link nav-header__link--side link">
                         <FontAwesomeIcon icon={faSignInAlt} className="link__icon" />
                         <Link to="/my-account">Moje konto</Link>

@@ -10,6 +10,7 @@ export enum MountainBikeEventType {
     XCO = 'xco',
     XCE = 'xce',
     StageRace = 'mtb-stage-race',
+    TimeTrial = 'time-trial'
 }
 
 export enum RunningEventType {
@@ -49,6 +50,7 @@ export const DISCIPLINES_TYPES_NAMES: KeyLabel = {
     [MountainBikeEventType.XCO]: 'XCO',
     [MountainBikeEventType.XCE]: 'Eliminator',
     [MountainBikeEventType.StageRace]: 'Wyścig etapowy',
+    [MountainBikeEventType.TimeTrial]: 'Czasówka',
     [RoadCyclingEventType.SingleDay]: 'Wyścig jednodniowy',
     [RoadCyclingEventType.TimeTrial]: 'Czasówka',
     [RoadCyclingEventType.StageRace]: 'Wyścig etapowy',
@@ -64,7 +66,7 @@ export const DISCIPLINES_TYPES_NAMES: KeyLabel = {
 }
 
 export const DISCIPLINES_TYPES = {
-    [Discipline.MountainBiking]: [MountainBikeEventType.XCM, MountainBikeEventType.XCO, MountainBikeEventType.XCE, MountainBikeEventType.StageRace],
+    [Discipline.MountainBiking]: [MountainBikeEventType.XCM, MountainBikeEventType.XCO, MountainBikeEventType.XCE, MountainBikeEventType.TimeTrial, MountainBikeEventType.StageRace],
     [Discipline.RoadCycling]: [RoadCyclingEventType.SingleDay, RoadCyclingEventType.StageRace, RoadCyclingEventType.TimeTrial],
     [Discipline.Running]: [RunningEventType.Halfmarathon, RunningEventType.Marathon, RunningEventType.Ultramarathon, RunningEventType.StreetRace, RunningEventType.CrossRace],
     [Discipline.XcSkiing]: [CrossCountrySkiingEventType.Marathon, CrossCountrySkiingEventType.Ultramarathon, CrossCountrySkiingEventType.TimeTrial,  CrossCountrySkiingEventType.MassStart],

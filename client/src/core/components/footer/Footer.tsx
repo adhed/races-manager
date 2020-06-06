@@ -5,7 +5,7 @@ function Footer() {
     return <footer className="footer">
         <div className="footer__wrapper wrapper">
             <span className="wrapper__copyright">2020 &#9400; Wszelkie prawa zastrzeżone</span>
-            <span className="wrapper__contact"><a href="mailto:adamroweb@gmail.com">Kontakt</a></span>
+            <span className="wrapper__author">Wykonanie: <a href="mailto:adamroweb@gmail.com">Adam Rogala</a></span>
         </div>
     </footer>
 }
