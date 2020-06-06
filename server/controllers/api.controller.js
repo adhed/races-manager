@@ -2,6 +2,24 @@ const SportEvent = require('../models/sport-event');
 const User = require('../models/user');
 const ERROR_STATUS_CODE = 400;
 
+saveEvent = (event, response) => {
+    event
+        .save()
+        .then(() => {
+            return response.status(201).json({
+                success: true,
+                data: event,
+                message: 'SportEvent has been created!',
+            })
+        })
+        .catch(error => {
+            return response.status(ERROR_STATUS_CODE).json({
+                error,
+                message: 'SportEvent not created!',
+            })
+        });
+}
+
 createEvent = async (request, response) => {
     const body = request.body
 
@@ -19,28 +37,22 @@ createEvent = async (request, response) => {
     }
 
     if (body.author && body.author.uid) {
+        console.log('uid presented');
+
         await User.findOne({ uid: body.author.uid }, (err, user) => {
+            console.log('user available', user);
+
             if (user && user.details.isAdmin) {
                 event.isActive = true;
             }
+
+            saveEvent(event, response);
         });
     }
 
-    event
-        .save()
-        .then(() => {
-            return response.status(201).json({
-                success: true,
-                data: event,
-                message: 'SportEvent has been created!',
-            })
-        })
-        .catch(error => {
-            return response.status(ERROR_STATUS_CODE).json({
-                error,
-                message: 'SportEvent not created!',
-            })
-        })
+    console.log('event is going to save', event);
+
+    saveEvent(event, response);
 }
 
 updateEvent = async (request, response) => {
