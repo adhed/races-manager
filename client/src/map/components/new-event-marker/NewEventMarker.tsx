@@ -21,7 +21,7 @@ export class NewEventMarker extends React.Component<NewEventMarkerProps> {
     }
 
     render() {
-        return <Marker ondragend={this.handleDragEnd} position={this.props.position} draggable={this.props.draggable}>
+        return <Marker ref={(ref) => ref?.leafletElement.openPopup()} ondragend={this.handleDragEnd} position={this.props.position} draggable={this.props.draggable}>
                 <Popup>
                     <p>Przesuń proszę marker w miejsce najblizej startu.</p>
                 </Popup>
