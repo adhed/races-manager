@@ -3,7 +3,7 @@ const User = require('../models/user');
 const ERROR_STATUS_CODE = 400;
 
 saveEvent = (event, response) => {
-    event
+    return event
         .save()
         .then(() => {
             return response.status(201).json({
@@ -37,22 +37,16 @@ createEvent = async (request, response) => {
     }
 
     if (body.author && body.author.uid) {
-        console.log('uid presented');
-
         await User.findOne({ uid: body.author.uid }, (err, user) => {
-            console.log('user available', user);
-
             if (user && user.details.isAdmin) {
                 event.isActive = true;
             }
 
-            saveEvent(event, response);
+            return saveEvent(event, response);
         });
+    } else {
+        return saveEvent(event, response);
     }
-
-    console.log('event is going to save', event);
-
-    saveEvent(event, response);
 }
 
 updateEvent = async (request, response) => {
